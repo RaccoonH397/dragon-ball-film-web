@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>dragon ball film</title>
+		<link rel="stylesheet" href="../css/common.css" />
+		<link rel="stylesheet" href="../css/index.css" />
+		<link rel="icon" href="../imgs/weblogo.png" type="image/png">
+	</head>
+	<body>
+		<div class="top">
+			<a href="index.html" id="logo"><img src="../imgs/dbflogo.png" alt="" /></a>
+			<div class="icons">
+				<a href="https://space.bilibili.com/193386165" id="td" title="点击跳转bilibili"><img
+						src="../imgs/sprite tiandao.png" alt="" />
+				</a>
+				<p>视频建议:2871070425@qq.com</p>
+				<a href="https://space.bilibili.com/439518462" id="rac" title="点击跳转bilibili"><img
+						src="../imgs/sprite raccoon.png" alt="" />
+				</a>
+				<p>网站建议:2733611989@qq.com</p>
+			</div>
+		</div>
+		<div class="left">
+			<ul>
+				<a href="../page/index.html">
+					<li>首页</li>
+				</a>
+				<a href="../page/timeline.html">
+					<li>时间线</li>
+				</a>
+				<a href="../page/introduce.html">
+					<li>人物档案</li>
+				</a>
+			</ul>
+		</div>
+		<div class="main">
+			<div class="logo"> <img src="../imgs/dbflogo.png" alt="" /></div>
+			<div class="text">
+				<p>Dragon Ball Film 龙珠影片 简称DBF————</p>
+				<p>该项目是由B站博主<strong>挑灯天道</strong>和<strong>Raccoon_浣</strong>主创的龙珠sprite动画作品,目的为创作一些龙珠中可能发生的平行宇宙故事。</p>
+				<p>你可以从以下平台看到我们的作品:
+				<div class="apps">
+					<a href="https://www.youtube.com/@Tiandao-TD"><img src="../imgs/icons8-youtube-48.png" alt="" /></a>
+					<a href="https://space.bilibili.com/193386165"><img src="../imgs/icons8-bilibili-48.png"
+							alt="" /></a>
+					<a
+						href="https://www.douyin.com/user/MS4wLjABAAAAPlf5HKiiJY8j8psnoSrVMM6ckFXFimCiZkylHqZWfrbIYY2Uuhtk-qNtyR9nqBTg?from_tab_name=main&is_search=0&list_name=follow&nt=0"><img
+							src="../imgs/icons8-tiktok-48.png" alt="" /></a>
+				</div>
+				</p>
+				<p>动画软件:Adobe Animate。</p>
+				<p>后期软件:Adobe Premiere，Adobe After Effects。</p>
+				<p>喜欢我们的项目可以通过爱发电<a href="https://ifdian.net/a/DBFTDTD">https://ifdian.net/a/DBFTDTD</a>支持我们。
+				</p>
+				<p>想要学习sprite动画制作也可以加企鹅群<a href="">1073559178</a>一同学习交流。</p>
+				<div class="share">
+					<div><img src="../imgs/QQgroup.jpg" alt="" /></div>
+				</div>
+				<div class="afdian">
+					<iframe src="https://afdian.com/leaflet?slug=H_Rac" width="640" scrolling="no" height="200"
+						frameborder="0"></iframe>
+					<iframe src="https://afdian.com/leaflet?slug=DBFTDTD" width="640" scrolling="no" height="200"
+						frameborder="0"></iframe>
+				</div>
+
+				<div class="createtime">
+					<p>项目创建日期-2025-07-15-</p>
+					<p id="nowdate">当前日期--</p>
+					<p id="nowdays"></p>
+				</div>
+				<div id="download">
+					<a href="https://www.bilibili.com/video/BV1GJ411x7h7/?spm_id_from=333.337.search-card.all.click">
+						<button>DOWNLOAD GAME</button></a>
+				</div>
+			</div>
+
+		</div>
+		<script src=" https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script>
+			$('.left li').hover(
+				function() {
+					$(this).toggleClass('active')
+				})
+
+			function createtime() {
+				const start = new Date('2025-07-15');
+				const now = new Date();
+				const diffMs = now - start;
+				const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+				console.log(days);
+				$('#nowdays').text(`距今` + days + `天`)
+
+				const now2 = new Date();
+				const year = now.getFullYear();
+				const month = String(now.getMonth() + 1).padStart(2, '0');
+				const day = String(now.getDate()).padStart(2, '0');
+				const formatted = `${year}-${month}-${day}`;
+				$('#nowdate').text(`当前日期-` + formatted + `-`)
+			}
+			createtime()
+		</script>
+	</body>
+</html>

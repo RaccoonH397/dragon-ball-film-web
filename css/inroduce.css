@@ -1,0 +1,30 @@
+.charbox {
+	width: 50rem;
+	margin: auto;
+	margin-bottom: 2rem;
+	height: 15rem;
+	border-bottom: 0.2rem solid #ccc;
+	display: flex;
+}
+
+.charimg,
+.charbox img {
+	height: 15rem;
+	width: 10rem;
+	object-fit: contain;
+	image-rendering: pixelated;
+	background-color: lightslategray;
+}
+
+.charbox .chartext {
+	margin-left: 2rem;
+	line-height: 2rem;
+}
+
+.search {
+	position: fixed;
+	width: 10rem;
+	height: 15rem;
+	right: 0;
+	background-color: #fff;
+}

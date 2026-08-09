@@ -1,0 +1,92 @@
+.text {
+	width: 50rem;
+	margin: auto;
+	line-height: 2rem;
+}
+
+.logo {
+	width: 10rem;
+	margin: auto;
+	margin-bottom: 2rem;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+}
+
+.logo img {
+	max-width: 25rem;
+}
+
+.text a {
+	color: blue;
+	text-decoration: underline;
+	font-weight: 700;
+}
+
+.apps {
+	margin: 1rem auto;
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.apps a:hover {
+	opacity: 0.5;
+}
+
+.share {
+	display: flex;
+	justify-content: space-around;
+	margin: 2rem auto;
+}
+
+.share div {
+	display: flex;
+	max-width: 15rem;
+	object-fit: cover;
+}
+
+.share img {
+	max-width: 15rem;
+	object-fit: cover;
+	box-shadow: 0 1rem 1rem 0 #ccc;
+}
+
+.createtime {
+	margin: auto;
+	margin-top: 2rem;
+	text-align: right;
+	padding: 0;
+}
+
+.afdian {
+	margin: auto;
+}
+
+.afdian iframe {
+	display: flex;
+	margin: 2rem auto;
+	padding: 0;
+}
+
+#download {
+	text-align: center;
+}
+
+button {
+	width: 15rem;
+	height: 4rem;
+	border: none;
+	background-color: #3a6a8a;
+	color: white;
+	font-weight: 700;
+	font-size: 2rem;
+}
+
+button:active {
+	scale: 0.9;
+	filter: brightness(0.5);
+}
+
+button:hover {
+	cursor: pointer;
+}

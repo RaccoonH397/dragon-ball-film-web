@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>dragon ball film</title>
+		<link rel="stylesheet" href="../css/common.css" />
+		<link rel="stylesheet" href="../css/inroduce.css" />
+		<link rel="icon" href="../imgs/weblogo.png" type="image/png">
+		<style>
+			/* ===== 所有样式不变（与您提供的完全一致） ===== */
+			html {
+				font-size: 16px;
+			}
+
+			.search {
+				width: 15rem;
+				height: 10rem;
+				padding: 1rem 1.5rem;
+				background: #fff;
+				border-bottom: 0.0625rem solid #e2eaf0;
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+				flex-wrap: wrap;
+			}
+
+			@media (max-width: 48rem) {
+				.search {
+					margin-left: 3.75rem;
+				}
+			}
+
+			@media (max-width: 30rem) {
+				.search {
+					margin-left: 3.125rem;
+				}
+			}
+
+			#searchInput {
+				flex: 1;
+				min-width: 11.25rem;
+				padding: 0.625rem 1.25rem;
+				border: 0.125rem solid #d0dde8;
+				font-size: 0.9375rem;
+				outline: none;
+				transition: border-color 0.2s;
+				background: #f9fcff;
+			}
+
+			#searchInput:focus {
+				border-color: #3a6a8a;
+				background: #fff;
+			}
+
+			#searchResultCount {
+				font-size: 0.875rem;
+				color: #5a7a8a;
+				white-space: nowrap;
+				font-weight: 500;
+			}
+
+			.charbox {
+				transition: opacity 0.15s;
+			}
+
+			.main {
+				padding: 1.5rem;
+				display: flex;
+				flex-wrap: wrap;
+				gap: 1.5rem;
+			}
+
+			@media (max-width: 48rem) {
+				.main {
+					margin-left: 3.75rem;
+					padding: 1rem;
+				}
+			}
+
+			@media (max-width: 30rem) {
+				.main {
+					margin-left: 3.125rem;
+					padding: 0.75rem;
+				}
+			}
+
+			.pagination {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 0.75rem;
+				padding: 1.5rem 0;
+				flex-wrap: wrap;
+				margin-left: 12.5rem;
+			}
+
+			@media (max-width: 48rem) {
+				.pagination {
+					margin-left: 3.75rem;
+				}
+			}
+
+			@media (max-width: 30rem) {
+				.pagination {
+					margin-left: 3.125rem;
+				}
+			}
+
+			.pagination button {
+				padding: 0.5rem 1rem;
+				border: 0.0625rem solid #d0dde8;
+				background: #fff;
+				cursor: pointer;
+				font-size: 0.875rem;
+				transition: background 0.2s, border-color 0.2s;
+				color: #1a2a3a;
+			}
+
+			.pagination button:hover:not(:disabled) {
+				background: #e8f0f8;
+				border-color: #3a6a8a;
+			}
+
+			.pagination button:disabled {
+				opacity: 0.4;
+				cursor: not-allowed;
+			}
+
+			.pagination button.active-page {
+				background: #3a6a8a;
+				color: #fff;
+				border-color: #3a6a8a;
+				font-weight: 600;
+			}
+
+			.pagination .page-info {
+				font-size: 0.875rem;
+				color: #5a7a8a;
+				padding: 0 0.5rem;
+			}
+
+			.pagination .page-ellipsis {
+				color: #8aaec2;
+				padding: 0 0.25rem;
+				font-size: 0.875rem;
+			}
+		</style>
+	</head>
+	<body>
+
+		<!-- 顶部栏 & 侧边栏（不变） -->
+		<div class="top">
+			<a href="index.html" id="logo"><img src="../imgs/dbflogo.png" alt="" /></a>
+			<div class="icons">
+				<a href="https://space.bilibili.com/193386165" id="td" title="点击跳转bilibili"><img
+						src="../imgs/sprite tiandao.png" alt="" /></a>
+				<p>视频建议:2871070425@qq.com</p>
+				<a href="https://space.bilibili.com/439518462" id="rac" title="点击跳转bilibili"><img
+						src="../imgs/sprite raccoon.png" alt="" /></a>
+				<p>网站建议:2733611989@qq.com</p>
+			</div>
+		</div>
+		<div class="left">
+			<ul>
+				<a href="../page/index.html">
+					<li>首页</li>
+				</a>
+				<a href="../page/timeline.html">
+					<li>时间线</li>
+				</a>
+				<a href="../page/introduce.html">
+					<li>人物档案</li>
+				</a>
+			</ul>
+		</div>
+
+		<!-- 搜索区域 -->
+		<div class="search">
+			<input type="text" id="searchInput" placeholder="搜索" />
+			<span id="searchResultCount">共 0 个角色</span>
+		</div>
+
+		<!-- 卡片容器 -->
+		<div class="main" id="cardContainer"></div>
+
+		<!-- 分页控件 -->
+		<div class="pagination" id="paginationControls"></div>
+
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+		<script src="../js/chardata.js"></script>
+		<script>
+			// ===== 侧边栏悬停 =====
+			$('.left li').hover(function() {
+				$(this).toggleClass('active');
+			});
+
+			// ===== 分页状态 =====
+			const PAGE_SIZE = 10;
+			let currentPage = 1;
+			let filteredData = [];
+
+			// ===== 渲染当前页 =====
+			function renderPage() {
+				const totalItems = filteredData.length;
+				const totalPages = Math.ceil(totalItems / PAGE_SIZE) || 1;
+
+				if (currentPage > totalPages) currentPage = totalPages;
+				if (currentPage < 1) currentPage = 1;
+
+				const start = (currentPage - 1) * PAGE_SIZE;
+				const end = Math.min(start + PAGE_SIZE, totalItems);
+				const pageData = filteredData.slice(start, end);
+
+				const $container = $('#cardContainer');
+				$container.empty();
+
+				if (pageData.length === 0) {
+					$container.append('<p style="width:100%; text-align:center; color:#8aaec2; padding:2rem;">没有匹配的角色</p>');
+				} else {
+					for (let i = 0; i < pageData.length; i++) {
+						const item = pageData[i];
+						const card = `<div class="charbox">
+                        <div class="charimg"><img src="${item.img}" alt="" /></div>
+                        <div class="chartext">
+                            <h4 id="film">${item.film}</h4>
+                            <h4 id="charname">${item.charname}</h4>
+                            <p id="chardetail">${item.chardetails}</p>
+                        </div>
+                    </div>`;
+						$container.append(card);
+					}
+				}
+
+				renderPagination(totalPages);
+
+				// =====================================================
+				// 🎯 修复滚动跳动：正确计算文档绝对位置
+				// =====================================================
+				const container = document.getElementById('cardContainer');
+				if (container) {
+					const rect = container.getBoundingClientRect();
+					const targetY = rect.top; // 20px 边距
+					window.scrollTo({
+						top: targetY,
+						behavior: 'smooth' // 平滑滚动；若想瞬间跳转改为 'auto'
+					});
+				}
+			}
+
+			// ===== 分页控件 =====
+			function renderPagination(totalPages) {
+				const $pagination = $('#paginationControls');
+				$pagination.empty();
+				if (totalPages <= 1) return;
+
+				const prevDisabled = currentPage === 1;
+				$pagination.append(`<button class="page-prev" ${prevDisabled ? 'disabled' : ''}>上一页</button>`);
+
+				let pageButtons = '';
+				const maxVisible = 5;
+				let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+				let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+				if (endPage - startPage < maxVisible - 1) {
+					startPage = Math.max(1, endPage - maxVisible + 1);
+				}
+
+				if (startPage > 1) {
+					pageButtons += `<button class="page-num" data-page="1">1</button>`;
+					if (startPage > 2) pageButtons += `<span class="page-ellipsis">…</span>`;
+				}
+
+				for (let i = startPage; i <= endPage; i++) {
+					const activeClass = (i === currentPage) ? 'active-page' : '';
+					pageButtons += `<button class="page-num ${activeClass}" data-page="${i}">${i}</button>`;
+				}
+
+				if (endPage < totalPages) {
+					if (endPage < totalPages - 1) pageButtons += `<span class="page-ellipsis">…</span>`;
+					pageButtons += `<button class="page-num" data-page="${totalPages}">${totalPages}</button>`;
+				}
+
+				$pagination.append(pageButtons);
+
+				const nextDisabled = currentPage === totalPages;
+				$pagination.append(`<button class="page-next" ${nextDisabled ? 'disabled' : ''}>下一页</button>`);
+				$pagination.append(`<span class="page-info">第 ${currentPage} / ${totalPages} 页</span>`);
+
+				// 绑定事件
+				$pagination.find('.page-prev').on('click', function() {
+					if (currentPage > 1) {
+						currentPage--;
+						renderPage();
+					}
+				});
+				$pagination.find('.page-next').on('click', function() {
+					if (currentPage < totalPages) {
+						currentPage++;
+						renderPage();
+					}
+				});
+				$pagination.find('.page-num').on('click', function() {
+					const page = parseInt($(this).data('page'), 10);
+					if (page !== currentPage) {
+						currentPage = page;
+						renderPage();
+					}
+				});
+			}
+
+			// ===== 搜索过滤 =====
+			function filterCards(keyword) {
+				const trimmed = keyword.trim().toLowerCase();
+				filteredData = trimmed === '' ? data.slice() : data.filter(item => {
+					const fullText = (item.charname + ' ' + item.film + ' ' + item.chardetails).toLowerCase();
+					return fullText.includes(trimmed);
+				});
+				currentPage = 1;
+				$('#searchResultCount').text(`找到 ${filteredData.length} 个角色（共 ${data.length} 个）`);
+				renderPage();
+			}
+
+			// ===== 初始化 =====
+			filteredData = data.slice();
+			$('#searchInput').on('input', function() {
+				filterCards(this.value);
+			});
+			renderPage();
+			$('#searchResultCount').text(`找到 ${data.length} 个角色（共 ${data.length} 个）`);
+			console.log('[分页] 已启动，每页显示', PAGE_SIZE, '个角色');
+		</script>
+	</body>
+</html>

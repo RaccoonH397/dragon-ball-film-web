@@ -1,0 +1,40 @@
+.videos {
+	margin: 2.5rem auto;
+	/* background-color: pink; */
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.videoclick {
+	margin: auto;
+}
+
+.videobox {
+	width: 22.5rem;
+	height: 15rem;
+	/* background-color: red; */
+	/* border-radius: 1rem; */
+	box-shadow: 0 1rem 1rem 0 #ccc;
+	margin: 1rem;
+}
+
+.videobox:hover {
+	background-color: #d1d1d1;
+}
+
+.videocover>img {
+	width: 22.5rem;
+	height: 11rem;
+	object-fit: cover;
+	/* border-radius: 1rem 1rem 0 0; */
+}
+
+.videotext {
+	/* background-color: aliceblue; */
+	height: 4rem;
+	padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+	/* border-radius: 0 0 1rem 1rem; */
+	display: flex;
+	justify-content: space-between;
+	line-height: 3rem;
+}

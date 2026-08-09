@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>dragon ball film</title>
+		<link rel="stylesheet" href="../css/common.css" />
+		<link rel="stylesheet" href="../css/timeline.css" />
+		<link rel="icon" href="../imgs/weblogo.png" type="image/png" />
+	</head>
+	<body>
+		<div class="top">
+			<a href="index.html" id="logo"><img src="../imgs/dbflogo.png" alt="" /></a>
+			<div class="icons">
+				<a href="https://space.bilibili.com/193386165" id="td" title="点击跳转bilibili"><img src="../imgs/sprite tiandao.png" alt="" /> </a>
+				<p>视频建议:2871070425@qq.com</p>
+				<a href="https://space.bilibili.com/439518462" id="rac" title="点击跳转bilibili"><img src="../imgs/sprite raccoon.png" alt="" /> </a>
+				<p>网站建议:2733611989@qq.com</p>
+			</div>
+		</div>
+		<div class="left">
+			<ul>
+				<a href="../page/index.html"><li>首页</li></a>
+				<a href="../page/timeline.html"><li>时间线</li></a>
+				<a href="../page/introduce.html"><li>人物档案</li></a>
+			</ul>
+		</div>
+		<div class="main">
+			<h4 id="titletag">正片</h4>
+			<div class="timeline" id="history"></div>
+			<h4 id="titletag">番外</h4>
+			<div class="timeline" id="extra"></div>
+		</div>
+
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js">
+		</script>
+		<script src="../js/filmdata.js">
+		</script>
+		<script>
+			// ========== 左侧导航 hover 效果 ==========
+			$('.left li').hover(function() {
+				$(this).toggleClass('active')
+			})
+
+			// ========== 渲染「正片」列表 ==========
+			for (let i = 0; i < filmdata.length; i++) {
+				let item = `
+					<div class="timelinebox" 
+						 style="background-image: url(${filmdata[i].cover});" 
+						 data-url="${filmdata[i].url}">
+						<h4 id="filmid">${filmdata[i].filmname}</h4>
+					</div>
+				`
+				$('#history').append(item)
+			}
+
+			// ========== 渲染「番外」列表 ==========
+			for (let i = 0; i < extradata.length; i++) {
+				let item = `
+					<div class="timelinebox" 
+						 style="background-image: url(${extradata[i].cover});" 
+						 data-url="${extradata[i].url}">
+						<h4 id="filmid">${extradata[i].filmname}</h4>
+					</div>
+				`
+				$('#extra').append(item)
+				console.log(extradata[i].cover) // 保留原有调试输出
+			}
+
+			// ========== ★ 核心功能：点击盒子跳转视频链接 ==========
+			// 使用事件委托，监听所有 .timelinebox 的点击事件
+			$(document).on('click', '.timelinebox', function(e) {
+				var url = $(this).data('url') // 读取 data-url 属性
+				if (url) {
+					window.open(url, '_blank') // 在新标签页打开
+				} else {
+					console.warn('该盒子未设置 data-url 属性')
+				}
+			})
+		</script>
+	</body>
+</html>

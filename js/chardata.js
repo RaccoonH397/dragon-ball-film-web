@@ -1,0 +1,235 @@
+const data = [{
+		img: '../imgs/chars/00/gogeta00/gogeta00.png',
+		film: '影片00',
+		charname: '悟吉塔',
+		chardetails: '为打败失控的布罗利，悟空与贝吉塔不得已融合成的究极战士，实力之强，甚至压制了失控的布罗利。在时空裂缝与其对拼力量之时，激烈的力量碰撞导致了黑洞的出现...'
+	},
+	{
+		img: '../imgs/chars/00/broly00/broly00.png',
+		film: '影片00',
+		charname: '布罗利',
+		chardetails: '因帕拉卡斯的死，导致布罗利失控变身成了超级赛亚人，在悟吉塔的压制下，他再次突破极限爆发出了惊人的力量！在时空裂缝与其对拼力量之时，激烈的力量碰撞导致了黑洞的出现...'
+	},
+	{
+		img: '../imgs/chars/01/goku01/goku01.png',
+		film: '影片01',
+		charname: '孙悟空',
+		chardetails: '在“神与神”时期过后，悟空与贝吉塔通过“贿赂”维斯而得以在比鲁斯星修炼。可惜，“超级赛亚人之神”可不是他们所想的那么简单就能掌握的...'
+	},
+	{
+		img: '../imgs/chars/01/vegeta01/vegeta01.png',
+		film: '影片01',
+		charname: '贝吉塔',
+		chardetails: '在“神与神”时期过后，贝吉塔和孙悟空通过“贿赂”维斯而得以在比鲁斯星修炼。可惜，“超级赛亚人之神”可不是他们所想的那么简单就能掌握的...'
+	},
+	{
+		img: '../imgs/chars/01/beerus01/beerus01.png',
+		film: '影片01',
+		charname: '比鲁斯',
+		chardetails: '原本想美美睡一觉，却被外面的动静吵醒，没想到竟是这两个赛亚人扰他美梦...！'
+	},
+	{
+		img: '../imgs/chars/02/android17 super 02/android 17 02.png',
+		film: '影片02',
+		charname: '人造人17号（超）',
+		chardetails: '受黑洞的影响，17号来到了一个陌生的时空。未曾想，迷茫之余，他看到了一个奇怪的装置...'
+	},
+	{
+		img: '../imgs/chars/02/trunks02/trunks02.png',
+		film: '影片02',
+		charname: '特兰克斯（未来）',
+		chardetails: '在孙悟饭死后，特兰克斯独自修行，自以为能够打败人造人，却惨败于他们之手。在恢复伤势之后，决定听从布尔玛建议，使用时光机回到未来，但就在他准备出发之时，人造人17号却出现在了时光机面前...'
+	},
+	{
+		img: '../imgs/chars/02/gohan02/gohan02.png',
+		film: '影片02',
+		charname: '孙悟饭（未来）',
+		chardetails: '早在几年前孙悟饭被人造人杀死之后，他开始在地府努力训练，并同时向阎王求情，希望能够回到地球一天帮助特兰克斯铲除人造人。但因阎王不愿破坏人间的规则，而一直未能如愿。终于，阎王见证了特兰克斯的觉悟，决定让悟饭踏上讨伐的征途...'
+	},
+	{
+		img: '../imgs/chars/02/futrue 17 18 02/171802.png',
+		film: '影片02',
+		charname: '人造人17 18号（未来）',
+		chardetails: '在格罗博士激活了这对姐弟之后，他们开始惨无人道地屠杀人类，将其视为一场场游戏，肆意玩弄人类的生命。可其不知道的是，他们很快将会遭到应有的惩罚...'
+	},
+	{
+		img: '../imgs/chars/02/cell 02/cell021.png',
+		film: '影片02',
+		charname: '沙鲁（第一阶段）',
+		chardetails: '因力量不及人造人17号和18号，沙鲁一直在寻找机会吸收二人。发现阴谋无法得逞后，他只得乘坐时光机回到过去再次寻找机会，却没想到另一个17号先行发现了他...'
+	},
+	{
+		img: '../imgs/chars/03/bardock03/bardock03.png',
+		film: '影片03',
+		charname: '巴达克',
+		chardetails: '数十年前，巴达克在弗利萨的灭星一击之中穿越到了过去，成为了超级赛亚人并击败了弗利萨的祖先齐尔德。此后，他不断修行，却在途中被神秘的黑洞带走，没想到这一次，他见到了自己的仇人...'
+	},
+	{
+		img: '../imgs/chars/03/vegeta03/vegeta03.png',
+		film: '影片03',
+		charname: '贝吉塔',
+		chardetails: '贝吉塔自以为让丹迪治愈之后的濒死回复能让他突破极限，成为自己梦寐以求的超级赛亚人，于是他向弗利萨发起了最后的挑战...'
+	},
+	{
+		img: '../imgs/chars/03/freeza03/freeza03.png',
+		film: '影片03',
+		charname: '弗利萨',
+		chardetails: '长生不老的美梦被众人破坏后，弗利萨开始进行讨伐。变身为最终形态后，面对“超级赛亚人”贝吉塔，他不由得呵呵一笑...'
+	},
+	{
+		img: '../imgs/chars/03/goku03/goku03.png',
+		film: '影片03',
+		charname: '孙悟空',
+		chardetails: '在前面被基纽交换身体之后，孙悟空的肉体不得已受到了很多伤势，只得在治疗舱回复，但是外面各类气息的变化让他感到十分不详...'
+	},
+	{
+		img: '../imgs/chars/04/raditz04/raditz04.png',
+		film: '影片04',
+		charname: '拉蒂兹',
+		chardetails: '为拓展幸存者小队的人数，拉蒂兹来到地球寻找他的弟弟达列斯。令他没想到的是，这趟旅途的收获实在是太大了...'
+	},
+	{
+		img: '../imgs/chars/04/turles04/turles04.png',
+		film: '影片04',
+		charname: '达列斯',
+		chardetails: '在达列斯杀死了比克大魔王后，彻底成为了地球最强战士！借助红绸军的科技，他的力量得到了显著的提升。而今天，他感应到了一股“熟悉”而又陌生的气息来到了地球...'
+	},
+	{
+		img: '../imgs/chars/05/satan05/satan05.png',
+		film: '影片05',
+		charname: '撒旦先生',
+		chardetails: '在沙鲁带来的恐惧笼罩了整个地球之际，人类的救世主——撒旦先生踏上了沙鲁游戏，准备与其决一死战。未曾想，一脚滑却来到了一个陌生的地方...'
+	},
+	{
+		img: '../imgs/chars/05/gokukid05/gokukid05.png',
+		film: '影片05',
+		charname: '小悟空',
+		chardetails: '在小悟空安排好午餐后准备回家之际，突然出现的“山羊怪”将他的计划彻底打乱...'
+	},
+	{
+		img: '../imgs/chars/05/vegeta05/vegeta05.png',
+		film: '影片05',
+		charname: '贝吉塔',
+		chardetails: '在那美克星见识到了巴达克的超级赛亚人变化后，贝吉塔深知自己还有无限可能。在沙鲁游戏上，他成为了首发成员，准备一雪前耻...'
+	},
+	{
+		img: '../imgs/chars/05/cell05/cell05.png',
+		film: '影片05',
+		charname: '沙鲁',
+		chardetails: '吸收了人造人姐弟后的沙鲁，得到了究极的力量，为求一战，他举办了名为“沙鲁游戏”的武道会，期待着孙悟空等人的到来...'
+	},
+	{
+		img: '../imgs/chars/06/gohan06/gohan06.png',
+		film: '影片06',
+		charname: '孙悟饭',
+		chardetails: '在沙鲁游戏七年后，悟饭疏于修炼，在学习上发愤图强，导致其暂时丢失了战斗的直觉，身体也发挥不出当年的力量。但布罗利来临之际，他还是毅然决然地代替他的父亲孙悟空应敌...'
+	},
+	{
+		img: '../imgs/chars/06/vegeta06/vegeta06.png',
+		film: '影片06',
+		charname: '贝吉塔',
+		chardetails: '在沙鲁游戏过后，贝吉塔一直努力地提升自己的实力，终于摸到了那巴达克所变成神秘姿态的门槛，在悟饭危急之际，他挺身而出，势要为过去的自己复仇...'
+	},
+	{
+		img: '../imgs/chars/06/broly06/broly06 (1).png',
+		film: '影片06',
+		charname: '布罗利',
+		chardetails: '被悟空击败后，布罗利漂流到了地球，沉睡了七年。苏醒之时，他因濒死恢复而得到了更强的力量。在击败了悟天等人之后，孙悟饭挡在了他的面前...'
+	},
+	{
+		img: '../imgs/chars/07/bardock07/bardock07.png',
+		film: '影片07',
+		charname: '巴达克',
+		chardetails: '在狠狠地揍了弗利萨一顿后，这次黑洞将他带到了一个陌生的毁灭都市，在那里，他见到了自己的儿子“卡卡罗特”...'
+	},
+	{
+		img: '../imgs/chars/07/1707/1707.png',
+		film: '影片07',
+		charname: '人造人17号（超）',
+		chardetails: '在另一个时空击败了作恶多端的自己以及沙鲁后，黑洞将17号带到了更加遥远的未来，未曾想他竟看到了两个“孙悟空”在战斗...'
+	},
+	{
+		img: '../imgs/chars/07/gokublack07/gokublack07.png',
+		film: '影片07',
+		charname: '黑悟空',
+		chardetails: '与悟空交手后掌握超赛的黑悟空，正想与人交手之际，“孙悟空”竟也来到了这未来...'
+	},
+	{
+		img: '../imgs/chars/extra01/raditz-extra01/raditz-extra01.png',
+		film: '番外01',
+		charname: '拉蒂兹',
+		chardetails: '得知家乡被弗利萨所毁，幸存者小队发愤图强，并且决定要拓展其队伍。就在这时，拉蒂兹想起了自己远在地球的弟弟——达列斯...'
+	},
+	{
+		img: '../imgs/chars/extra01/vegeta-extra01/vegeta-extra01.png',
+		film: '番外01',
+		charname: '贝吉塔',
+		chardetails: '作为幸存者小队中的领导者，也是贝吉塔星的王子。为了讨伐弗利萨，贝吉塔决心要把这支队伍的整体实力提升上去，于是他亲自指导那巴与拉蒂兹，也经常去危险的行星进行作战。为让这支小队变得更强，他决定要拓展队伍人数...'
+	},
+	{
+		img: '../imgs/chars/extra01/nappa-extra01/nappa-extra01.png',
+		film: '番外01',
+		charname: '那巴',
+		chardetails: '在贝吉塔得知家乡毁灭的真相后，那巴和拉蒂兹都受到了贝吉塔的“特殊照顾”，因此变得更加强大，对此他对贝吉塔十分感激...'
+	},
+	{
+		img: '../imgs/chars/extra02/gokublack-extra02/gokublack-extra02.png',
+		film: '番外02',
+		charname: '黑悟空',
+		chardetails: '在主时空与孙悟空交手之后，伤势恢复的黑悟空终于也掌握了超级赛亚人的变身，此刻他迫不及待想要有交手的对象，就在这时，“孙悟空”出现在了他的时空...'
+	},
+	{
+		img: '../imgs/chars/extra02/bardock-extra02/bardock-extra02.png',
+		film: '番外02',
+		charname: '巴达克',
+		chardetails: '在那美克星痛揍弗利萨一顿后，黑洞又将他带到了一个陌生的时空，在那里，他见到了“卡卡罗特”...'
+	},
+	{
+		img: '../imgs/chars/extra02/17-extra02/17-extra02.png',
+		film: '番外02',
+		charname: '人造人17号（超）',
+		chardetails: '在打败了另一个未来的自己后，黑洞又将他带到了另一个未来的西都，没想到的是，他看到了两个“孙悟空”在激斗...'
+	},
+	{
+		img: '../imgs/chars/extra03/raditz-extra03/raditz-extra03.png',
+		film: '番外03',
+		charname: '拉蒂兹',
+		chardetails: '与自己的弟弟达列斯交手后，拉蒂兹迫不及待地招呼那巴和贝吉塔到来，欲分享来到地球的巨大收获...'
+	},
+	{
+		img: '../imgs/chars/extra03/turles-extra03/turles-extra03.png',
+		film: '番外03',
+		charname: '达列斯',
+		chardetails: '拉蒂兹不吝啬的夸奖，让达列斯心中一阵澎湃，听闻另外两位队友要来，也是跃跃欲试...'
+	},
+	{
+		img: '../imgs/chars/extra03/vegeta-extra03/vegeta-extra03.png',
+		film: '番外03',
+		charname: '贝吉塔',
+		chardetails: '听闻拉蒂兹说地区有变强秘策，速速与那巴赶到地球，听闻时光屋和重力室，不由得心里一惊...'
+	},
+	{
+		img: '../imgs/chars/extra03/nappa-extra03/nappa-extra03.png',
+		film: '番外03',
+		charname: '那巴',
+		chardetails: '贝吉塔说要去地球，比起变强秘策，更好奇拉蒂兹的弟弟究竟何样...'
+	},
+	{
+		img: '../imgs/chars/extra04/vegito-extra04/vegito-extra04.png',
+		film: '番外04',
+		charname: '贝吉特',
+		chardetails: '在悟饭布欧袭来之际，贝吉塔不得已与孙悟空进行了耳环合体，最终诞生了史上最强战士贝吉特。在压倒性的力量下，布欧显露了疲态，但未曾想贝吉特的计谋却弄巧成拙...'
+	},
+	{
+		img: '../imgs/chars/extra04/gohanbuu-extra04/gohanbuu-extra04.png',
+		film: '番外04',
+		charname: '悟饭布欧',
+		chardetails: '作为史上最强的魔人，竟被区区两个赛亚人的合体打的团团转，布欧愤怒之余，比克的智慧却让他发现体内悟饭的未知潜力，加以巴比迪的魔法，他似乎发现了新的大陆...'
+	},
+	{
+		img: '../imgs/chars/unknown.png',
+		film: '番外04',
+		charname: '???',
+		chardetails: 'unknown'
+	}
+];

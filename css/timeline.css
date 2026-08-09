@@ -1,0 +1,53 @@
+.timeline {
+	display: grid;
+	grid-template-columns: repeat(3, 15rem);
+	justify-content: center;
+	width: 54rem;
+	margin: auto;
+	align-items: center;
+	gap: 1rem;
+}
+
+.timelinebox {
+	background-image: url(../imgs/cover/06.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	background-color: lightslategray;
+}
+
+.timelinebox {
+	display: flex;
+	flex-direction: column;
+	width: 15rem;
+	height: 10rem;
+	margin: 0.5rem 0;
+	object-fit: cover;
+	box-shadow: 0 0.5rem 1rem #adadad;
+	border: 0.15rem solid black;
+	cursor: pointer;
+}
+
+.timelinebox:hover {
+	scale: 1.1;
+	/* background-size: 200%; */
+	filter: brightness(0.7);
+	/* 同时变暗，凸显文字 */
+}
+
+#filmid {
+	color: #fff;
+	margin-left: 1rem;
+	margin-top: 8rem;
+	text-shadow: black 2px 2px 4px;
+}
+
+#titletag {
+	text-align: left;
+	width: 5rem;
+	font-size: 1.5rem;
+	background-color: #3a6a8a;
+	color: #fff;
+	margin: 1rem;
+	padding-left: 1rem;
+}
