@@ -3,9 +3,19 @@
 	padding: 0;
 	box-sizing: border-box;
 	list-style: none;
-	font-family: "mplus_hzk_12";
+	font-family: 'MyCustomFont';
+	src: url('../fonts/mplus.ttf');
 	transition: all 0.3s;
 	font-size: 1rem;
+}
+
+@font-face {
+	font-family: 'MyCustomFont';
+	src: url('../fonts/mplus.ttf');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+	/* 加上这句，避免加载时文字消失 */
 }
 
 a {
