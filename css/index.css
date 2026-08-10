@@ -32,6 +32,9 @@
 .apps a:hover {
 	opacity: 0.5;
 }
+.apps img:hover{
+	scale: 1.2;
+}
 
 .share {
 	display: flex;

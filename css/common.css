@@ -81,10 +81,15 @@ body {
 .left li:hover {
 	cursor: pointer;
 	/* background-color: #ccc; */
+	font-size: 1.2rem;
 }
 
 .active {
 	background-color: #ccc;
+}
+
+.icons img:hover {
+	scale: 1.1;
 }
 
 #rac img {
