@@ -87,13 +87,13 @@ body {
 	height: 3rem;
 }
 
-#td img:hover {
+/* #td img:hover {
 	filter: brightness(0.5);
 }
 
 #rac img:hover {
 	filter: brightness(0.5);
-}
+} */
 
 .icons {
 	display: flex;
