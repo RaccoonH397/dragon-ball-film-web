@@ -229,7 +229,7 @@ const data = [{
 	{
 		img: '../imgs/chars/unknown.png',
 		film: '番外04',
-		charname: '???',
+		charname: '110 111 101 001 1000 0100 01 1010 101',
 		chardetails: 'unknown'
 	}
 ];
