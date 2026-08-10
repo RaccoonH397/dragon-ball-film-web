@@ -13,7 +13,7 @@
 	width: 10rem;
 	object-fit: contain;
 	image-rendering: pixelated;
-	background-color: lightslategray;
+	background-color: #515a7e;
 }
 
 .charbox .chartext {
