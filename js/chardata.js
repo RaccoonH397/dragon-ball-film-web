@@ -206,7 +206,7 @@ const data = [{
 		img: '../imgs/chars/extra03/vegeta-extra03/vegeta-extra03.png',
 		film: '番外03',
 		charname: '贝吉塔',
-		chardetails: '听闻拉蒂兹说地区有变强秘策，速速与那巴赶到地球，听闻时光屋和重力室，不由得心里一惊...'
+		chardetails: '听闻拉蒂兹说地球有变强秘策，速速与那巴赶到地球，听闻时光屋和重力室，不由得心里一惊...'
 	},
 	{
 		img: '../imgs/chars/extra03/nappa-extra03/nappa-extra03.png',
