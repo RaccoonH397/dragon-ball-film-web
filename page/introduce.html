@@ -119,7 +119,7 @@
 
 			.pagination button:hover:not(:disabled) {
 				background: #e8f0f8;
-				border-color: #3a6a8a;
+				border-color: #5865F2;
 			}
 
 			.pagination button:disabled {
@@ -136,12 +136,12 @@
 
 			.pagination .page-info {
 				font-size: 0.875rem;
-				color: #5a7a8a;
+				color: #5865F2;
 				padding: 0 0.5rem;
 			}
 
 			.pagination .page-ellipsis {
-				color: #8aaec2;
+				color: #5865F2;
 				padding: 0 0.25rem;
 				font-size: 0.875rem;
 			}
@@ -225,7 +225,7 @@
 				$container.empty();
 
 				if (pageData.length === 0) {
-					$container.append('<p style="width:100%; text-align:center; color:#8aaec2; padding:2rem;">没有匹配的角色</p>');
+					$container.append('<p style="width:100%; text-align:center; color:#5865F2; padding:2rem;">没有匹配的角色</p>');
 				} else {
 					for (let i = 0; i < pageData.length; i++) {
 						const item = pageData[i];
