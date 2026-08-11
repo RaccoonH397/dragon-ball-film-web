@@ -9,7 +9,7 @@
 		<link rel="icon" href="../imgs/weblogo.png" type="image/png" />
 	</head>
 	<body>
-		<div class="top">
+		<header class="top">
 			<a href="index.html" id="logo"><img src="../imgs/dbflogo.png" alt="" /></a>
 			<div class="icons">
 				<a href="https://space.bilibili.com/193386165" id="td" title="点击跳转bilibili"><img
@@ -19,7 +19,7 @@
 						src="../imgs/sprite raccoon.png" alt="" /> </a>
 				<p>网站建议:2733611989@qq.com</p>
 			</div>
-		</div>
+		</header>
 		<div class="left">
 			<ul>
 				<a href="../page/index.html">
@@ -46,11 +46,6 @@
 		</script>
 		<script src="../js/common.js"></script>
 		<script>
-			// ========== 左侧导航 hover 效果 ==========
-			$('.left li').hover(function() {
-				$(this).toggleClass('active')
-			})
-
 			// ========== 渲染「正片」列表 ==========
 			for (let i = 0; i < filmdata.length; i++) {
 				let item = `

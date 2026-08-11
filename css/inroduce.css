@@ -3,17 +3,23 @@
 	margin: auto;
 	margin-bottom: 2rem;
 	height: 15rem;
-	border-bottom: 0.2rem solid #ccc;
+	border-bottom: 0.1rem solid rgba(000, 000, 000, 0.1);;
 	display: flex;
+}
+
+.charimg {
+	background-color: rgba(000, 000, 000, 0.2);
 }
 
 .charimg,
 .charbox img {
-	height: 15rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 14.5rem;
 	width: 10rem;
 	object-fit: contain;
 	image-rendering: pixelated;
-	background-color: #515a7e;
 }
 
 .charbox .chartext {

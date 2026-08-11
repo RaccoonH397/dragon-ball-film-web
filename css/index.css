@@ -18,7 +18,7 @@
 }
 
 .text a {
-	color: blue;
+	color: #5865F2;
 	text-decoration: underline;
 	font-weight: 700;
 }
@@ -51,7 +51,7 @@
 .share img {
 	max-width: 15rem;
 	object-fit: cover;
-	box-shadow: 0 1rem 1rem 0 #ccc;
+	/* box-shadow: 0 1rem 1rem 0 #ccc; */
 }
 
 .createtime {
@@ -79,7 +79,7 @@ button {
 	width: 15rem;
 	height: 4rem;
 	border: none;
-	background-color: #3a6a8a;
+	background-color: #5865F2;
 	color: white;
 	font-weight: 700;
 	font-size: 2rem;

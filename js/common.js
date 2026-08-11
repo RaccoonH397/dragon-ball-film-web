@@ -1,16 +1,26 @@
-$('#td img').hover(
+$('#td #avator').hover(
 	function() {
-		$(this).attr('src', '../imgs/sprite tiandaossj.png');
+		$(this).children().attr('src', '../imgs/sprite tiandaossj.png');
+		$('#td .aura').show()
 	},
 	function() {
-		$(this).attr('src', '../imgs/sprite tiandao.png');
+		$(this).children().attr('src', '../imgs/sprite tiandao.png');
+		$('#td .aura').hide()
 	}
 )
-$('#rac img').hover(
+$('#rac #avator').hover(
 	function() {
-		$(this).attr('src', '../imgs/sprite raccoonssj.png');
+		$(this).children().attr('src', '../imgs/sprite raccoonssj.png');
+		$('#rac .aura').show()
 	},
 	function() {
-		$(this).attr('src', '../imgs/sprite raccoon.png');
+		$(this).children().attr('src', '../imgs/sprite raccoon.png');
+		$('#rac .aura').hide()
 	}
 )
+$('.aura').hide()
+
+$('.left li').hover(
+	function() {
+		$(this).toggleClass('active')
+	})

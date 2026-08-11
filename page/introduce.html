@@ -17,8 +17,8 @@
 				width: 15rem;
 				height: 10rem;
 				padding: 1rem 1.5rem;
-				background: #fff;
-				border-bottom: 0.0625rem solid #e2eaf0;
+				background: rgba(38, 36, 35, .9);
+				/* border-bottom: 0.0625rem solid #e2eaf0; */
 				display: flex;
 				align-items: center;
 				gap: 1rem;
@@ -41,11 +41,11 @@
 				flex: 1;
 				min-width: 11.25rem;
 				padding: 0.625rem 1.25rem;
-				border: 0.125rem solid #d0dde8;
+				border: 0.125rem solid #636363;
 				font-size: 0.9375rem;
 				outline: none;
 				transition: border-color 0.2s;
-				background: #f9fcff;
+				background: #393a3b;
 			}
 
 			#searchInput:focus {
@@ -55,7 +55,7 @@
 
 			#searchResultCount {
 				font-size: 0.875rem;
-				color: #5a7a8a;
+				/* color: #5a7a8a; */
 				white-space: nowrap;
 				font-weight: 500;
 			}
@@ -150,7 +150,7 @@
 	<body>
 
 		<!-- 顶部栏 & 侧边栏（不变） -->
-		<div class="top">
+		<header class="top">
 			<a href="index.html" id="logo"><img src="../imgs/dbflogo.png" alt="" /></a>
 			<div class="icons">
 				<a href="https://space.bilibili.com/193386165" id="td" title="点击跳转bilibili"><img
@@ -160,7 +160,7 @@
 						src="../imgs/sprite raccoon.png" alt="" /></a>
 				<p>网站建议:2733611989@qq.com</p>
 			</div>
-		</div>
+		</header>
 		<div class="left">
 			<ul>
 				<a href="../page/index.html">
@@ -192,11 +192,6 @@
 		<script src="../js/chardata.js"></script>
 		<script src="../js/common.js"></script>
 		<script>
-			// ===== 侧边栏悬停 =====
-			$('.left li').hover(function() {
-				$(this).toggleClass('active');
-			});
-
 			// ===== 分页状态 =====
 			const PAGE_SIZE = 10;
 			let currentPage = 1;
