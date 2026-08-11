@@ -3,7 +3,7 @@
 	margin: auto;
 	margin-bottom: 2rem;
 	height: 15rem;
-	border-bottom: 0.1rem solid rgba(000, 000, 000, 0.1);;
+	border-bottom: 0.1rem solid rgba(000, 000, 000, 0.1);
 	display: flex;
 }
 
@@ -33,4 +33,14 @@
 	height: 15rem;
 	right: 0;
 	background-color: #fff;
+}
+
+#chardetail {
+	display: -webkit-box;
+	-webkit-line-clamp: 5;
+	/* 显示 3 行，超过的隐藏 */
+	-webkit-box-orient: vertical;
+
+	/* 2. 超出部分裁剪 */
+	overflow: hidden;
 }
