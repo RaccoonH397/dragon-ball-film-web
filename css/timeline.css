@@ -44,10 +44,11 @@
 
 #titletag {
 	text-align: left;
-	width: 5rem;
-	font-size: 1.5rem;
-	background-color: rgba(000, 000, 000, 0.2);;
+	width: 95%;
+	font-size: 1.2rem;
+	/* background-color: rgba(000, 000, 000, 0.2);; */
+	border-bottom: solid 0.1rem rgba(256, 256, 256, 0.2);
 	color: #fff;
-	margin: 1rem;
-	padding-left: 1rem;
+	margin: 1rem auto;
+	padding: 1rem;
 }
