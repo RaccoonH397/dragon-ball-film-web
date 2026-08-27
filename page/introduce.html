@@ -1,342 +1,353 @@
+<!-- ============================================================
+     文件: introduce.html (修改后)
+     说明: 在原有分页/搜索基础上，为每个卡片绑定点击跳转
+     ============================================================ -->
 <!DOCTYPE html>
 <html lang="zh">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>dragon ball film</title>
-		<link rel="stylesheet" href="../css/common.css" />
-		<link rel="stylesheet" href="../css/inroduce.css" />
-		<link rel="icon" href="../imgs/weblogo.png" type="image/png">
-		<style>
-			/* ===== 所有样式不变（与您提供的完全一致） ===== */
-			html {
-				font-size: 16px;
-			}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dragon ball film</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/inroduce.css" />
+    <link rel="icon" href="../imgs/weblogo.png" type="image/png" />
+    <style>
+        /* ===== 原有样式（保持不变） ===== */
+        html {
+            font-size: 16px;
+        }
+        .search {
+            width: 15rem;
+            height: 10rem;
+            padding: 1rem 1.5rem;
+            background: #1a1a1e;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 48rem) {
+            .search {
+                margin-left: 3.75rem;
+            }
+        }
+        @media (max-width: 30rem) {
+            .search {
+                margin-left: 3.125rem;
+            }
+        }
+        #searchInput {
+            flex: 1;
+            min-width: 11.25rem;
+            padding: 0.625rem 1.25rem;
+            border: 0.125rem solid #636363;
+            font-size: 0.9375rem;
+            outline: none;
+            transition: border-color 0.2s;
+            background: #393a3b;
+            color: #fff;
+        }
+        #searchInput:focus {
+            border-color: #5865F2;
+            background: #000;
+        }
+        #searchResultCount {
+            font-size: 0.875rem;
+            white-space: nowrap;
+            font-weight: 500;
+            color: #aaa;
+        }
+        .charbox {
+            transition: opacity 0.15s;
+            cursor: pointer;
+            /* 加上点击反馈，用户可自行调整 */;
+        }
+        .charbox:active {
+            filter: brightness(0.85);
+            transform: scale(0.97);
+        }
+        .main {
+            padding: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        @media (max-width: 48rem) {
+            .main {
+                margin-left: 3.75rem;
+                padding: 1rem;
+            }
+        }
+        @media (max-width: 30rem) {
+            .main {
+                margin-left: 3.125rem;
+                padding: 0.75rem;
+            }
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.5rem 0;
+            flex-wrap: wrap;
+            margin-left: 12.5rem;
+        }
+        @media (max-width: 48rem) {
+            .pagination {
+                margin-left: 3.75rem;
+            }
+        }
+        @media (max-width: 30rem) {
+            .pagination {
+                margin-left: 3.125rem;
+            }
+        }
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 0.0625rem solid #d0dde8;
+            background: #393a3b;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background 0.2s, border-color 0.2s;
+            color: #fff;
+        }
+        .pagination button:hover:not(:disabled) {
+            background: #e8f0f8;
+            border-color: #5865F2;
+            color: #222;
+        }
+        .pagination button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .pagination button.active-page {
+            background: #5865F2;
+            color: #fff;
+            border-color: #5865F2;
+            font-weight: 600;
+        }
+        .pagination .page-info {
+            font-size: 0.875rem;
+            color: #5865F2;
+            padding: 0 0.5rem;
+        }
+        .pagination .page-ellipsis {
+            color: #5865F2;
+            padding: 0 0.25rem;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
 
-			.search {
-				width: 15rem;
-				height: 10rem;
-				padding: 1rem 1.5rem;
-				background: #1a1a1e;
-				/* border-bottom: 0.0625rem solid #e2eaf0; */
-				display: flex;
-				align-items: center;
-				gap: 1rem;
-				flex-wrap: wrap;
-			}
+    <!-- 顶部 & 侧边栏（完全保持原样） -->
+    <header class="top">
+        <a href="index.html" id="logo"><img src="../imgs/dbflogo.png" alt="" /></a>
+        <div class="icons">
+            <a href="https://space.bilibili.com/193386165" id="td" title="点击跳转bilibili">
+                <span class="aura"><img src="../imgs/aura111.gif" alt="" /></span>
+                <span id="avator"><img src="../imgs/sprite tiandao.png" alt="" /></span>
+            </a>
+            <p>视频建议:2871070425@qq.com</p>
+            <a href="https://space.bilibili.com/439518462" id="rac" title="点击跳转bilibili">
+                <span class="aura"><img src="../imgs/aura111.gif" alt="" /></span>
+                <span id="avator"><img src="../imgs/sprite raccoon.png" alt="" /></span>
+            </a>
+            <p>网站建议:2733611989@qq.com</p>
+        </div>
+    </header>
 
-			@media (max-width: 48rem) {
-				.search {
-					margin-left: 3.75rem;
-				}
-			}
+    <div class="left">
+        <ul>
+            <a href="../page/index.html"><li>首页</li></a>
+            <a href="../page/timeline.html"><li>时间线</li></a>
+            <a href="../page/introduce.html"><li>人物档案</li></a>
+        </ul>
+    </div>
 
-			@media (max-width: 30rem) {
-				.search {
-					margin-left: 3.125rem;
-				}
-			}
+    <!-- 搜索区域 -->
+    <div class="search">
+        <input type="text" id="searchInput" placeholder="搜索角色、影片、简介…" />
+        <span id="searchResultCount">共 0 个角色</span>
+    </div>
 
-			#searchInput {
-				flex: 1;
-				min-width: 11.25rem;
-				padding: 0.625rem 1.25rem;
-				border: 0.125rem solid #636363;
-				font-size: 0.9375rem;
-				outline: none;
-				transition: border-color 0.2s;
-				background: #393a3b;
-			}
+    <!-- 卡片容器 -->
+    <div class="main" id="cardContainer"></div>
 
-			#searchInput:focus {
-				border-color: #5865F2;
-				background: #000;
-			}
+    <!-- 分页控件 -->
+    <div class="pagination" id="paginationControls"></div>
 
-			#searchResultCount {
-				font-size: 0.875rem;
-				/* color: #5865F2; */
-				white-space: nowrap;
-				font-weight: 500;
-			}
+    <!-- ===== 脚本区 ===== -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js">
+    </script>
+    <script src="../js/chardata.js">
+    </script>
+    <script src="../js/common.js">
+    </script>
+    <script>
+        // ============================================================
+        // 分页 & 搜索逻辑（保留原有功能，新增点击跳转）
+        // ============================================================
 
-			.charbox {
-				transition: opacity 0.15s;
-			}
+        const PAGE_SIZE = 10;
+        let currentPage = 1;
+        let filteredData = [];
 
-			.main {
-				padding: 1.5rem;
-				display: flex;
-				flex-wrap: wrap;
-				gap: 1.5rem;
-			}
+        // ---------- 渲染当前页 ----------
+        function renderPage() {
+            const totalItems = filteredData.length;
+            const totalPages = Math.ceil(totalItems / PAGE_SIZE) || 1;
 
-			@media (max-width: 48rem) {
-				.main {
-					margin-left: 3.75rem;
-					padding: 1rem;
-				}
-			}
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
 
-			@media (max-width: 30rem) {
-				.main {
-					margin-left: 3.125rem;
-					padding: 0.75rem;
-				}
-			}
+            const start = (currentPage - 1) * PAGE_SIZE;
+            const end = Math.min(start + PAGE_SIZE, totalItems);
+            const pageData = filteredData.slice(start, end);
 
-			.pagination {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				gap: 0.75rem;
-				padding: 1.5rem 0;
-				flex-wrap: wrap;
-				margin-left: 12.5rem;
-			}
+            const $container = $('#cardContainer');
+            $container.empty();
 
-			@media (max-width: 48rem) {
-				.pagination {
-					margin-left: 3.75rem;
-				}
-			}
+            if (pageData.length === 0) {
+                $container.append(
+                    '<p style="width:100%; text-align:center; color:#5865F2; padding:2rem;">没有匹配的角色</p>'
+                    );
+            } else {
+                // ---- 遍历当前页数据，生成卡片 ----
+                for (let i = 0; i < pageData.length; i++) {
+                    const item = pageData[i];
+                    // ★ 关键：获取该角色在原始 data 数组中的索引
+                    const originalIndex = data.indexOf(item);
 
-			@media (max-width: 30rem) {
-				.pagination {
-					margin-left: 3.125rem;
-				}
-			}
-
-			.pagination button {
-				padding: 0.5rem 1rem;
-				border: 0.0625rem solid #d0dde8;
-				background: #393a3b;
-				cursor: pointer;
-				font-size: 0.875rem;
-				transition: background 0.2s, border-color 0.2s;
-				color: #fff;
-			}
-
-			.pagination button:hover:not(:disabled) {
-				background: #e8f0f8;
-				border-color: #5865F2;
-			}
-
-			.pagination button:disabled {
-				opacity: 0.4;
-				cursor: not-allowed;
-			}
-
-			.pagination button.active-page {
-				background: #5865F2;
-				color: #fff;
-				border-color: #5865F2;
-				font-weight: 600;
-			}
-
-			.pagination .page-info {
-				font-size: 0.875rem;
-				color: #5865F2;
-				padding: 0 0.5rem;
-			}
-
-			.pagination .page-ellipsis {
-				color: #5865F2;
-				padding: 0 0.25rem;
-				font-size: 0.875rem;
-			}
-		</style>
-	</head>
-	<body>
-
-		<!-- 顶部栏 & 侧边栏（不变） -->
-		<header class="top">
-			<a href="index.html" id="logo"><img src="../imgs/dbflogo.png" alt="" /></a>
-			<div class="icons">
-				<a href="https://space.bilibili.com/193386165" id="td" title="点击跳转bilibili">
-					<span class="aura">
-						<img src="../imgs/aura111.gif" alt="" />
-					</span>
-					<span id="avator">
-						<img src="../imgs/sprite tiandao.png" alt="" />
-					</span>
-				</a>
-				<p>视频建议:2871070425@qq.com</p>
-				<a href="https://space.bilibili.com/439518462" id="rac" title="点击跳转bilibili">
-					<span class="aura">
-						<img src="../imgs/aura111.gif" alt="" />
-					</span>
-					<span id="avator">
-						<img src="../imgs/sprite raccoon.png" alt="" />
-					</span>
-				</a>
-				<p>网站建议:2733611989@qq.com</p>
-			</div>
-		</header>
-		<div class="left">
-			<ul>
-				<a href="../page/index.html">
-					<li>首页</li>
-				</a>
-				<a href="../page/timeline.html">
-					<li>时间线</li>
-				</a>
-				<a href="../page/introduce.html">
-					<li>人物档案</li>
-				</a>
-			</ul>
-		</div>
-
-		<!-- 搜索区域 -->
-		<div class="search">
-			<input type="text" id="searchInput" placeholder="搜索" />
-			<span id="searchResultCount">共 0 个角色</span>
-		</div>
-
-		<!-- 卡片容器 -->
-		<div class="main" id="cardContainer"></div>
-
-		<!-- 分页控件 -->
-		<div class="pagination" id="paginationControls"></div>
-
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-		<script src="../js/chardata.js"></script>
-		<script src="../js/common.js"></script>
-		<script>
-			// ===== 分页状态 =====
-			const PAGE_SIZE = 10;
-			let currentPage = 1;
-			let filteredData = [];
-
-			// ===== 渲染当前页 =====
-			function renderPage() {
-				const totalItems = filteredData.length;
-				const totalPages = Math.ceil(totalItems / PAGE_SIZE) || 1;
-
-				if (currentPage > totalPages) currentPage = totalPages;
-				if (currentPage < 1) currentPage = 1;
-
-				const start = (currentPage - 1) * PAGE_SIZE;
-				const end = Math.min(start + PAGE_SIZE, totalItems);
-				const pageData = filteredData.slice(start, end);
-
-				const $container = $('#cardContainer');
-				$container.empty();
-
-				if (pageData.length === 0) {
-					$container.append('<p style="width:100%; text-align:center; color:#5865F2; padding:2rem;">没有匹配的角色</p>');
-				} else {
-					for (let i = 0; i < pageData.length; i++) {
-						const item = pageData[i];
-						const card = `<div class="charbox">
-                        <div class="charimg"><img src="${item.img}" alt="" /></div>
-                        <div class="chartext">
-                            <h4 id="film">${item.film}</h4>
-                            <h4 id="charname">${item.charname}</h4>
-                            <p id="chardetail">${item.chardetails}</p>
+                    const card = `
+                        <div class="charbox" data-index="${originalIndex}">
+                            <div class="charimg"><img src="${item.img}" alt="" /></div>
+                            <div class="chartext">
+                                <h4 id="film">${item.film}</h4>
+                                <h4 id="charname">${item.charname}</h4>
+                                <p id="chardetail">${item.chardetails}</p>
+                            </div>
                         </div>
-                    </div>`;
-						$container.append(card);
-					}
-				}
+                    `;
+                    $container.append(card);
+                }
+            }
 
-				renderPagination(totalPages);
+            renderPagination(totalPages);
 
-				// =====================================================
-				// 🎯 修复滚动跳动：正确计算文档绝对位置
-				// =====================================================
-				const container = document.getElementById('cardContainer');
-				if (container) {
-					const rect = container.getBoundingClientRect();
-					const targetY = rect.top; // 20px 边距
-					window.scrollTo({
-						top: targetY,
-						behavior: 'smooth' // 平滑滚动；若想瞬间跳转改为 'auto'
-					});
-				}
-			}
+            // ---------- 平滑滚动到卡片容器顶部 ----------
+            const container = document.getElementById('cardContainer');
+            if (container) {
+                const rect = container.getBoundingClientRect();
+                const targetY = rect.top;
+                window.scrollTo({ top: targetY, behavior: 'smooth' });
+            }
+        }
 
-			// ===== 分页控件 =====
-			function renderPagination(totalPages) {
-				const $pagination = $('#paginationControls');
-				$pagination.empty();
-				if (totalPages <= 1) return;
+        // ---------- 渲染分页按钮 ----------
+        function renderPagination(totalPages) {
+            const $pagination = $('#paginationControls');
+            $pagination.empty();
+            if (totalPages <= 1) return;
 
-				const prevDisabled = currentPage === 1;
-				$pagination.append(`<button class="page-prev" ${prevDisabled ? 'disabled' : ''}>上一页</button>`);
+            const prevDisabled = currentPage === 1;
+            $pagination.append(
+                `<button class="page-prev" ${prevDisabled ? 'disabled' : ''}>上一页</button>`
+            );
 
-				let pageButtons = '';
-				const maxVisible = 5;
-				let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
-				let endPage = Math.min(totalPages, startPage + maxVisible - 1);
-				if (endPage - startPage < maxVisible - 1) {
-					startPage = Math.max(1, endPage - maxVisible + 1);
-				}
+            let pageButtons = '';
+            const maxVisible = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+            if (endPage - startPage < maxVisible - 1) {
+                startPage = Math.max(1, endPage - maxVisible + 1);
+            }
 
-				if (startPage > 1) {
-					pageButtons += `<button class="page-num" data-page="1">1</button>`;
-					if (startPage > 2) pageButtons += `<span class="page-ellipsis">…</span>`;
-				}
+            if (startPage > 1) {
+                pageButtons += `<button class="page-num" data-page="1">1</button>`;
+                if (startPage > 2) pageButtons += `<span class="page-ellipsis">…</span>`;
+            }
 
-				for (let i = startPage; i <= endPage; i++) {
-					const activeClass = (i === currentPage) ? 'active-page' : '';
-					pageButtons += `<button class="page-num ${activeClass}" data-page="${i}">${i}</button>`;
-				}
+            for (let i = startPage; i <= endPage; i++) {
+                const activeClass = (i === currentPage) ? 'active-page' : '';
+                pageButtons +=
+                    `<button class="page-num ${activeClass}" data-page="${i}">${i}</button>`;
+            }
 
-				if (endPage < totalPages) {
-					if (endPage < totalPages - 1) pageButtons += `<span class="page-ellipsis">…</span>`;
-					pageButtons += `<button class="page-num" data-page="${totalPages}">${totalPages}</button>`;
-				}
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) pageButtons += `<span class="page-ellipsis">…</span>`;
+                pageButtons += `<button class="page-num" data-page="${totalPages}">${totalPages}</button>`;
+            }
 
-				$pagination.append(pageButtons);
+            $pagination.append(pageButtons);
 
-				const nextDisabled = currentPage === totalPages;
-				$pagination.append(`<button class="page-next" ${nextDisabled ? 'disabled' : ''}>下一页</button>`);
-				$pagination.append(`<span class="page-info">第 ${currentPage} / ${totalPages} 页</span>`);
+            const nextDisabled = currentPage === totalPages;
+            $pagination.append(
+                `<button class="page-next" ${nextDisabled ? 'disabled' : ''}>下一页</button>`
+            );
+            $pagination.append(
+                `<span class="page-info">第 ${currentPage} / ${totalPages} 页</span>`
+            );
 
-				// 绑定事件
-				$pagination.find('.page-prev').on('click', function() {
-					if (currentPage > 1) {
-						currentPage--;
-						renderPage();
-					}
-				});
-				$pagination.find('.page-next').on('click', function() {
-					if (currentPage < totalPages) {
-						currentPage++;
-						renderPage();
-					}
-				});
-				$pagination.find('.page-num').on('click', function() {
-					const page = parseInt($(this).data('page'), 10);
-					if (page !== currentPage) {
-						currentPage = page;
-						renderPage();
-					}
-				});
-			}
+            // ----- 绑定分页按钮事件 -----
+            $pagination.find('.page-prev').on('click', function() {
+                if (currentPage > 1) { currentPage--;
+                    renderPage(); }
+            });
+            $pagination.find('.page-next').on('click', function() {
+                if (currentPage < totalPages) { currentPage++;
+                    renderPage(); }
+            });
+            $pagination.find('.page-num').on('click', function() {
+                const page = parseInt($(this).data('page'), 10);
+                if (page !== currentPage) { currentPage = page;
+                    renderPage(); }
+            });
+        }
 
-			// ===== 搜索过滤 =====
-			function filterCards(keyword) {
-				const trimmed = keyword.trim().toLowerCase();
-				filteredData = trimmed === '' ? data.slice() : data.filter(item => {
-					const fullText = (item.charname + ' ' + item.film + ' ' + item.chardetails).toLowerCase();
-					return fullText.includes(trimmed);
-				});
-				currentPage = 1;
-				$('#searchResultCount').text(`找到 ${filteredData.length} 个角色（共 ${data.length} 个）`);
-				renderPage();
-			}
+        // ---------- 搜索过滤 ----------
+        function filterCards(keyword) {
+            const trimmed = keyword.trim().toLowerCase();
+            filteredData = trimmed === '' ?
+                data.slice() :
+                data.filter(item => {
+                    const fullText = (
+                        item.charname + ' ' +
+                        item.film + ' ' +
+                        item.chardetails + ' ' +
+                        item.saga + ' ' +
+                        item.appraise
+                    ).toLowerCase();
+                    return fullText.includes(trimmed);
+                });
+            currentPage = 1;
+            $('#searchResultCount').text(`找到 ${filteredData.length} 个角色（共 ${data.length} 个）`);
+            renderPage();
+        }
 
-			// ===== 初始化 =====
-			filteredData = data.slice();
-			$('#searchInput').on('input', function() {
-				filterCards(this.value);
-			});
-			renderPage();
-			$('#searchResultCount').text(`找到 ${data.length} 个角色（共 ${data.length} 个）`);
-			console.log('[分页] 已启动，每页显示', PAGE_SIZE, '个角色');
-		</script>
-	</body>
+        // ---------- ★ 点击卡片跳转到详情页 ----------
+        // 使用事件委托，监听 #cardContainer 内所有 .charbox 的点击
+        $('#cardContainer').on('click', '.charbox', function() {
+            const index = $(this).data('index');
+            if (index !== undefined && index !== null) {
+                // 跳转到 profiledetails.html，并在 URL 中携带 index 参数
+                window.location.href = `profiledetails.html?index=${index}`;
+            } else {
+                console.warn('该卡片缺少 data-index 属性');
+            }
+        });
+
+        // ---------- 初始化 ----------
+        filteredData = data.slice();
+        $('#searchInput').on('input', function() {
+            filterCards(this.value);
+        });
+        renderPage();
+        $('#searchResultCount').text(`找到 ${data.length} 个角色（共 ${data.length} 个）`);
+        console.log('[introduce] 分页 + 点击跳转已启动，每页', PAGE_SIZE, '个角色');
+    </script>
+</body>
 </html>

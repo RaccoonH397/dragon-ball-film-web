@@ -1,0 +1,43 @@
+.charprofile {
+	display: flex;
+	width: 50rem;
+	margin: auto;
+	line-height: 3rem;
+}
+
+.avator img {
+	height: 20rem;
+	width: 13rem;
+	object-fit: contain;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+	image-rendering: pixelated;
+}
+
+.avator {
+	height: 20rem;
+	width: 13rem;
+	object-fit: contain;
+	image-rendering: pixelated;
+	background-color: rgba(000, 000, 000, 0.2);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+}
+
+.righttext {
+	margin-left: 5rem;
+}
+
+.details {
+	line-height: 3rem;
+	width: 50rem;
+	margin: 2rem auto;
+}
+
+h2 {
+	font-size: 1.3rem;
+}
