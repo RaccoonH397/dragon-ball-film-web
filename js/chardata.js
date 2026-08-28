@@ -383,9 +383,9 @@ const data = [{
 		film: '番外04',
 		charname: '110 111 101 001 1000 0100 01 1010 101',
 		chardetails: 'unknown.',
-		saga: 'unkown.',
-		appraise: 'unkown.',
-		situation: 'unkown.',
-		feelings: 'unkown.'
+		saga: 'unknown.',
+		appraise: 'unknown.',
+		situation: 'unknown.',
+		feelings: 'unknown.'
 	}
 ];
