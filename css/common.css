@@ -25,7 +25,7 @@ a {
 }
 
 body {
-	background-color: #222327;
+	background-color: #030801;
 	background-repeat: no-repeat;
 }
 
@@ -86,7 +86,7 @@ body {
 }
 
 .active {
-	background-color: #5865F2;
+	/* background-color: #5865F2; */
 }
 
 .icons img:hover {
@@ -142,4 +142,316 @@ body {
 .aura img {
 	width: 3.5rem !important;
 	height: 3.5rem !important;
+}
+
+/* ai侧边栏样式 */
+/* ============================================================
+   史考特 · 顶部导航 & 侧边栏 统一样式
+   将此代码添加到 common.css 中，或各页面 <style> 内
+   ============================================================ */
+
+/* ----- ★ 顶部导航 · 史考特风格 ----- */
+.top {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 4.5rem !important;
+    z-index: 1050 !important;
+    background: rgba(10, 14, 10, 0.92) !important;
+    backdrop-filter: blur(8px) !important;
+    border-bottom: 0.0625rem solid var(--border-color, #1a3a1a) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 2rem !important;
+    box-shadow: 0 0.25rem 2rem rgba(0, 0, 0, 0.6) !important;
+    transition: border-color 0.3s !important;
+}
+
+.top:hover {
+    border-color: rgba(0, 255, 65, 0.15) !important;
+}
+
+/* LOGO */
+.top #logo {
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
+    filter: drop-shadow(0 0 1.25rem rgba(0, 255, 65, 0.04)) !important;
+    transition: filter 0.3s !important;
+}
+.top #logo:hover {
+    filter: drop-shadow(0 0 2rem rgba(0, 255, 65, 0.08)) !important;
+}
+.top #logo img {
+    height: 2.8rem !important;
+    width: auto !important;
+    display: block !important;
+}
+
+/* 右侧图标区 */
+.top .icons {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.2rem !important;
+    height: 100% !important;
+}
+
+.top .icons p {
+    font-family: 'Share Tech Mono', 'Courier New', monospace !important;
+    font-size: 0.7rem !important;
+    color: var(--text-dim, #558855) !important;
+    letter-spacing: 0.0625rem !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+    transition: color 0.3s !important;
+}
+.top .icons p:hover {
+    color: var(--green-primary, #00ff41) !important;
+}
+
+/* 小人头像链接 */
+.top .icons a {
+    position: relative !important;
+    display: inline-block !important;
+    width: 3.2rem !important;
+    height: 3.2rem !important;
+    flex-shrink: 0 !important;
+    border-radius: 50% !important;
+    border: 0.0625rem solid rgba(0, 255, 65, 0.06) !important;
+    transition: border-color 0.3s, box-shadow 0.3s !important;
+}
+.top .icons a:hover {
+    border-color: rgba(0, 255, 65, 0.15) !important;
+    box-shadow: 0 0 1.5rem rgba(0, 255, 65, 0.04) !important;
+}
+
+.top .icons a .aura {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+    width: 4.5rem !important;
+    height: 4.5rem !important;
+}
+.top .icons a:hover .aura {
+    opacity: 1 !important;
+}
+.top .icons a .aura img {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+}
+
+.top .icons a #avator {
+    position: relative !important;
+    z-index: 2 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+}
+.top .icons a #avator img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+/* ----- ★ 侧边栏 · 史考特风格 ----- */
+.left {
+    position: fixed !important;
+    top: 4.5rem !important;
+    left: 0 !important;
+    width: 14rem !important;
+    height: calc(100% - 4.5rem) !important;
+    z-index: 1040 !important;
+    background: rgba(10, 14, 10, 0.94) !important;
+    backdrop-filter: blur(6px) !important;
+    border-right: 0.0625rem solid var(--border-color, #1a3a1a) !important;
+    padding: 1.5rem 0 !important;
+    overflow-y: auto !important;
+    box-shadow: 0.25rem 0 2rem rgba(0, 0, 0, 0.4) !important;
+}
+
+.left ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.25rem !important;
+}
+
+.left ul a {
+    display: block !important;
+    text-decoration: none !important;
+    padding: 0.7rem 1.5rem !important;
+    margin: 0 0.5rem !important;
+    border-radius: 0.5rem !important;
+    font-family: 'Share Tech Mono', 'Courier New', monospace !important;
+    font-size: 0.9rem !important;
+    font-weight: 400 !important;
+    color: var(--text-dim, #558855) !important;
+    letter-spacing: 0.0625rem !important;
+    transition: all 0.25s ease !important;
+    border: 0.0625rem solid transparent !important;
+    position: relative !important;
+}
+
+.left ul a li {
+    list-style: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
+}
+
+/* 菜单项前的小指示器 */
+.left ul a::before {
+    content: '▸' !important;
+    color: var(--text-muted, #3a6a3a) !important;
+    margin-right: 0.4rem !important;
+    transition: color 0.3s, transform 0.3s !important;
+    display: inline-block !important;
+    font-size: 0.7rem !important;
+}
+
+.left ul a:hover {
+    color: var(--green-primary, #00ff41) !important;
+    background: rgba(0, 255, 65, 0.04) !important;
+    border-color: rgba(0, 255, 65, 0.06) !important;
+}
+.left ul a:hover::before {
+    color: var(--green-primary, #00ff41) !important;
+    transform: translateX(0.15rem) !important;
+}
+
+.left ul a:active {
+    transform: scale(0.97) !important;
+    background: rgba(0, 255, 65, 0.06) !important;
+}
+
+/* 当前激活菜单项 */
+.left ul a.active {
+    color: var(--green-primary, #00ff41) !important;
+    background: rgba(0, 255, 65, 0.06) !important;
+    border-color: rgba(0, 255, 65, 0.08) !important;
+}
+.left ul a.active::before {
+    color: var(--green-primary, #00ff41) !important;
+}
+
+/* 侧边栏底部装饰线 */
+.left::after {
+    content: '⟡ 扫描中' !important;
+    position: absolute !important;
+    bottom: 1.5rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    font-family: 'Share Tech Mono', 'Courier New', monospace !important;
+    font-size: 0.55rem !important;
+    color: var(--text-muted, #3a6a3a) !important;
+    letter-spacing: 0.125rem !important;
+    white-space: nowrap !important;
+}
+
+/* ----- 响应式适配 ----- */
+@media (max-width: 48rem) {
+    .top {
+        height: 3.8rem !important;
+        padding: 0 1rem !important;
+    }
+    .top #logo img {
+        height: 2.2rem !important;
+    }
+    .top .icons {
+        gap: 0.6rem !important;
+    }
+    .top .icons a {
+        width: 2.4rem !important;
+        height: 2.4rem !important;
+    }
+    .top .icons a .aura {
+        width: 3.6rem !important;
+        height: 3.6rem !important;
+    }
+    .top .icons p {
+        font-size: 0.55rem !important;
+        display: none !important;
+    }
+
+    .left {
+        width: 3.75rem !important;
+        top: 3.8rem !important;
+        height: calc(100% - 3.8rem) !important;
+        padding: 0.8rem 0 !important;
+    }
+    .left ul a {
+        padding: 0.6rem 0.6rem !important;
+        margin: 0 0.3rem !important;
+        font-size: 0.65rem !important;
+        text-align: center !important;
+        border-radius: 0.4rem !important;
+    }
+    .left ul a::before {
+        display: none !important;
+    }
+    .left ul a li {
+        justify-content: center !important;
+        font-size: 0.6rem !important;
+        word-break: keep-all !important;
+    }
+    .left::after {
+        font-size: 0.4rem !important;
+        bottom: 0.8rem !important;
+        content: '⟡' !important;
+    }
+}
+
+@media (max-width: 30rem) {
+    .top {
+        height: 3.2rem !important;
+        padding: 0 0.6rem !important;
+    }
+    .top #logo img {
+        height: 1.8rem !important;
+    }
+    .top .icons a {
+        width: 2rem !important;
+        height: 2rem !important;
+    }
+    .top .icons a .aura {
+        width: 3rem !important;
+        height: 3rem !important;
+    }
+    .top .icons p {
+        display: none !important;
+    }
+
+    .left {
+        width: 3.125rem !important;
+        top: 3.2rem !important;
+        height: calc(100% - 3.2rem) !important;
+        padding: 0.5rem 0 !important;
+    }
+    .left ul a {
+        padding: 0.4rem 0.3rem !important;
+        margin: 0 0.15rem !important;
+        font-size: 0.5rem !important;
+        border-radius: 0.3rem !important;
+    }
+    .left ul a li {
+        font-size: 0.5rem !important;
+    }
+    .left::after {
+        display: none !important;
+    }
 }

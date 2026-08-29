@@ -32,7 +32,7 @@ const filmdata = [{
 		filmname: '影片06',
 		cover: '../imgs/cover/06.png',
 		url: 'https://www.bilibili.com/video/BV1HejB6HEx6/?spm_id_from=333.1387.collection.video_card.click'
-	}
+	},
 ]
 const extradata = [{
 		filmname: '番外01',

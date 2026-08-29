@@ -1,14 +1,825 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>dragon ball film</title>
+		<title>史考特 · 龙珠数据档案</title>
+		<!-- 保留原有外部样式（顶部导航&侧边栏） -->
 		<link rel="stylesheet" href="../css/common.css" />
-		<link rel="stylesheet" href="../css/index.css" />
 		<link rel="icon" href="../imgs/weblogo.png" type="image/png">
+		<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+		<style>
+			/* ============================================================
+           史考特 v5.1 · 首页 · 书信格式
+           ============================================================ */
+
+			/* ----- 全局变量 ----- */
+			:root {
+				--bg-primary: #0a0e0a;
+				--bg-card: #0f140f;
+				--green-primary: #00ff41;
+				--green-dim: #00cc33;
+				--green-glow: rgba(0, 255, 65, 0.08);
+				--border-color: #1a3a1a;
+				--text-primary: #b0ffb0;
+				--text-dim: #558855;
+				--text-muted: #3a6a3a;
+				--font-mono: 'Share Tech Mono', 'Courier New', monospace;
+				--card-radius: 0.85rem;
+				--gap: 1rem;
+				--sidebar-width: 14rem;
+				--letter-width: 820px;
+			}
+
+			/* ----- 重置内容区域 ----- */
+			.main {
+				all: unset;
+				display: block;
+			}
+
+			/* 全局扫描线 */
+			body::after {
+				content: '';
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				pointer-events: none;
+				background: repeating-linear-gradient(0deg,
+						transparent,
+						transparent 2px,
+						rgba(0, 255, 65, 0.010) 2px,
+						rgba(0, 255, 65, 0.010) 4px);
+				z-index: 9999;
+			}
+
+			.scan-line {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 2px;
+				background: linear-gradient(90deg, transparent, var(--green-primary), transparent);
+				opacity: 0.06;
+				z-index: 9998;
+				animation: scanMove 5s ease-in-out infinite;
+				pointer-events: none;
+			}
+
+			@keyframes scanMove {
+				0% {
+					top: -0.3125rem;
+					opacity: 0;
+				}
+
+				10% {
+					opacity: 0.10;
+				}
+
+				90% {
+					opacity: 0.10;
+				}
+
+				100% {
+					top: 100%;
+					opacity: 0;
+				}
+			}
+
+			/* ============================================================
+           ★ 修复顶部导航层级与悬停效果
+           ============================================================ */
+			.top {
+				z-index: 1050 !important;
+				position: fixed !important;
+				top: 0 !important;
+				left: 0 !important;
+				width: 100% !important;
+			}
+
+			.left {
+				z-index: 1040 !important;
+				position: fixed !important;
+				left: 0 !important;
+				height: 100% !important;
+			}
+
+			/* 修复右上角小人头像悬停效果（兼容 common.css 逻辑） */
+			.top .icons a {
+				position: relative !important;
+				display: inline-block !important;
+				width: 50px !important;
+				height: 50px !important;
+			}
+
+			.top .icons a .aura {
+				position: absolute !important;
+				top: 50% !important;
+				left: 50% !important;
+				transform: translate(-50%, -50%) !important;
+				opacity: 0 !important;
+				transition: opacity 0.3s ease !important;
+				pointer-events: none !important;
+				z-index: 1 !important;
+				width: 70px !important;
+				height: 70px !important;
+			}
+
+			.top .icons a:hover .aura {
+				opacity: 1 !important;
+			}
+
+			/* ----- ★ 主容器：从侧边栏右侧开始，占满剩余空间 ----- */
+			.scouter-container {
+				width: 80rem;
+				margin: 6rem auto;
+				padding: 1.5rem 2rem 1.25rem;
+				background: rgba(10, 14, 10, 0.92);
+				border: 0.0625rem solid var(--border-color);
+				border-radius: 1.25rem;
+				box-shadow: 0 0 5rem rgba(0, 255, 65, 0.03), inset 0 0 5rem rgba(0, 255, 65, 0.015);
+				backdrop-filter: blur(2px);
+				transition: border-color 0.4s;
+				position: relative;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+
+			.scouter-container:hover {
+				border-color: rgba(0, 255, 65, 0.15);
+			}
+
+			/* 窄屏适配：侧边栏变窄时容器跟随 */
+			@media (max-width: 48rem) {
+				.scouter-container {
+					width: calc(100% - 4.5rem);
+					margin-left: 4.5rem;
+					margin-right: 0.5rem;
+					padding: 1rem 1rem 0.75rem;
+					border-radius: 1rem;
+				}
+			}
+
+			@media (max-width: 30rem) {
+				.scouter-container {
+					width: calc(100% - 3.5rem);
+					margin-left: 3.5rem;
+					margin-right: 0.25rem;
+					padding: 0.75rem 0.75rem 0.625rem;
+					border-radius: 0.75rem;
+				}
+			}
+
+			/* ----- 史考特头部（放大版） ----- */
+			.scouter-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-end;
+				padding-bottom: 1rem;
+				border-bottom: 0.0625rem solid var(--border-color);
+				margin-bottom: 1.5rem;
+				flex-wrap: wrap;
+				gap: 0.75rem;
+				width: 100%;
+			}
+
+			.scouter-brand {
+				display: flex;
+				align-items: baseline;
+				gap: 1.25rem;
+				flex-wrap: wrap;
+			}
+
+			.scouter-brand .logo {
+				font-size: 2.2rem;
+				font-weight: 700;
+				color: var(--green-primary);
+				text-shadow: 0 0 2rem var(--green-glow), 0 0 5rem rgba(0, 255, 65, 0.06);
+				letter-spacing: 0.25rem;
+			}
+
+			.scouter-brand .logo span {
+				color: var(--text-dim);
+				font-weight: 300;
+				font-size: 1rem;
+				letter-spacing: 0.0625rem;
+			}
+
+			.scouter-brand .sub {
+				color: var(--text-dim);
+				font-size: 0.9rem;
+				letter-spacing: 0.125rem;
+				padding-left: 0.75rem;
+				border-left: 0.0625rem solid var(--border-color);
+			}
+
+			.scouter-status {
+				display: flex;
+				align-items: center;
+				gap: 1.5rem;
+				font-size: 0.85rem;
+				color: var(--text-dim);
+				flex-wrap: wrap;
+			}
+
+			.scouter-status .dot {
+				display: inline-block;
+				width: 0.55rem;
+				height: 0.55rem;
+				border-radius: 50%;
+				background: var(--green-primary);
+				box-shadow: 0 0 0.875rem var(--green-primary);
+				animation: pulse-dot 1.8s ease-in-out infinite;
+				margin-right: 0.25rem;
+			}
+
+			@keyframes pulse-dot {
+
+				0%,
+				100% {
+					opacity: 1;
+					transform: scale(1);
+				}
+
+				50% {
+					opacity: 0.25;
+					transform: scale(0.7);
+				}
+			}
+
+			.scouter-status .stat-item {
+				display: flex;
+				align-items: center;
+				gap: 0.4rem;
+			}
+
+			.scouter-status .stat-item .label {
+				color: var(--text-dim);
+			}
+
+			.scouter-status .stat-item .value {
+				color: var(--green-primary);
+			}
+
+			/* ============================================================
+           ★ 书信 · 信纸样式
+           ============================================================ */
+
+			/* 信纸容器 */
+			.letter {
+				width: 100%;
+				max-width: var(--letter-width);
+				margin: 0 auto;
+				padding: 2.5rem 3rem 2.5rem;
+				background: var(--bg-card);
+				border: 0.0625rem solid var(--border-color);
+				border-radius: var(--card-radius);
+				box-shadow: inset 0 0 3rem rgba(0, 255, 65, 0.015), 0 0.5rem 2rem rgba(0, 0, 0, 0.4);
+				position: relative;
+			}
+
+			/* 信纸顶部装饰线 */
+			.letter::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 10%;
+				width: 80%;
+				height: 0.125rem;
+				background: linear-gradient(90deg, transparent, var(--green-primary), transparent);
+				opacity: 0.2;
+			}
+
+			/* 信头 */
+			.letter-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-start;
+				padding-bottom: 0.8rem;
+				margin-bottom: 1.5rem;
+				border-bottom: 0.0625rem solid rgba(0, 255, 65, 0.06);
+				flex-wrap: wrap;
+				gap: 0.8rem;
+			}
+
+			.letter-header .logo-area {
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+				flex-wrap: wrap;
+			}
+
+			.letter-header .logo-area .big-logo {
+				max-height: 60px;
+				width: auto;
+				filter: drop-shadow(0 0 20px rgba(0, 255, 65, 0.05));
+			}
+
+			.letter-header .logo-area .big-logo img {
+				height: 60px;
+				width: auto;
+				display: block;
+			}
+
+			.letter-header .title-group {
+				display: flex;
+				flex-direction: column;
+				gap: 0.1rem;
+			}
+
+			.letter-header .title-group .letter-title {
+				font-size: 1.3rem;
+				font-weight: 700;
+				color: var(--text-primary);
+				letter-spacing: 0.0625rem;
+			}
+
+			.letter-header .title-group .letter-sub {
+				font-size: 0.7rem;
+				color: var(--text-dim);
+				letter-spacing: 0.125rem;
+				font-family: var(--font-mono);
+			}
+
+			.letter-header .letter-date {
+				font-size: 0.75rem;
+				color: var(--text-dim);
+				letter-spacing: 0.0625rem;
+				font-family: var(--font-mono);
+				text-align: right;
+				white-space: nowrap;
+				padding-top: 0.2rem;
+			}
+
+			.letter-header .letter-date .date-label {
+				color: var(--text-muted);
+			}
+
+			/* 正文段落 */
+			.letter-body {
+				font-family: var(--font-mono);
+				font-size: 0.9rem;
+				line-height: 1.8;
+				color: var(--text-primary);
+				letter-spacing: 0.01875rem;
+			}
+
+			.letter-body p {
+				margin: 0 0 0.8rem 0;
+				text-indent: 2em;
+				word-break: break-word;
+			}
+
+			.letter-body p.no-indent {
+				text-indent: 0;
+			}
+
+			.letter-body strong {
+				color: var(--green-primary);
+				font-weight: 600;
+			}
+
+			.letter-body a {
+				color: var(--green-primary);
+				text-decoration: none;
+				transition: color 0.3s, text-shadow 0.3s;
+				word-break: break-all;
+			}
+
+			.letter-body a:hover {
+				color: #66ff99;
+				text-shadow: 0 0 1rem rgba(0, 255, 65, 0.15);
+				text-decoration: underline;
+			}
+
+			/* 平台图标区 */
+			.apps {
+				display: flex;
+				gap: 0.8rem;
+				margin: 0.2rem 0 0.6rem 2em;
+				flex-wrap: wrap;
+			}
+
+			.apps a {
+				display: inline-block;
+				transition: transform 0.3s, filter 0.3s;
+				filter: grayscale(0.3) brightness(0.7);
+			}
+
+			.apps a:hover {
+				transform: scale(1.1) translateY(-2px);
+				filter: grayscale(0) brightness(1);
+			}
+
+			.apps a img {
+				width: 40px;
+				height: 40px;
+				display: block;
+				border-radius: 0.25rem;
+			}
+
+			/* 分享区（QQ群二维码） */
+			.share {
+				margin: 1rem 0 0.8rem 2em;
+			}
+
+			.share div {
+				display: inline-block;
+				border: 0.0625rem solid rgba(0, 255, 65, 0.08);
+				border-radius: 0.5rem;
+				padding: 0.4rem;
+				background: rgba(0, 0, 0, 0.3);
+				transition: box-shadow 0.3s;
+			}
+
+			.share div:hover {
+				box-shadow: 0 0 2rem rgba(0, 255, 65, 0.04);
+			}
+
+			.share div img {
+				max-width: 160px;
+				height: auto;
+				display: block;
+				border-radius: 0.25rem;
+			}
+
+			/* 爱发电 iframe 区 */
+			.afdian {
+				margin: 1rem 0 0.8rem 2em;
+				display: flex;
+				flex-wrap: wrap;
+				gap: 1rem;
+			}
+
+			.afdian iframe {
+				width: 100%;
+				max-width: 600px;
+				height: 200px;
+				border: 0.0625rem solid rgba(0, 255, 65, 0.06);
+				border-radius: 0.5rem;
+				background: rgba(0, 0, 0, 0.2);
+				transition: border-color 0.3s;
+			}
+
+			.afdian iframe:hover {
+				border-color: rgba(0, 255, 65, 0.15);
+			}
+
+			/* 日期区 */
+			.createtime {
+				margin: 1.2rem 0 0.8rem 0;
+				padding: 0.6rem 1rem;
+				border-top: 0.0625rem solid rgba(0, 255, 65, 0.04);
+				border-bottom: 0.0625rem solid rgba(0, 255, 65, 0.04);
+				display: flex;
+				flex-wrap: wrap;
+				gap: 1.5rem;
+				font-size: 0.8rem;
+				color: var(--text-dim);
+				font-family: var(--font-mono);
+				letter-spacing: 0.03125rem;
+			}
+
+			.createtime p {
+				margin: 0;
+				text-indent: 0 !important;
+			}
+
+			.createtime #nowdays {
+				color: var(--green-primary);
+			}
+
+			/* 下载按钮 */
+			#download {
+				margin: 1.2rem 0 0.4rem 2em;
+			}
+
+			#download a {
+				display: inline-block;
+			}
+
+			#download button {
+				padding: 0.5rem 2rem;
+				background: transparent;
+				border: 0.0625rem solid var(--green-primary);
+				border-radius: 2rem;
+				color: var(--green-primary);
+				font-family: var(--font-mono);
+				font-size: 0.8rem;
+				letter-spacing: 0.125rem;
+				cursor: pointer;
+				transition: all 0.3s;
+				text-transform: uppercase;
+			}
+
+			#download button:hover {
+				background: rgba(0, 255, 65, 0.06);
+				box-shadow: 0 0 2rem rgba(0, 255, 65, 0.06);
+				transform: scale(1.02);
+			}
+
+			/* 落款 */
+			.letter-footer {
+				margin-top: 1.8rem;
+				padding-top: 1.2rem;
+				border-top: 0.0625rem solid rgba(0, 255, 65, 0.04);
+				text-align: right;
+				font-family: var(--font-mono);
+				font-size: 0.85rem;
+				color: var(--text-dim);
+				letter-spacing: 0.0625rem;
+			}
+
+			.letter-footer .signature {
+				color: var(--green-primary);
+				font-size: 0.9rem;
+				letter-spacing: 0.125rem;
+			}
+
+			.letter-footer .signature-sub {
+				font-size: 0.7rem;
+				color: var(--text-muted);
+				margin-top: 0.2rem;
+			}
+
+			/* ----- 底部状态（放大版） ----- */
+			.scouter-footer {
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
+				padding-top: 1rem;
+				border-top: 0.0625rem solid var(--border-color);
+				font-size: 0.8rem;
+				color: var(--text-dim);
+				flex-wrap: wrap;
+				gap: 0.75rem;
+				margin-top: 1.5rem;
+				width: 100%;
+			}
+
+			.scouter-footer .right {
+				display: flex;
+				gap: 1.25rem;
+				align-items: center;
+			}
+
+			.scouter-footer .right .badge {
+				padding: 0.15rem 1rem;
+				border-radius: 0.8rem;
+				background: rgba(0, 255, 65, 0.05);
+				border: 0.0625rem solid rgba(0, 255, 65, 0.06);
+				color: var(--green-primary);
+				font-size: 0.7rem;
+				letter-spacing: 0.03125rem;
+			}
+
+			/* ----- 响应式微调（大尺寸版适配） ----- */
+			@media (max-width: 48rem) {
+				.scouter-header {
+					flex-direction: column;
+					align-items: stretch;
+					gap: 0.5rem;
+				}
+
+				.scouter-brand .logo {
+					font-size: 1.6rem;
+				}
+
+				.scouter-brand .sub {
+					font-size: 0.75rem;
+					padding-left: 0;
+					border-left: none;
+				}
+
+				.scouter-status {
+					font-size: 0.7rem;
+					gap: 0.75rem;
+				}
+
+				.letter {
+					padding: 1.5rem 1.2rem 1.5rem;
+				}
+
+				.letter-header {
+					flex-direction: column;
+					align-items: stretch;
+					gap: 0.5rem;
+				}
+
+				.letter-header .letter-date {
+					text-align: left;
+				}
+
+				.letter-body {
+					font-size: 0.8rem;
+				}
+
+				.letter-body p {
+					text-indent: 1.5em;
+				}
+
+				.apps {
+					margin-left: 1.5em;
+				}
+
+				.share {
+					margin-left: 1.5em;
+				}
+
+				.afdian {
+					margin-left: 1.5em;
+				}
+
+				#download {
+					margin-left: 1.5em;
+				}
+
+				.afdian iframe {
+					max-width: 100%;
+					height: 180px;
+				}
+
+				.createtime {
+					flex-direction: column;
+					gap: 0.4rem;
+				}
+
+				.scouter-footer {
+					flex-direction: row;
+					justify-content: center;
+					gap: 0.4rem;
+					font-size: 0.7rem;
+				}
+
+				.letter-header .logo-area .big-logo img {
+					height: 45px;
+				}
+
+				.apps a img {
+					width: 34px;
+					height: 34px;
+				}
+
+				.share div img {
+					max-width: 120px;
+				}
+			}
+
+			@media (max-width: 30rem) {
+				.scouter-container {
+					padding: 0.6rem 0.5rem 0.5rem;
+				}
+
+				.scouter-brand .logo {
+					font-size: 1.2rem;
+				}
+
+				.letter {
+					padding: 1rem 0.8rem 1.2rem;
+				}
+
+				.letter-body {
+					font-size: 0.7rem;
+					line-height: 1.6;
+				}
+
+				.letter-body p {
+					text-indent: 1.2em;
+					margin-bottom: 0.5rem;
+				}
+
+				.letter-header .logo-area .big-logo img {
+					height: 36px;
+				}
+
+				.letter-header .title-group .letter-title {
+					font-size: 1rem;
+				}
+
+				.apps {
+					margin-left: 1.2em;
+					gap: 0.5rem;
+				}
+
+				.apps a img {
+					width: 28px;
+					height: 28px;
+				}
+
+				.share {
+					margin-left: 1.2em;
+				}
+
+				.share div img {
+					max-width: 100px;
+				}
+
+				.afdian {
+					margin-left: 1.2em;
+				}
+
+				.afdian iframe {
+					height: 150px;
+				}
+
+				#download {
+					margin-left: 1.2em;
+				}
+
+				#download button {
+					padding: 0.3rem 1.2rem;
+					font-size: 0.65rem;
+				}
+
+				.createtime {
+					font-size: 0.65rem;
+					padding: 0.4rem 0.6rem;
+					gap: 0.3rem;
+				}
+
+				.letter-footer {
+					font-size: 0.7rem;
+					margin-top: 1.2rem;
+					padding-top: 0.8rem;
+				}
+
+				.letter-footer .signature {
+					font-size: 0.75rem;
+				}
+			}
+
+			@media (max-width: 420px) {
+				.letter {
+					padding: 0.8rem 0.6rem 1rem;
+				}
+
+				.letter-body {
+					font-size: 0.65rem;
+				}
+
+				.letter-header .logo-area .big-logo img {
+					height: 30px;
+				}
+
+				.letter-header .title-group .letter-title {
+					font-size: 0.85rem;
+				}
+
+				.apps a img {
+					width: 24px;
+					height: 24px;
+				}
+
+				.share div img {
+					max-width: 80px;
+				}
+
+				.afdian iframe {
+					height: 130px;
+				}
+			}
+
+			/* 滚动条 */
+			::-webkit-scrollbar {
+				width: 0.3125rem;
+				background: var(--bg-primary);
+			}
+
+			::-webkit-scrollbar-track {
+				background: var(--bg-primary);
+			}
+
+			::-webkit-scrollbar-thumb {
+				background: var(--border-color);
+				border-radius: 0.5rem;
+			}
+
+			::-webkit-scrollbar-thumb:hover {
+				background: var(--green-dim);
+			}
+
+			/* 原有 .main 样式覆盖 */
+			.main {
+				width: 100% !important;
+			}
+
+			/* 原有 .text 样式继承 */
+			.text {
+				width: 100%;
+			}
+		</style>
 	</head>
 	<body>
+
+		<!-- ===== 动态扫描线 ===== -->
+		<div class="scan-line"></div>
+
+		<!-- ============================================================
+         顶部导航（完全保留用户原有结构）
+         ============================================================ -->
 		<header class="top">
 			<a href="index.html" id="logo"><img src="../imgs/dbflogo.png" alt="" /></a>
 			<div class="icons">
@@ -32,6 +843,8 @@
 				<p>网站建议:2733611989@qq.com</p>
 			</div>
 		</header>
+
+		<!-- ===== 侧边栏（完全保留用户原有结构） ===== -->
 		<div class="left">
 			<ul>
 				<a href="../page/index.html">
@@ -45,68 +858,194 @@
 				</a>
 			</ul>
 		</div>
-		<div class="main">
-			<div class="logo"> <img src="../imgs/dbflogo.png" alt="" /></div>
-			<div class="text">
-				<p>Dragon Ball Film 龙珠影片 简称DBF————</p>
-				<p>该项目是由B站博主<strong>挑灯天道</strong>和<strong>Raccoon_浣</strong>主创的龙珠sprite动画作品,目的为创作一些龙珠中可能发生的平行宇宙故事。</p>
-				<p>你可以从以下平台看到我们的作品:
-				<div class="apps">
-					<a href="https://www.youtube.com/@Tiandao-TD"><img src="../imgs/icons8-youtube-48.png" alt="" /></a>
-					<a href="https://space.bilibili.com/193386165"><img src="../imgs/icons8-bilibili-48.png"
-							alt="" /></a>
-					<a
-						href="https://www.douyin.com/user/MS4wLjABAAAAPlf5HKiiJY8j8psnoSrVMM6ckFXFimCiZkylHqZWfrbIYY2Uuhtk-qNtyR9nqBTg?from_tab_name=main&is_search=0&list_name=follow&nt=0"><img
-							src="../imgs/icons8-tiktok-48.png" alt="" /></a>
-				</div>
-				</p>
-				<p>动画软件:Adobe Animate。</p>
-				<p>后期软件:Adobe Premiere，Adobe After Effects。</p>
-				<p>喜欢我们的项目可以通过爱发电<a href="https://ifdian.net/a/DBFTDTD">https://ifdian.net/a/DBFTDTD</a>支持我们。
-				</p>
-				<p>YOUTUBE的观众可以通过<a href="https://www.patreon.com/cw/Tiandao777">PATREON</a>来支持我们</p>
-				<p>想要学习sprite动画制作也可以加企鹅群<a href="">1073559178</a>一同学习交流。</p>
-				<div class="share">
-					<div><img src="../imgs/QQgroup.jpg" alt="" /></div>
-				</div>
-				<div class="afdian">
-					<iframe src="https://afdian.com/leaflet?slug=H_Rac" width="640" scrolling="no" height="200"
-						frameborder="0"></iframe>
-					<iframe src="https://afdian.com/leaflet?slug=DBFTDTD" width="640" scrolling="no" height="200"
-						frameborder="0"></iframe>
-				</div>
 
-				<div class="createtime">
-					<p>项目创建日期-2025-07-15-</p>
-					<p id="nowdate">当前日期--</p>
-					<p id="nowdays"></p>
+		<!-- ============================================================
+         史考特主容器（书信首页）
+         ============================================================ -->
+		<div class="scouter-container">
+
+			<!-- 史考特头部 -->
+			<header class="scouter-header">
+				<div class="scouter-brand">
+					<div class="logo">
+						SCOUTER <span>▸ 首页</span>
+					</div>
+					<div class="sub">龙珠档案</div>
 				</div>
-				<div id="download">
-					<a href="https://www.bilibili.com/video/BV1GJ411x7h7/?spm_id_from=333.337.search-card.all.click">
-						<button>DOWNLOAD GAME</button></a>
+				<div class="scouter-status">
+					<span class="stat-item">
+						<span class="dot"></span>
+						<span class="label">系统</span>
+						<span class="value">在线</span>
+					</span>
+					<span class="stat-item">
+						<span class="label">目标</span>
+						<span class="value">地球</span>
+					</span>
+					<span class="stat-item">
+						<span class="label">扫描</span>
+						<span class="value">活跃</span>
+					</span>
+					<span class="stat-item">
+						<span class="label">状态</span>
+						<span class="value">就绪</span>
+					</span>
+				</div>
+			</header>
+
+			<!-- ============================================================
+             主内容 · 书信格式
+             ============================================================ -->
+			<div class="main">
+				<div class="letter">
+
+					<!-- 信头 -->
+					<div class="letter-header">
+						<div class="logo-area">
+							<!-- ★ 原有大 logo 完整保留 -->
+							<div class="big-logo">
+								<img src="../imgs/dbflogo.png" alt="Dragon Ball Film Logo" />
+							</div>
+							<div class="title-group">
+								<span class="letter-title">龙珠影片项目简报</span>
+								<span class="letter-sub">Dragon Ball Film · 平行宇宙创作</span>
+							</div>
+						</div>
+						<div class="letter-date">
+							<span class="date-label">档案编号</span> DBF-001<br />
+							<span class="date-label">归档日期</span> <span id="headerDate">2025-07-15</span>
+						</div>
+					</div>
+
+					<!-- 正文 -->
+					<div class="letter-body">
+
+						<!-- ★ 原有项目介绍文字（完整保留） -->
+						<p><strong>Dragon Ball Film</strong> 龙珠影片 简称DBF————</p>
+						<p>该项目是由B站博主<strong>挑灯天道</strong>和<strong>Raccoon_浣</strong>主创的龙珠sprite动画作品，目的为创作一些龙珠中可能发生的平行宇宙故事。
+						</p>
+
+						<!-- ★ 原有平台链接（完整保留） -->
+						<p class="no-indent" style="margin-bottom:0.2rem;">你可以从以下平台看到我们的作品：</p>
+						<div class="apps">
+							<a href="https://www.youtube.com/@Tiandao-TD"><img src="../imgs/icons8-youtube-48.png"
+									alt="YouTube" /></a>
+							<a href="https://space.bilibili.com/193386165"><img src="../imgs/icons8-bilibili-48.png"
+									alt="Bilibili" /></a>
+							<a
+								href="https://www.douyin.com/user/MS4wLjABAAAAPlf5HKiiJY8j8psnoSrVMM6ckFXFimCiZkylHqZWfrbIYY2Uuhtk-qNtyR9nqBTg?from_tab_name=main&is_search=0&list_name=follow&nt=0"><img
+									src="../imgs/icons8-tiktok-48.png" alt="TikTok" /></a>
+						</div>
+
+						<!-- ★ 原有软件信息（完整保留） -->
+						<p>动画软件：<strong>Adobe Animate</strong>。</p>
+						<p>后期软件：<strong>Adobe Premiere</strong>，<strong>Adobe After Effects</strong>。</p>
+
+						<!-- ★ 原有支持方式（完整保留） -->
+						<p>喜欢我们的项目可以通过爱发电 <a href="https://ifdian.net/a/DBFTDTD">https://ifdian.net/a/DBFTDTD</a> 支持我们。
+						</p>
+						<p>YOUTUBE的观众可以通过 <a href="https://www.patreon.com/cw/Tiandao777">PATREON</a> 来支持我们。</p>
+						<p>想要学习sprite动画制作也可以加企鹅群 <a href="">1073559178</a> 一同学习交流。</p>
+
+						<!-- ★ 原有 QQ群二维码（完整保留） -->
+						<div class="share">
+							<div><img src="../imgs/QQgroup.jpg" alt="QQ群二维码" /></div>
+						</div>
+
+						<!-- ★ 原有爱发电 iframe（完整保留） -->
+						<div class="afdian">
+							<iframe src="https://afdian.com/leaflet?slug=H_Rac" scrolling="no" frameborder="0"></iframe>
+							<iframe src="https://afdian.com/leaflet?slug=DBFTDTD" scrolling="no"
+								frameborder="0"></iframe>
+						</div>
+
+						<!-- ★ 原有日期区域（完整保留） -->
+						<div class="createtime">
+							<p>项目创建日期：<strong>2025-07-15</strong></p>
+							<p id="nowdate">当前日期：<strong>----</strong></p>
+							<p id="nowdays">距今：<strong>--</strong> 天</p>
+						</div>
+
+						<!-- ★ 原有下载按钮（完整保留） -->
+						<div id="download">
+							<a
+								href="https://www.bilibili.com/video/BV1GJ411x7h7/?spm_id_from=333.337.search-card.all.click">
+								<button>DOWNLOAD GAME</button>
+							</a>
+						</div>
+
+					</div>
+
+					<!-- 落款 -->
+					<div class="letter-footer">
+						<div class="signature">— 龙珠影片项目组 · DBF —</div>
+						<div class="signature-sub">Dragon Ball Film · 平行宇宙创作计划</div>
+					</div>
+
 				</div>
 			</div>
-		</div>
-		<script src=" https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<script src="../js/common.js"></script>
-		<script>
-			function createtime() {
-				const start = new Date('2025-07-15');
-				const now = new Date();
-				const diffMs = now - start;
-				const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-				console.log(days);
-				$('#nowdays').text(`距今` + days + `天`)
 
-				const now2 = new Date();
-				const year = now.getFullYear();
-				const month = String(now.getMonth() + 1).padStart(2, '0');
-				const day = String(now.getDate()).padStart(2, '0');
-				const formatted = `${year}-${month}-${day}`;
-				$('#nowdate').text(`当前日期-` + formatted + `-`)
-			}
-			createtime()
-			// 
+			<!-- 史考特底部 -->
+			<footer class="scouter-footer">
+				<div class="right">
+					<span class="badge">● 实时</span>
+					<span id="timeDisplay">--:--:--</span>
+				</div>
+			</footer>
+
+		</div>
+
+		<!-- ============================================================
+         脚本区
+         ============================================================ -->
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js">
 		</script>
+		<script src="../js/common.js">
+		</script>
+
+		<script>
+			// ================================================================
+			//  日期 & 时钟 功能
+			// ================================================================
+
+			(function() {
+				'use strict';
+
+				// ----- 项目创建日期计算 -----
+				function createtime() {
+					const start = new Date('2025-07-15');
+					const now = new Date();
+					const diffMs = now - start;
+					const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+					const year = now.getFullYear();
+					const month = String(now.getMonth() + 1).padStart(2, '0');
+					const day = String(now.getDate()).padStart(2, '0');
+					const formatted = `${year}-${month}-${day}`;
+
+					$('#nowdays').html('距今：<strong>' + days + '</strong> 天');
+					$('#nowdate').html('当前日期：<strong>' + formatted + '</strong>');
+					$('#headerDate').text(formatted);
+				}
+
+				// ----- 时钟 -----
+				function updateClock() {
+					const now = new Date();
+					const time = now.toTimeString().split(' ')[0];
+					$('#timeDisplay').text(time);
+				}
+
+				// ----- 初始化 -----
+				createtime();
+				updateClock();
+				setInterval(updateClock, 1000);
+
+				console.log('⟡ SCOUTER v5.1 · 书信首页已加载 ⟡');
+				console.log('📬 风格: 史考特数据科技 + 书信格式');
+				console.log('🖼️ 所有图片与内容均已保留');
+
+			})();
+		</script>
+
 	</body>
 </html>
