@@ -1,824 +1,1111 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>dragon ball film</title>
-    <!-- 保留原有外部样式（顶部导航&侧边栏） -->
-    <link rel="stylesheet" href="../css/common.css" />
-    <link rel="icon" href="../imgs/weblogo.png" type="image/png" />
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>dragon ball film</title>
+		<!-- 保留原有外部样式（顶部导航&侧边栏） -->
+		<link rel="stylesheet" href="../css/common.css" />
+		<link rel="icon" href="../imgs/weblogo.png" type="image/png" />
+		<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
 
-    <style>
-        /* ============================================================
-           史考特 v5.1 · 时间线大尺寸版
+		<style>
+			/* ============================================================
+           史考特 v5.2 · 时间线 + 平台选择弹窗
            ============================================================ */
 
-        /* ----- 全局变量 ----- */
-        :root {
-            --bg-primary: #0a0e0a;
-            --bg-card: #0f140f;
-            --green-primary: #00ff41;
-            --green-dim: #00cc33;
-            --green-glow: rgba(0, 255, 65, 0.08);
-            --border-color: #1a3a1a;
-            --text-primary: #b0ffb0;
-            --text-dim: #558855;
-            --text-muted: #3a6a3a;
-            --font-mono: 'Share Tech Mono', 'Courier New', monospace;
-            --card-radius: 0.85rem;
-            --gap: 1rem;
-            --sidebar-width: 14rem;
-        }
+			/* ----- 全局变量 ----- */
+			:root {
+				--bg-primary: #0a0e0a;
+				--bg-card: #0f140f;
+				--green-primary: #00ff41;
+				--green-dim: #00cc33;
+				--green-glow: rgba(0, 255, 65, 0.08);
+				--border-color: #1a3a1a;
+				--text-primary: #b0ffb0;
+				--text-dim: #558855;
+				--text-muted: #3a6a3a;
+				--font-mono: 'Share Tech Mono', 'Courier New', monospace;
+				--card-radius: 0.85rem;
+				--gap: 1rem;
+				--sidebar-width: 14rem;
+			}
 
-        /* ----- 重置内容区域（覆盖原有 .main .timeline） ----- */
-        .main,
-        .timeline {
-            all: unset;
-            display: block;
-        }
+			/* ----- 重置内容区域（覆盖原有 .main .timeline） ----- */
+			.main,
+			.timeline {
+				all: unset;
+				display: block;
+			}
 
-        /* 全局扫描线 */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            background: repeating-linear-gradient(0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(0, 255, 65, 0.010) 2px,
-                    rgba(0, 255, 65, 0.010) 4px);
-            z-index: 9999;
-        }
+			/* 全局扫描线 */
+			body::after {
+				content: '';
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				pointer-events: none;
+				background: repeating-linear-gradient(0deg,
+						transparent,
+						transparent 2px,
+						rgba(0, 255, 65, 0.010) 2px,
+						rgba(0, 255, 65, 0.010) 4px);
+				z-index: 9999;
+			}
 
-        .scan-line {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--green-primary), transparent);
-            opacity: 0.06;
-            z-index: 9998;
-            animation: scanMove 5s ease-in-out infinite;
-            pointer-events: none;
-        }
+			.scan-line {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 2px;
+				background: linear-gradient(90deg, transparent, var(--green-primary), transparent);
+				opacity: 0.06;
+				z-index: 9998;
+				animation: scanMove 5s ease-in-out infinite;
+				pointer-events: none;
+			}
 
-        @keyframes scanMove {
-            0% {
-                top: -0.3125rem;
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.10;
-            }
-            90% {
-                opacity: 0.10;
-            }
-            100% {
-                top: 100%;
-                opacity: 0;
-            }
-        }
+			@keyframes scanMove {
+				0% {
+					top: -0.3125rem;
+					opacity: 0;
+				}
 
-        /* ============================================================
-           ★ 修复顶部导航层级与悬停效果
+				10% {
+					opacity: 0.10;
+				}
+
+				90% {
+					opacity: 0.10;
+				}
+
+				100% {
+					top: 100%;
+					opacity: 0;
+				}
+			}
+
+			/* ============================================================
+           ★ 顶部导航 & 侧边栏 层级修复
            ============================================================ */
-        .top {
-            z-index: 1050 !important;
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-        }
-        .left {
-            z-index: 1040 !important;
-            position: fixed !important;
-            left: 0 !important;
-            height: 100% !important;
-        }
-        .scouter-container {
-            position: relative !important;
-            z-index: 1 !important;
-            margin-top: 6rem !important;
-        }
-
-        /* 修复右上角小人头像悬停效果（兼容 common.css 逻辑） */
-        .top .icons a {
-            position: relative !important;
-            display: inline-block !important;
-            width: 50px !important;
-            height: 50px !important;
-        }
-        .top .icons a .aura {
-            position: absolute !important;
-            top: 50% !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%) !important;
-            opacity: 0 !important;
-            transition: opacity 0.3s ease !important;
-            pointer-events: none !important;
-            z-index: 1 !important;
-            width: 70px !important;
-            height: 70px !important;
-        }
-        .top .icons a:hover .aura {
-            opacity: 1 !important;
-        }
-
-        /* ----- ★ 主容器：从侧边栏右侧开始，占满剩余空间 ----- */
-        .scouter-container {
-            width: calc(100% - 16rem);
-            max-width: 1600px;
-            margin-left: 16rem;
-            margin-right: 1rem;
-            margin-top: 6rem;
-            margin-bottom: 1.25rem;
-            padding: 1.5rem 2rem 1.25rem;
-            background: rgba(10, 14, 10, 0.92);
-            border: 0.0625rem solid var(--border-color);
-            border-radius: 1.25rem;
-            box-shadow: 0 0 5rem rgba(0, 255, 65, 0.03), inset 0 0 5rem rgba(0, 255, 65, 0.015);
-            backdrop-filter: blur(2px);
-            transition: border-color 0.4s;
-            position: relative;
-        }
-
-        .scouter-container:hover {
-            border-color: rgba(0, 255, 65, 0.15);
-        }
-
-        /* 窄屏适配：侧边栏变窄时容器跟随 */
-        @media (max-width: 48rem) {
-            .scouter-container {
-                width: calc(100% - 4.5rem);
-                margin-left: 4.5rem;
-                margin-right: 0.5rem;
-                padding: 1rem 1rem 0.75rem;
-                border-radius: 1rem;
-            }
-        }
-
-        @media (max-width: 30rem) {
-            .scouter-container {
-                width: calc(100% - 3.5rem);
-                margin-left: 3.5rem;
-                margin-right: 0.25rem;
-                padding: 0.75rem 0.75rem 0.625rem;
-                border-radius: 0.75rem;
-            }
-        }
-
-        /* ----- 史考特头部（放大版） ----- */
-        .scouter-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            padding-bottom: 1rem;
-            border-bottom: 0.0625rem solid var(--border-color);
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .scouter-brand {
-            display: flex;
-            align-items: baseline;
-            gap: 1.25rem;
-            flex-wrap: wrap;
-        }
-
-        .scouter-brand .logo {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--green-primary);
-            text-shadow: 0 0 2rem var(--green-glow), 0 0 5rem rgba(0, 255, 65, 0.06);
-            letter-spacing: 0.25rem;
-        }
-
-        .scouter-brand .logo span {
-            color: var(--text-dim);
-            font-weight: 300;
-            font-size: 1rem;
-            letter-spacing: 0.0625rem;
-        }
-
-        .scouter-brand .sub {
-            color: var(--text-dim);
-            font-size: 0.9rem;
-            letter-spacing: 0.125rem;
-            padding-left: 0.75rem;
-            border-left: 0.0625rem solid var(--border-color);
-        }
-
-        .scouter-status {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            flex-wrap: wrap;
-        }
-
-        .scouter-status .dot {
-            display: inline-block;
-            width: 0.55rem;
-            height: 0.55rem;
-            border-radius: 50%;
-            background: var(--green-primary);
-            box-shadow: 0 0 0.875rem var(--green-primary);
-            animation: pulse-dot 1.8s ease-in-out infinite;
-            margin-right: 0.25rem;
-        }
-
-        @keyframes pulse-dot {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.25;
-                transform: scale(0.7);
-            }
-        }
-
-        .scouter-status .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .scouter-status .stat-item .label {
-            color: var(--text-dim);
-        }
-
-        .scouter-status .stat-item .value {
-            color: var(--green-primary);
-        }
-
-        /* ----- ★ 时间线影片网格（放大版） ----- */
-        .film-section {
-            margin-bottom: 2rem;
-        }
-
-        .film-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .section-title {
-            font-size: 1.1rem;
-            color: var(--text-dim);
-            letter-spacing: 0.125rem;
-            margin-bottom: 1rem;
-            padding-bottom: 0.3rem;
-            border-bottom: 0.0625rem solid var(--border-color);
-            font-weight: 600;
-        }
-
-        .film-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: var(--gap);
-        }
-
-        @media (max-width: 48rem) {
-            .film-grid {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-                gap: 0.75rem;
-            }
-        }
-
-        @media (max-width: 30rem) {
-            .film-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.6rem;
-            }
-        }
-
-        @media (max-width: 420px) {
-            .film-grid {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
-            }
-        }
-
-        /* ----- ★ 影片卡片（放大版） ----- */
-        .film-card {
-            background: var(--bg-card);
-            border: 0.0625rem solid var(--border-color);
-            border-radius: var(--card-radius);
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-            position: relative;
-            aspect-ratio: 2 / 3;
-            opacity: 0;
-            animation: cardIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .film-card:nth-child(1) {
-            animation-delay: 0.02s;
-        }
-        .film-card:nth-child(2) {
-            animation-delay: 0.04s;
-        }
-        .film-card:nth-child(3) {
-            animation-delay: 0.06s;
-        }
-        .film-card:nth-child(4) {
-            animation-delay: 0.08s;
-        }
-        .film-card:nth-child(5) {
-            animation-delay: 0.10s;
-        }
-        .film-card:nth-child(6) {
-            animation-delay: 0.12s;
-        }
-        .film-card:nth-child(7) {
-            animation-delay: 0.14s;
-        }
-
-        @keyframes cardIn {
-            0% {
-                opacity: 0;
-                transform: translateY(0.75rem) scale(0.97);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .film-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 0.125rem;
-            background: linear-gradient(90deg, transparent, var(--green-primary), transparent);
-            opacity: 0;
-            transition: opacity 0.4s;
-            z-index: 2;
-        }
-
-        .film-card:hover {
-            border-color: rgba(0, 255, 65, 0.30);
-            transform: translateY(-0.3rem);
-            box-shadow: 0 0.8rem 3rem rgba(0, 0, 0, 0.6), 0 0 3rem rgba(0, 255, 65, 0.03);
-        }
-
-        .film-card:hover::before {
-            opacity: 1;
-        }
-
-        .film-card:active {
-            transform: scale(0.97);
-            filter: brightness(0.85);
-        }
-
-        /* 封面图片 */
-        .film-cover {
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            background-color: #1a1f1a;
-            position: relative;
-            transition: transform 0.3s;
-        }
-
-        .film-card:hover .film-cover {
-            transform: scale(1.02);
-        }
-
-        /* 叠加层 */
-        .film-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 0.8rem 0.9rem;
-            background: linear-gradient(0deg, rgba(10, 14, 10, 0.92) 0%, transparent 100%);
-            display: flex;
-            flex-direction: column;
-            gap: 0.15rem;
-            transition: all 0.3s;
-        }
-
-        .film-name {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            letter-spacing: 0.03125rem;
-            line-height: 1.2;
-        }
-
-        .film-status {
-            font-size: 0.65rem;
-            color: var(--text-dim);
-            letter-spacing: 0.03125rem;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .film-status .play-icon {
-            display: inline-block;
-            width: 0.5rem;
-            height: 0.5rem;
-            border-radius: 50%;
-            background: var(--green-primary);
-            animation: pulse-dot 1.8s ease-in-out infinite;
-        }
-
-        .film-card:hover .film-status {
-            color: var(--green-primary);
-        }
-
-        .film-card:hover .film-status .play-icon {
-            background: var(--green-primary);
-            animation: blink 1s step-end infinite;
-        }
-
-        @keyframes blink {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.3;
-            }
-        }
-
-        /* ----- 底部状态（放大版） ----- */
-        .scouter-footer {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding-top: 1rem;
-            border-top: 0.0625rem solid var(--border-color);
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-top: 1.5rem;
-        }
-
-        .scouter-footer .right {
-            display: flex;
-            gap: 1.25rem;
-            align-items: center;
-        }
-
-        .scouter-footer .right .badge {
-            padding: 0.15rem 1rem;
-            border-radius: 0.8rem;
-            background: rgba(0, 255, 65, 0.05);
-            border: 0.0625rem solid rgba(0, 255, 65, 0.06);
-            color: var(--green-primary);
-            font-size: 0.7rem;
-            letter-spacing: 0.03125rem;
-        }
-
-        /* ----- 响应式微调（大尺寸版适配） ----- */
-        @media (max-width: 48rem) {
-            .scouter-header {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0.5rem;
-            }
-
-            .scouter-brand .logo {
-                font-size: 1.6rem;
-            }
-
-            .scouter-brand .sub {
-                font-size: 0.75rem;
-                padding-left: 0;
-                border-left: none;
-            }
-
-            .scouter-status {
-                font-size: 0.7rem;
-                gap: 0.75rem;
-            }
-
-            .film-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 0.75rem;
-            }
-
-            .film-name {
-                font-size: 0.85rem;
-            }
-
-            .film-status {
-                font-size: 0.6rem;
-            }
-
-            .scouter-footer {
-                flex-direction: row;
-                justify-content: center;
-                gap: 0.4rem;
-                font-size: 0.7rem;
-            }
-        }
-
-        @media (max-width: 30rem) {
-            .scouter-container {
-                padding: 0.6rem 0.5rem 0.5rem;
-            }
-
-            .scouter-brand .logo {
-                font-size: 1.2rem;
-            }
-
-            .film-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.6rem;
-            }
-
-            .film-card {
-                aspect-ratio: 2 / 3;
-            }
-
-            .film-name {
-                font-size: 0.75rem;
-            }
-
-            .film-status {
-                font-size: 0.5rem;
-            }
-
-            .film-overlay {
-                padding: 0.4rem 0.5rem;
-            }
-        }
-
-        @media (max-width: 420px) {
-            .film-grid {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
-            }
-
-            .film-card {
-                aspect-ratio: 16 / 9;
-                max-height: 200px;
-            }
-        }
-
-        /* 滚动条 */
-        ::-webkit-scrollbar {
-            width: 0.3125rem;
-            background: var(--bg-primary);
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 0.5rem;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--green-dim);
-        }
-
-        /* 隐藏原有 .main 的默认 p 标签占位 */
-        .main p {
-            width: 100% !important;
-            text-align: center !important;
-            color: var(--text-dim) !important;
-            padding: 2rem !important;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- ===== 动态扫描线 ===== -->
-    <div class="scan-line"></div>
-
-    <!-- ============================================================
+			.top {
+				z-index: 1050 !important;
+				position: fixed !important;
+				top: 0 !important;
+				left: 0 !important;
+				width: 100% !important;
+			}
+
+			.left {
+				z-index: 1040 !important;
+				position: fixed !important;
+				left: 0 !important;
+				height: 100% !important;
+			}
+
+			.scouter-container {
+				position: relative !important;
+				z-index: 1 !important;
+				margin-top: 6rem !important;
+			}
+
+			/* 修复右上角小人头像悬停效果（兼容 common.css 逻辑） */
+			.top .icons a {
+				position: relative !important;
+				display: inline-block !important;
+				width: 50px !important;
+				height: 50px !important;
+			}
+
+			.top .icons a .aura {
+				position: absolute !important;
+				top: 50% !important;
+				left: 50% !important;
+				transform: translate(-50%, -50%) !important;
+				opacity: 0 !important;
+				transition: opacity 0.3s ease !important;
+				pointer-events: none !important;
+				z-index: 1 !important;
+				width: 70px !important;
+				height: 70px !important;
+			}
+
+			.top .icons a:hover .aura {
+				opacity: 1 !important;
+			}
+
+			/* ----- ★ 主容器：从侧边栏右侧开始，占满剩余空间 ----- */
+			.scouter-container {
+				width: calc(100% - 16rem);
+				max-width: 1600px;
+				margin-left: 16rem;
+				margin-right: 1rem;
+				margin-top: 6rem;
+				margin-bottom: 1.25rem;
+				padding: 1.5rem 2rem 1.25rem;
+				background: rgba(10, 14, 10, 0.92);
+				border: 0.0625rem solid var(--border-color);
+				border-radius: 1.25rem;
+				box-shadow: 0 0 5rem rgba(0, 255, 65, 0.03), inset 0 0 5rem rgba(0, 255, 65, 0.015);
+				backdrop-filter: blur(2px);
+				transition: border-color 0.4s;
+				position: relative;
+			}
+
+			.scouter-container:hover {
+				border-color: rgba(0, 255, 65, 0.15);
+			}
+
+			/* 窄屏适配：侧边栏变窄时容器跟随 */
+			@media (max-width: 48rem) {
+				.scouter-container {
+					width: calc(100% - 4.5rem);
+					margin-left: 4.5rem;
+					margin-right: 0.5rem;
+					padding: 1rem 1rem 0.75rem;
+					border-radius: 1rem;
+				}
+			}
+
+			@media (max-width: 30rem) {
+				.scouter-container {
+					width: calc(100% - 3.5rem);
+					margin-left: 3.5rem;
+					margin-right: 0.25rem;
+					padding: 0.75rem 0.75rem 0.625rem;
+					border-radius: 0.75rem;
+				}
+			}
+
+			/* ----- 史考特头部（放大版） ----- */
+			.scouter-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-end;
+				padding-bottom: 1rem;
+				border-bottom: 0.0625rem solid var(--border-color);
+				margin-bottom: 1.5rem;
+				flex-wrap: wrap;
+				gap: 0.75rem;
+			}
+
+			.scouter-brand {
+				display: flex;
+				align-items: baseline;
+				gap: 1.25rem;
+				flex-wrap: wrap;
+			}
+
+			.scouter-brand .logo {
+				font-size: 2.2rem;
+				font-weight: 700;
+				color: var(--green-primary);
+				text-shadow: 0 0 2rem var(--green-glow), 0 0 5rem rgba(0, 255, 65, 0.06);
+				letter-spacing: 0.25rem;
+			}
+
+			.scouter-brand .logo span {
+				color: var(--text-dim);
+				font-weight: 300;
+				font-size: 1rem;
+				letter-spacing: 0.0625rem;
+			}
+
+			.scouter-brand .sub {
+				color: var(--text-dim);
+				font-size: 0.9rem;
+				letter-spacing: 0.125rem;
+				padding-left: 0.75rem;
+				border-left: 0.0625rem solid var(--border-color);
+			}
+
+			.scouter-status {
+				display: flex;
+				align-items: center;
+				gap: 1.5rem;
+				font-size: 0.85rem;
+				color: var(--text-dim);
+				flex-wrap: wrap;
+			}
+
+			.scouter-status .dot {
+				display: inline-block;
+				width: 0.55rem;
+				height: 0.55rem;
+				border-radius: 50%;
+				background: var(--green-primary);
+				box-shadow: 0 0 0.875rem var(--green-primary);
+				animation: pulse-dot 1.8s ease-in-out infinite;
+				margin-right: 0.25rem;
+			}
+
+			@keyframes pulse-dot {
+
+				0%,
+				100% {
+					opacity: 1;
+					transform: scale(1);
+				}
+
+				50% {
+					opacity: 0.25;
+					transform: scale(0.7);
+				}
+			}
+
+			.scouter-status .stat-item {
+				display: flex;
+				align-items: center;
+				gap: 0.4rem;
+			}
+
+			.scouter-status .stat-item .label {
+				color: var(--text-dim);
+			}
+
+			.scouter-status .stat-item .value {
+				color: var(--green-primary);
+			}
+
+			/* ----- ★ 时间线影片网格（放大版） ----- */
+			.film-section {
+				margin-bottom: 2rem;
+			}
+
+			.film-section:last-child {
+				margin-bottom: 0;
+			}
+
+			.section-title {
+				font-size: 1.1rem;
+				color: var(--text-dim);
+				letter-spacing: 0.125rem;
+				margin-bottom: 1rem;
+				padding-bottom: 0.3rem;
+				border-bottom: 0.0625rem solid var(--border-color);
+				font-weight: 600;
+			}
+
+			.film-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+				gap: var(--gap);
+			}
+
+			@media (max-width: 48rem) {
+				.film-grid {
+					grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+					gap: 0.75rem;
+				}
+			}
+
+			@media (max-width: 30rem) {
+				.film-grid {
+					grid-template-columns: 1fr 1fr;
+					gap: 0.6rem;
+				}
+			}
+
+			@media (max-width: 420px) {
+				.film-grid {
+					grid-template-columns: 1fr;
+					gap: 0.8rem;
+				}
+			}
+
+			/* ----- ★ 影片卡片（放大版） ----- */
+			.film-card {
+				background: var(--bg-card);
+				border: 0.0625rem solid var(--border-color);
+				border-radius: var(--card-radius);
+				overflow: hidden;
+				transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+				cursor: pointer;
+				position: relative;
+				aspect-ratio: 2 / 3;
+				opacity: 0;
+				animation: cardIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+			}
+
+			.film-card:nth-child(1) {
+				animation-delay: 0.02s;
+			}
+
+			.film-card:nth-child(2) {
+				animation-delay: 0.04s;
+			}
+
+			.film-card:nth-child(3) {
+				animation-delay: 0.06s;
+			}
+
+			.film-card:nth-child(4) {
+				animation-delay: 0.08s;
+			}
+
+			.film-card:nth-child(5) {
+				animation-delay: 0.10s;
+			}
+
+			.film-card:nth-child(6) {
+				animation-delay: 0.12s;
+			}
+
+			.film-card:nth-child(7) {
+				animation-delay: 0.14s;
+			}
+
+			@keyframes cardIn {
+				0% {
+					opacity: 0;
+					transform: translateY(0.75rem) scale(0.97);
+				}
+
+				100% {
+					opacity: 1;
+					transform: translateY(0) scale(1);
+				}
+			}
+
+			.film-card::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 0.125rem;
+				background: linear-gradient(90deg, transparent, var(--green-primary), transparent);
+				opacity: 0;
+				transition: opacity 0.4s;
+				z-index: 2;
+			}
+
+			.film-card:hover {
+				border-color: rgba(0, 255, 65, 0.30);
+				transform: translateY(-0.3rem);
+				box-shadow: 0 0.8rem 3rem rgba(0, 0, 0, 0.6), 0 0 3rem rgba(0, 255, 65, 0.03);
+			}
+
+			.film-card:hover::before {
+				opacity: 1;
+			}
+
+			.film-card:active {
+				transform: scale(0.97);
+				filter: brightness(0.85);
+			}
+
+			/* 封面图片 */
+			.film-cover {
+				width: 100%;
+				height: 100%;
+				background-size: cover;
+				background-position: center;
+				background-color: #1a1f1a;
+				position: relative;
+				transition: transform 0.3s;
+			}
+
+			.film-card:hover .film-cover {
+				transform: scale(1.02);
+			}
+
+			/* 叠加层 */
+			.film-overlay {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				padding: 0.8rem 0.9rem;
+				background: linear-gradient(0deg, rgba(10, 14, 10, 0.92) 0%, transparent 100%);
+				display: flex;
+				flex-direction: column;
+				gap: 0.15rem;
+				transition: all 0.3s;
+			}
+
+			.film-name {
+				font-size: 1rem;
+				font-weight: 600;
+				color: var(--text-primary);
+				letter-spacing: 0.03125rem;
+				line-height: 1.2;
+			}
+
+			.film-status {
+				font-size: 0.65rem;
+				color: var(--text-dim);
+				letter-spacing: 0.03125rem;
+				display: flex;
+				align-items: center;
+				gap: 0.4rem;
+			}
+
+			.film-status .play-icon {
+				display: inline-block;
+				width: 0.5rem;
+				height: 0.5rem;
+				border-radius: 50%;
+				background: var(--green-primary);
+				animation: pulse-dot 1.8s ease-in-out infinite;
+			}
+
+			.film-card:hover .film-status {
+				color: var(--green-primary);
+			}
+
+			.film-card:hover .film-status .play-icon {
+				background: var(--green-primary);
+				animation: blink 1s step-end infinite;
+			}
+
+			@keyframes blink {
+
+				0%,
+				100% {
+					opacity: 1;
+				}
+
+				50% {
+					opacity: 0.3;
+				}
+			}
+
+			/* ============================================================
+           ★ 史考特风格 · 平台选择弹窗
+           ============================================================ */
+			.modal-overlay {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(0, 0, 0, 0.75);
+				backdrop-filter: blur(6px);
+				z-index: 9999;
+				display: none;
+				align-items: center;
+				justify-content: center;
+				animation: modalFadeIn 0.3s ease;
+			}
+
+			.modal-overlay.active {
+				display: flex;
+			}
+
+			@keyframes modalFadeIn {
+				0% {
+					opacity: 0;
+					transform: scale(0.95);
+				}
+
+				100% {
+					opacity: 1;
+					transform: scale(1);
+				}
+			}
+
+			.modal-box {
+				background: var(--bg-card);
+				border: 0.0625rem solid var(--border-color);
+				border-radius: 1.25rem;
+				padding: 2rem 2.5rem 2rem;
+				max-width: 420px;
+				width: 90%;
+				box-shadow: 0 0 5rem rgba(0, 255, 65, 0.04), 0 2rem 4rem rgba(0, 0, 0, 0.6);
+				position: relative;
+				text-align: center;
+				font-family: var(--font-mono);
+			}
+
+			.modal-box::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 10%;
+				width: 80%;
+				height: 0.125rem;
+				background: linear-gradient(90deg, transparent, var(--green-primary), transparent);
+				opacity: 0.3;
+			}
+
+			.modal-title {
+				font-size: 1.1rem;
+				color: var(--text-primary);
+				letter-spacing: 0.0625rem;
+				margin-bottom: 0.4rem;
+			}
+
+			.modal-sub {
+				font-size: 0.8rem;
+				color: var(--text-dim);
+				letter-spacing: 0.03125rem;
+				margin-bottom: 1.8rem;
+				line-height: 1.5;
+			}
+
+			.modal-sub .highlight {
+				color: var(--green-primary);
+			}
+
+			.modal-buttons {
+				display: flex;
+				gap: 1rem;
+				justify-content: center;
+				flex-wrap: wrap;
+			}
+
+			.modal-btn {
+				padding: 0.6rem 1.8rem;
+				border-radius: 2rem;
+				border: 0.0625rem solid var(--border-color);
+				background: transparent;
+				color: var(--text-dim);
+				font-family: var(--font-mono);
+				font-size: 0.85rem;
+				letter-spacing: 0.0625rem;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				min-width: 120px;
+				justify-content: center;
+			}
+
+			.modal-btn .icon {
+				font-size: 1.2rem;
+			}
+
+			.modal-btn.bilibili:hover {
+				border-color: #00a1d6;
+				color: #00a1d6;
+				background: rgba(0, 161, 214, 0.06);
+				box-shadow: 0 0 2rem rgba(0, 161, 214, 0.04);
+			}
+
+			.modal-btn.youtube:hover {
+				border-color: #ff0033;
+				color: #ff0033;
+				background: rgba(255, 0, 51, 0.06);
+				box-shadow: 0 0 2rem rgba(255, 0, 51, 0.04);
+			}
+
+			.modal-btn.cancel {
+				border-color: rgba(255, 255, 255, 0.06);
+				color: var(--text-muted);
+				font-size: 0.7rem;
+				min-width: 80px;
+			}
+
+			.modal-btn.cancel:hover {
+				border-color: rgba(255, 255, 255, 0.12);
+				color: var(--text-dim);
+				background: rgba(255, 255, 255, 0.02);
+			}
+
+			/* 平台图标小标记 */
+			.modal-btn .badge-icon {
+				display: inline-block;
+				width: 0.4rem;
+				height: 0.4rem;
+				border-radius: 50%;
+				margin-right: 0.2rem;
+			}
+
+			.modal-btn.bilibili .badge-icon {
+				background: #00a1d6;
+			}
+
+			.modal-btn.youtube .badge-icon {
+				background: #ff0033;
+			}
+
+			/* ----- 底部状态（放大版） ----- */
+			.scouter-footer {
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
+				padding-top: 1rem;
+				border-top: 0.0625rem solid var(--border-color);
+				font-size: 0.8rem;
+				color: var(--text-dim);
+				flex-wrap: wrap;
+				gap: 0.75rem;
+				margin-top: 1.5rem;
+			}
+
+			.scouter-footer .right {
+				display: flex;
+				gap: 1.25rem;
+				align-items: center;
+			}
+
+			.scouter-footer .right .badge {
+				padding: 0.15rem 1rem;
+				border-radius: 0.8rem;
+				background: rgba(0, 255, 65, 0.05);
+				border: 0.0625rem solid rgba(0, 255, 65, 0.06);
+				color: var(--green-primary);
+				font-size: 0.7rem;
+				letter-spacing: 0.03125rem;
+			}
+
+			/* ----- 响应式微调（大尺寸版适配） ----- */
+			@media (max-width: 48rem) {
+				.scouter-header {
+					flex-direction: column;
+					align-items: stretch;
+					gap: 0.5rem;
+				}
+
+				.scouter-brand .logo {
+					font-size: 1.6rem;
+				}
+
+				.scouter-brand .sub {
+					font-size: 0.75rem;
+					padding-left: 0;
+					border-left: none;
+				}
+
+				.scouter-status {
+					font-size: 0.7rem;
+					gap: 0.75rem;
+				}
+
+				.film-grid {
+					grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+					gap: 0.75rem;
+				}
+
+				.film-name {
+					font-size: 0.85rem;
+				}
+
+				.film-status {
+					font-size: 0.6rem;
+				}
+
+				.scouter-footer {
+					flex-direction: row;
+					justify-content: center;
+					gap: 0.4rem;
+					font-size: 0.7rem;
+				}
+
+				.modal-box {
+					padding: 1.5rem 1.5rem 1.5rem;
+				}
+
+				.modal-buttons {
+					flex-direction: column;
+					align-items: center;
+				}
+
+				.modal-btn {
+					width: 100%;
+					max-width: 200px;
+					padding: 0.5rem 1.2rem;
+					font-size: 0.8rem;
+				}
+			}
+
+			@media (max-width: 30rem) {
+				.scouter-container {
+					padding: 0.6rem 0.5rem 0.5rem;
+				}
+
+				.scouter-brand .logo {
+					font-size: 1.2rem;
+				}
+
+				.film-grid {
+					grid-template-columns: 1fr 1fr;
+					gap: 0.6rem;
+				}
+
+				.film-card {
+					aspect-ratio: 2 / 3;
+				}
+
+				.film-name {
+					font-size: 0.75rem;
+				}
+
+				.film-status {
+					font-size: 0.5rem;
+				}
+
+				.film-overlay {
+					padding: 0.4rem 0.5rem;
+				}
+
+				.modal-box {
+					padding: 1.2rem 1rem 1.2rem;
+				}
+
+				.modal-title {
+					font-size: 0.95rem;
+				}
+
+				.modal-sub {
+					font-size: 0.7rem;
+				}
+
+				.modal-btn {
+					font-size: 0.7rem;
+					padding: 0.4rem 1rem;
+					min-width: 100px;
+				}
+			}
+
+			@media (max-width: 420px) {
+				.film-grid {
+					grid-template-columns: 1fr;
+					gap: 0.8rem;
+				}
+
+				.film-card {
+					aspect-ratio: 16 / 9;
+					max-height: 200px;
+				}
+			}
+
+			/* 滚动条 */
+			::-webkit-scrollbar {
+				width: 0.3125rem;
+				background: var(--bg-primary);
+			}
+
+			::-webkit-scrollbar-track {
+				background: var(--bg-primary);
+			}
+
+			::-webkit-scrollbar-thumb {
+				background: var(--border-color);
+				border-radius: 0.5rem;
+			}
+
+			::-webkit-scrollbar-thumb:hover {
+				background: var(--green-dim);
+			}
+
+			/* 隐藏原有 .main 的默认 p 标签占位 */
+			.main p {
+				width: 100% !important;
+				text-align: center !important;
+				color: var(--text-dim) !important;
+				padding: 2rem !important;
+			}
+		</style>
+	</head>
+	<body>
+
+		<!-- ===== 动态扫描线 ===== -->
+		<div class="scan-line"></div>
+
+		<!-- ============================================================
          顶部导航（完全保留用户原有结构）
          ============================================================ -->
-    <header class="top">
-        <a href="index.html" id="logo"><img src="../imgs/dbflogo.png" alt="" /></a>
-        <div class="icons">
-            <a href="https://space.bilibili.com/193386165" id="td" title="点击跳转bilibili">
-                <span class="aura"><img src="../imgs/aura111.gif" alt="" /></span>
-                <span id="avator"><img src="../imgs/sprite tiandao.png" alt="" /></span>
-            </a>
-            <p>视频建议:2871070425@qq.com</p>
-            <a href="https://space.bilibili.com/439518462" id="rac" title="点击跳转bilibili">
-                <span class="aura"><img src="../imgs/aura111.gif" alt="" /></span>
-                <span id="avator"><img src="../imgs/sprite raccoon.png" alt="" /></span>
-            </a>
-            <p>网站建议:2733611989@qq.com</p>
-        </div>
-    </header>
+		<header class="top">
+			<a href="index.html" id="logo"><img src="../imgs/dbflogo.png" alt="" /></a>
+			<div class="icons">
+				<a href="https://space.bilibili.com/193386165" id="td" title="点击跳转bilibili">
+					<span class="aura"><img src="../imgs/aura111.gif" alt="" /></span>
+					<span id="avator"><img src="../imgs/sprite tiandao.png" alt="" /></span>
+				</a>
+				<p>视频建议:2871070425@qq.com</p>
+				<a href="https://space.bilibili.com/439518462" id="rac" title="点击跳转bilibili">
+					<span class="aura"><img src="../imgs/aura111.gif" alt="" /></span>
+					<span id="avator"><img src="../imgs/sprite raccoon.png" alt="" /></span>
+				</a>
+				<p>网站建议:2733611989@qq.com</p>
+			</div>
+		</header>
 
-    <!-- ===== 侧边栏（完全保留用户原有结构） ===== -->
-    <div class="left">
-        <ul>
-            <a href="../page/index.html">
-                <li>首页</li>
-            </a>
-            <a href="../page/timeline.html">
-                <li>时间线</li>
-            </a>
-            <a href="../page/introduce.html">
-                <li>人物档案</li>
-            </a>
-        </ul>
-    </div>
+		<!-- ===== 侧边栏（完全保留用户原有结构） ===== -->
+		<div class="left">
+			<ul>
+				<a href="../page/index.html">
+					<li>首页</li>
+				</a>
+				<a href="../page/timeline.html">
+					<li>时间线</li>
+				</a>
+				<a href="../page/introduce.html">
+					<li>人物档案</li>
+				</a>
+			</ul>
+		</div>
 
-    <!-- ============================================================
+		<!-- ============================================================
          史考特主容器（时间线大尺寸版）
          ============================================================ -->
-    <div class="scouter-container">
+		<div class="scouter-container">
 
-        <!-- 史考特头部 -->
-        <header class="scouter-header">
-            <div class="scouter-brand">
-                <div class="logo">
-                    SCOUTER <span>▸ 时间线</span>
-                </div>
-                <div class="sub">影片档案</div>
-            </div>
-            <div class="scouter-status">
-                <span class="stat-item">
-                    <span class="dot"></span>
-                    <span class="label">系统</span>
-                    <span class="value">在线</span>
-                </span>
-                <span class="stat-item">
-                    <span class="label">目标</span>
-                    <span class="value">地球</span>
-                </span>
-                <span class="stat-item">
-                    <span class="label">扫描</span>
-                    <span class="value">活跃</span>
-                </span>
-                <span class="stat-item">
-                    <span class="label">影片</span>
-                    <span class="value" id="totalCount">0</span>
-                </span>
-            </div>
-        </header>
+			<!-- 史考特头部 -->
+			<header class="scouter-header">
+				<div class="scouter-brand">
+					<div class="logo">
+						DragonBallFilm <span>▸ 时间线</span>
+					</div>
+					<div class="sub">影片档案</div>
+				</div>
+				<div class="scouter-status">
+					<span class="stat-item">
+						<span class="dot"></span>
+						<span class="label">系统</span>
+						<span class="value">在线</span>
+					</span>
+					<span class="stat-item">
+						<span class="label">目标</span>
+						<span class="value">地球</span>
+					</span>
+					<span class="stat-item">
+						<span class="label">扫描</span>
+						<span class="value">活跃</span>
+					</span>
+					<span class="stat-item">
+						<span class="label">影片</span>
+						<span class="value" id="totalCount">0</span>
+					</span>
+				</div>
+			</header>
 
-        <!-- 正片部分 -->
-        <section class="film-section">
-            <h2 class="section-title">⟡ 正片</h2>
-            <div class="film-grid" id="history"></div>
-        </section>
+			<!-- 正片部分 -->
+			<section class="film-section">
+				<h2 class="section-title">⟡ 正片</h2>
+				<div class="film-grid" id="history"></div>
+			</section>
 
-        <!-- 番外部分 -->
-        <section class="film-section">
-            <h2 class="section-title">⟡ 番外</h2>
-            <div class="film-grid" id="extra"></div>
-        </section>
+			<!-- 番外部分 -->
+			<section class="film-section">
+				<h2 class="section-title">⟡ 番外</h2>
+				<div class="film-grid" id="extra"></div>
+			</section>
 
-        <!-- 史考特底部 -->
-        <footer class="scouter-footer">
-            <div class="right">
-                <span class="badge">● 实时</span>
-                <span id="timeDisplay">--:--:--</span>
-            </div>
-        </footer>
+			<!-- 史考特底部 -->
+			<footer class="scouter-footer">
+				<div class="right">
+					<span class="badge">● 实时</span>
+					<span id="timeDisplay">--:--:--</span>
+				</div>
+			</footer>
 
-    </div>
+		</div>
 
-    <!-- ============================================================
+		<!-- ============================================================
+         ★ 平台选择弹窗（史考特风格）
+         ============================================================ -->
+		<div class="modal-overlay" id="platformModal">
+			<div class="modal-box">
+				<div class="modal-title">⟡ 选择播放平台</div>
+				<div class="modal-sub">
+					请选择您想使用的平台观看<br />
+					<span class="highlight" id="modalFilmName">影片名称</span>
+				</div>
+				<div class="modal-buttons">
+					<button class="modal-btn bilibili" id="btnBili">
+						<span class="badge-icon"></span>
+						<span class="icon">▸</span> Bilibili
+					</button>
+					<button class="modal-btn youtube" id="btnYt">
+						<span class="badge-icon"></span>
+						<span class="icon">▸</span> YouTube
+					</button>
+					<button class="modal-btn cancel" id="btnCancel">取消</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- ============================================================
          脚本区
          ============================================================ -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js">
-    </script>
-    <script src="../js/common.js">
-    </script>
-    <script src="../js/filmdata.js">
-    </script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js">
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js">
+		</script>
+		<script src="../js/common.js">
+		</script>
+		<script src="../js/filmdata.js">
+		</script>
 
-    <script>
-        // ================================================================
-        //  史考特 v5.1 · 时间线渲染引擎
-        // ================================================================
+		<script>
+			// ================================================================
+			//  史考特 v5.2 · 时间线 + 平台选择弹窗
+			// ================================================================
 
-        (function() {
-            'use strict';
+			(function() {
+				'use strict';
 
-            // ----- 渲染影片卡片 -----
-            function renderFilms(containerId, data, startIndex) {
-                const $container = $(containerId);
-                $container.empty();
+				// ----- 获取弹窗元素 -----
+				const modal = document.getElementById('platformModal');
+				const btnBili = document.getElementById('btnBili');
+				const btnYt = document.getElementById('btnYt');
+				const btnCancel = document.getElementById('btnCancel');
+				const modalFilmName = document.getElementById('modalFilmName');
 
-                if (!data || data.length === 0) {
-                    $container.html(`
+				// 存储当前点击的影片数据
+				let currentItem = null;
+
+				// ----- 打开弹窗 -----
+				function openModal(item) {
+					currentItem = item;
+					modalFilmName.textContent = item.filmname || '未知影片';
+					modal.classList.add('active');
+				}
+
+				// ----- 关闭弹窗 -----
+				function closeModal() {
+					modal.classList.remove('active');
+					currentItem = null;
+				}
+
+				// ----- 跳转链接 -----
+				function navigateTo(url) {
+					if (url) {
+						window.open(url, '_blank');
+					}
+					closeModal();
+				}
+
+				// ----- 绑定弹窗按钮事件 -----
+				btnBili.addEventListener('click', function() {
+					if (currentItem && currentItem.url) {
+						navigateTo(currentItem.url);
+					} else {
+						console.warn('B站链接不存在');
+						closeModal();
+					}
+				});
+
+				btnYt.addEventListener('click', function() {
+					if (currentItem && currentItem.yt) {
+						navigateTo(currentItem.yt);
+					} else {
+						console.warn('YouTube链接不存在');
+						closeModal();
+					}
+				});
+
+				btnCancel.addEventListener('click', closeModal);
+
+				// 点击背景关闭弹窗
+				modal.addEventListener('click', function(e) {
+					if (e.target === modal) {
+						closeModal();
+					}
+				});
+
+				// ESC 键关闭弹窗
+				document.addEventListener('keydown', function(e) {
+					if (e.key === 'Escape' && modal.classList.contains('active')) {
+						closeModal();
+					}
+				});
+
+				// ============================================================
+				//  渲染影片卡片
+				// ============================================================
+
+				function renderFilms(containerId, data, startIndex) {
+					const $container = $(containerId);
+					$container.empty();
+
+					if (!data || data.length === 0) {
+						$container.html(`
                             <div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-dim);font-size:0.9rem;letter-spacing:0.0625rem;">
                                 暂无影片数据
                             </div>
                         `);
-                    return;
-                }
+						return;
+					}
 
-                let totalCount = 0;
+					for (let i = 0; i < data.length; i++) {
+						const item = data[i];
+						const card = document.createElement('div');
+						card.className = 'film-card';
+						card.dataset.index = i;
+						card.style.animationDelay = (i * 0.04) + 's';
 
-                for (let i = 0; i < data.length; i++) {
-                    const item = data[i];
-                    const cardIndex = startIndex + i;
-                    const card = document.createElement('div');
-                    card.className = 'film-card';
-                    card.dataset.url = item.url || '#';
-                    card.style.animationDelay = (i * 0.04) + 's';
-
-                    card.innerHTML = `
+						card.innerHTML = `
                             <div class="film-cover" style="background-image: url('${item.cover}');">
                                 <div class="film-overlay">
                                     <span class="film-name">${item.filmname || '未知影片'}</span>
                                     <span class="film-status">
                                         <span class="play-icon"></span>
-                                        点击观看
+                                        选择平台观看
                                     </span>
                                 </div>
                             </div>
                         `;
 
-                    // 点击跳转
-                    card.addEventListener('click', function(e) {
-                        const url = this.dataset.url;
-                        if (url && url !== '#') {
-                            window.open(url, '_blank');
-                        } else {
-                            console.warn('该卡片未设置有效链接');
-                        }
-                    });
+						// ★ 点击卡片 → 弹出平台选择
+						card.addEventListener('click', function(e) {
+							const idx = parseInt(this.dataset.index, 10);
+							const filmData = data[idx];
+							if (filmData) {
+								// 检查是否有任何链接
+								if (!filmData.url && !filmData.yt) {
+									console.warn('该影片没有任何链接');
+									return;
+								}
+								openModal(filmData);
+							}
+						});
 
-                    $container.append(card);
-                    totalCount++;
-                }
+						$container.append(card);
+					}
+				}
 
-                return totalCount;
-            }
+				// ----- 更新计数 -----
+				function updateCounts() {
+					const total = (filmdata ? filmdata.length : 0) + (extradata ? extradata.length : 0);
+					$('#totalCount').text(total);
+				}
 
-            // ----- 更新计数 -----
-            function updateCounts() {
-                const total = (filmdata ? filmdata.length : 0) + (extradata ? extradata.length : 0);
-                $('#totalCount').text(total);
-            }
+				// ----- 时钟 -----
+				function updateClock() {
+					const now = new Date();
+					const time = now.toTimeString().split(' ')[0];
+					$('#timeDisplay').text(time);
+				}
 
-            // ----- 时钟 -----
-            function updateClock() {
-                const now = new Date();
-                const time = now.toTimeString().split(' ')[0];
-                $('#timeDisplay').text(time);
-            }
+				// ============================================================
+				//  初始化
+				// ============================================================
 
-            // ============================================================
-            //  初始化
-            // ============================================================
+				if (typeof filmdata !== 'undefined' && typeof extradata !== 'undefined') {
+					renderFilms('#history', filmdata, 0);
+					renderFilms('#extra', extradata, filmdata.length);
 
-            // 等待数据加载
-            if (typeof filmdata !== 'undefined' && typeof extradata !== 'undefined') {
-                // 渲染正片
-                renderFilms('#history', filmdata, 0);
-                // 渲染番外（正片之后继续编号）
-                renderFilms('#extra', extradata, filmdata.length);
+					updateCounts();
+					updateClock();
+					setInterval(updateClock, 1000);
 
-                updateCounts();
-                updateClock();
-                setInterval(updateClock, 1000);
-
-                console.log('⟡ SCOUTER v5.1 · 时间线已加载 ⟡');
-                console.log('📽️ 正片:', filmdata.length, '部');
-                console.log('📽️ 番外:', extradata.length, '部');
-                console.log('🔗 点击卡片可在新标签页打开视频链接');
-            } else {
-                console.error('❌ 数据加载失败，请确保 filmdata.js 已正确引用');
-                $('#history').html(`
+					console.log('⟡ SCOUTER v5.2 · 时间线 + 平台选择已加载 ⟡');
+					console.log('📽️ 正片:', filmdata.length, '部');
+					console.log('📽️ 番外:', extradata.length, '部');
+					console.log('🎯 点击影片卡片可选择 B站 或 YouTube 观看');
+				} else {
+					console.error('❌ 数据加载失败，请确保 filmdata.js 已正确引用');
+					$('#history').html(`
                         <div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-dim);font-size:0.9rem;letter-spacing:0.0625rem;border:0.0625rem dashed var(--border-color);border-radius:0.85rem;">
                             ⚠ 数据加载失败，请检查 filmdata.js 是否存在
                         </div>
                     `);
-                $('#extra').html(`
+					$('#extra').html(`
                         <div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-dim);font-size:0.9rem;letter-spacing:0.0625rem;border:0.0625rem dashed var(--border-color);border-radius:0.85rem;">
                             ⚠ 数据加载失败，请检查 filmdata.js 是否存在
                         </div>
                     `);
-            }
+				}
+			})();
+		</script>
 
-        })();
-    </script>
-
-</body>
+	</body>
 </html>
