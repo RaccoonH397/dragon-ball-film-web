@@ -1,771 +1,616 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>dragon ball film</title>
-		<!-- 保留原有外部样式（顶部导航&侧边栏） -->
-		<link rel="stylesheet" href="../css/common.css" />
-		<link rel="icon" href="../imgs/weblogo.png" type="image/png" />
-		<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DragonBallFilm · 角色详情</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="icon" href="../imgs/weblogo.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
 
-		<style>
-			/* ============================================================
-           史考特 v5.1 · 角色详情页
+    <style>
+        /* ============================================================
+           史考特 v5.2 · 角色详情页
            ============================================================ */
 
-			/* ----- 全局变量 ----- */
-			:root {
-				--bg-primary: #0a0e0a;
-				--bg-card: #0f140f;
-				--green-primary: #00ff41;
-				--green-dim: #00cc33;
-				--green-glow: rgba(0, 255, 65, 0.08);
-				--border-color: #1a3a1a;
-				--text-primary: #b0ffb0;
-				--text-dim: #558855;
-				--text-muted: #3a6a3a;
-				--font-mono: 'Share Tech Mono', 'Courier New', monospace;
-				--card-radius: 0.85rem;
-			}
-
-			/* ----- 重置内容区域 ----- */
-			.main {
-				all: unset;
-				display: block;
-			}
-
-			/* 全局扫描线 */
-			body::after {
-				content: '';
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				pointer-events: none;
-				background: repeating-linear-gradient(0deg,
-						transparent,
-						transparent 2px,
-						rgba(0, 255, 65, 0.010) 2px,
-						rgba(0, 255, 65, 0.010) 4px);
-				z-index: 9999;
-			}
-
-			.scan-line {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 2px;
-				background: linear-gradient(90deg, transparent, var(--green-primary), transparent);
-				opacity: 0.06;
-				z-index: 9998;
-				animation: scanMove 5s ease-in-out infinite;
-				pointer-events: none;
-			}
-
-			@keyframes scanMove {
-				0% {
-					top: -0.3125rem;
-					opacity: 0;
-				}
-
-				10% {
-					opacity: 0.10;
-				}
-
-				90% {
-					opacity: 0.10;
-				}
-
-				100% {
-					top: 100%;
-					opacity: 0;
-				}
-			}
-
-			/* ----- ★ 主容器：从侧边栏右侧开始 ----- */
-			.scouter-container {
-				width: calc(100% - 16rem);
-				max-width: 1200px;
-				margin: auto;
-				margin-top: 10rem;
-				padding: 1.5rem 2rem 1.25rem;
-				background: rgba(10, 14, 10, 0.92);
-				border: 0.0625rem solid var(--border-color);
-				border-radius: 1.25rem;
-				box-shadow: 0 0 5rem rgba(0, 255, 65, 0.03), inset 0 0 5rem rgba(0, 255, 65, 0.015);
-				backdrop-filter: blur(2px);
-				transition: border-color 0.4s;
-				position: relative;
-			}
-
-			.scouter-container:hover {
-				border-color: rgba(0, 255, 65, 0.15);
-			}
-
-			@media (max-width: 48rem) {
-				.scouter-container {
-					width: calc(100% - 4.5rem);
-					margin-left: 4.5rem;
-					margin-right: 0.5rem;
-					padding: 1rem 1rem 0.75rem;
-					border-radius: 1rem;
-				}
-			}
-
-			@media (max-width: 30rem) {
-				.scouter-container {
-					width: calc(100% - 3.5rem);
-					margin-left: 3.5rem;
-					margin-right: 0.25rem;
-					padding: 0.75rem 0.75rem 0.625rem;
-					border-radius: 0.75rem;
-				}
-			}
-
-			/* ----- 史考特头部 ----- */
-			.scouter-header {
-				display: flex;
-				justify-content: space-between;
-				align-items: flex-end;
-				padding-bottom: 1rem;
-				border-bottom: 0.0625rem solid var(--border-color);
-				margin-bottom: 1.5rem;
-				flex-wrap: wrap;
-				gap: 0.75rem;
-			}
-
-			.scouter-brand {
-				display: flex;
-				align-items: baseline;
-				gap: 1.25rem;
-				flex-wrap: wrap;
-			}
-
-			.scouter-brand .logo {
-				font-size: 2rem;
-				font-weight: 700;
-				color: var(--green-primary);
-				text-shadow: 0 0 2rem var(--green-glow), 0 0 5rem rgba(0, 255, 65, 0.06);
-				letter-spacing: 0.25rem;
-			}
-
-			.scouter-brand .logo span {
-				color: var(--text-dim);
-				font-weight: 300;
-				font-size: 0.9375rem;
-				letter-spacing: 0.0625rem;
-			}
-
-			.scouter-brand .sub {
-				color: var(--text-dim);
-				font-size: 0.85rem;
-				letter-spacing: 0.125rem;
-				padding-left: 0.75rem;
-				border-left: 0.0625rem solid var(--border-color);
-			}
-
-			.scouter-status {
-				display: flex;
-				align-items: center;
-				gap: 1.5rem;
-				font-size: 0.8rem;
-				color: var(--text-dim);
-				flex-wrap: wrap;
-			}
-
-			.scouter-status .dot {
-				display: inline-block;
-				width: 0.5rem;
-				height: 0.5rem;
-				border-radius: 50%;
-				background: var(--green-primary);
-				box-shadow: 0 0 0.875rem var(--green-primary);
-				animation: pulse-dot 1.8s ease-in-out infinite;
-				margin-right: 0.25rem;
-			}
-
-			@keyframes pulse-dot {
-
-				0%,
-				100% {
-					opacity: 1;
-					transform: scale(1);
-				}
-
-				50% {
-					opacity: 0.25;
-					transform: scale(0.7);
-				}
-			}
-
-			.scouter-status .stat-item {
-				display: flex;
-				align-items: center;
-				gap: 0.4rem;
-			}
-
-			.scouter-status .stat-item .label {
-				color: var(--text-dim);
-			}
-
-			.scouter-status .stat-item .value {
-				color: var(--green-primary);
-			}
-
-			/* ============================================================
-           角色详情 · 史考特风格
-           ============================================================ */
-
-			/* ----- 返回链接 ----- */
-			.back-link {
-				display: inline-flex;
-				align-items: center;
-				gap: 0.4rem;
-				color: var(--text-dim);
-				font-size: 0.8rem;
-				font-family: var(--font-mono);
-				letter-spacing: 0.03125rem;
-				text-decoration: none;
-				transition: color 0.3s;
-				margin-bottom: 1.25rem;
-				cursor: pointer;
-			}
-
-			.back-link:hover {
-				color: var(--green-primary);
-			}
-
-			.back-link .arrow {
-				display: inline-block;
-				transition: transform 0.3s;
-			}
-
-			.back-link:hover .arrow {
-				transform: translateX(-0.25rem);
-			}
-
-			/* ----- 角色详情主体（两栏布局） ----- */
-			.profile-main {
-				display: grid;
-				grid-template-columns: 200px 1fr;
-				gap: 2rem;
-				margin-bottom: 1.5rem;
-			}
-
-			@media (max-width: 48rem) {
-				.profile-main {
-					grid-template-columns: 1fr;
-					gap: 1.25rem;
-				}
-			}
-
-			/* ----- 左侧：全身像（放大版） ----- */
-			.profile-avatar {
-				width: 100%;
-				max-width: 200px;
-				aspect-ratio: 3 / 4;
-				border-radius: 0.6rem;
-				overflow: hidden;
-				border: 0.125rem solid rgba(0, 255, 65, 0.08);
-				box-shadow: 0 0 0 0.125rem rgba(0, 255, 65, 0.04), 0 0 2rem rgba(0, 255, 65, 0.04);
-				background: #1a1f1a;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				position: relative;
-				transition: box-shadow 0.3s, transform 0.3s;
-			}
-
-			.profile-avatar:hover {
-				box-shadow: 0 0 0 0.125rem rgba(0, 255, 65, 0.15), 0 0 3rem rgba(0, 255, 65, 0.06);
-				transform: scale(1.01);
-			}
-
-			.profile-avatar img {
-				width: 100%;
-				height: 100%;
-				object-fit: contain;
-				display: block;
-				image-rendering: pixelated;
-			}
-
-			.profile-avatar .ring {
-				position: absolute;
-				inset: -0.25rem;
-				border-radius: 0.6rem;
-				border: 0.0625rem solid rgba(0, 255, 65, 0.06);
-				animation: spin-ring 14s linear infinite;
-				pointer-events: none;
-			}
-
-			@keyframes spin-ring {
-				0% {
-					transform: rotate(0deg);
-				}
-
-				100% {
-					transform: rotate(360deg);
-				}
-			}
-
-			/* ----- 右侧：信息列表 ----- */
-			.profile-info {
-				display: flex;
-				flex-direction: column;
-				gap: 0.4rem;
-			}
-
-			.profile-info .info-name {
-				font-size: 1.8rem;
-				font-weight: 700;
-				color: var(--text-primary);
-				letter-spacing: 0.0625rem;
-				line-height: 1.2;
-				margin-bottom: 0.2rem;
-			}
-
-			.profile-info .info-film {
-				font-size: 1rem;
-				color: var(--text-dim);
-				letter-spacing: 0.03125rem;
-				margin-bottom: 0.4rem;
-			}
-
-			.profile-info .info-item {
-				display: grid;
-				grid-template-columns: 5.5rem 1fr;
-				gap: 0.5rem;
-				padding: 0.25rem 0;
-				border-bottom: 0.0625rem solid rgba(0, 255, 65, 0.025);
-				font-size: 0.85rem;
-				font-family: var(--font-mono);
-				letter-spacing: 0.01875rem;
-			}
-
-			.profile-info .info-item .label {
-				color: var(--text-dim);
-				flex-shrink: 0;
-			}
-
-			.profile-info .info-item .value {
-				color: var(--text-primary);
-				word-break: break-word;
-			}
-
-			/* ----- 人物简介（全宽） ----- */
-			.profile-bio {
-				margin-top: 1.5rem;
-				padding-top: 1.25rem;
-				border-top: 0.0625rem solid var(--border-color);
-			}
-
-			.profile-bio .bio-title {
-				font-size: 1rem;
-				color: var(--text-dim);
-				letter-spacing: 0.0625rem;
-				margin-bottom: 0.6rem;
-				font-weight: 600;
-			}
-
-			.profile-bio .bio-text {
-				font-size: 0.9rem;
-				color: var(--text-primary);
-				line-height: 1.7;
-				letter-spacing: 0.01875rem;
-			}
-
-			/* ----- 空状态 / 未找到 ----- */
-			.not-found {
-				text-align: center;
-				padding: 4rem 1.5rem;
-				color: var(--text-dim);
-				font-size: 1rem;
-				letter-spacing: 0.0625rem;
-				border: 0.0625rem dashed var(--border-color);
-				border-radius: var(--card-radius);
-				background: rgba(0, 255, 65, 0.01);
-			}
-
-			.not-found .icon {
-				font-size: 2.5rem;
-				margin-bottom: 0.75rem;
-				opacity: 0.25;
-			}
-
-			.not-found a {
-				color: var(--green-primary);
-				text-decoration: none;
-				transition: color 0.3s;
-			}
-
-			.not-found a:hover {
-				color: var(--green-dim);
-				text-decoration: underline;
-			}
-
-			/* ----- 底部状态 ----- */
-			.scouter-footer {
-				display: flex;
-				justify-content: flex-end;
-				align-items: center;
-				padding-top: 1rem;
-				border-top: 0.0625rem solid var(--border-color);
-				font-size: 0.75rem;
-				color: var(--text-dim);
-				flex-wrap: wrap;
-				gap: 0.75rem;
-				margin-top: 1.5rem;
-			}
-
-			.scouter-footer .right {
-				display: flex;
-				gap: 1.25rem;
-				align-items: center;
-			}
-
-			.scouter-footer .right .badge {
-				padding: 0.15rem 1rem;
-				border-radius: 0.8rem;
-				background: rgba(0, 255, 65, 0.05);
-				border: 0.0625rem solid rgba(0, 255, 65, 0.06);
-				color: var(--green-primary);
-				font-size: 0.65rem;
-				letter-spacing: 0.03125rem;
-			}
-
-			/* ----- 响应式微调 ----- */
-			@media (max-width: 48rem) {
-				.scouter-brand .logo {
-					font-size: 1.6rem;
-				}
-
-				.scouter-brand .sub {
-					font-size: 0.75rem;
-					padding-left: 0;
-					border-left: none;
-				}
-
-				.scouter-status {
-					font-size: 0.7rem;
-					gap: 0.75rem;
-				}
-
-				.profile-main {
-					grid-template-columns: 1fr;
-					gap: 1rem;
-				}
-
-				.profile-avatar {
-					max-width: 150px;
-					margin: 0 auto;
-				}
-
-				.profile-info .info-name {
-					font-size: 1.4rem;
-					text-align: center;
-				}
-
-				.profile-info .info-film {
-					text-align: center;
-				}
-
-				.profile-info .info-item {
-					grid-template-columns: 4.5rem 1fr;
-					font-size: 0.75rem;
-				}
-
-				.profile-bio .bio-text {
-					font-size: 0.8rem;
-				}
-
-				.scouter-footer {
-					flex-direction: row;
-					justify-content: center;
-					gap: 0.4rem;
-					font-size: 0.65rem;
-				}
-			}
-
-			@media (max-width: 30rem) {
-				.scouter-container {
-					padding: 0.6rem 0.5rem 0.5rem;
-				}
-
-				.scouter-brand .logo {
-					font-size: 1.2rem;
-				}
-
-				.profile-avatar {
-					max-width: 120px;
-				}
-
-				.profile-info .info-name {
-					font-size: 1.2rem;
-				}
-
-				.profile-info .info-item {
-					grid-template-columns: 3.5rem 1fr;
-					font-size: 0.65rem;
-					gap: 0.3rem;
-				}
-
-				.profile-bio .bio-text {
-					font-size: 0.7rem;
-					line-height: 1.5;
-				}
-
-				.back-link {
-					font-size: 0.7rem;
-				}
-
-				.scouter-footer .right .badge {
-					font-size: 0.55rem;
-					padding: 0.1rem 0.7rem;
-				}
-			}
-
-			/* 滚动条 */
-			::-webkit-scrollbar {
-				width: 0.3125rem;
-				background: var(--bg-primary);
-			}
-
-			::-webkit-scrollbar-track {
-				background: var(--bg-primary);
-			}
-
-			::-webkit-scrollbar-thumb {
-				background: var(--border-color);
-				border-radius: 0.5rem;
-			}
-
-			::-webkit-scrollbar-thumb:hover {
-				background: var(--green-dim);
-			}
-		</style>
-	</head>
-	<body>
-
-		<!-- ===== 动态扫描线 ===== -->
-		<div class="scan-line"></div>
-
-		<!-- ============================================================
-         顶部导航（完全保留用户原有结构）
+        :root {
+            --bg-primary: #0a0e0a;
+            --bg-card: #0f140f;
+            --green-primary: #00ff41;
+            --green-dim: #00cc33;
+            --green-glow: rgba(0, 255, 65, 0.08);
+            --border-color: #1a3a1a;
+            --text-primary: #b0ffb0;
+            --text-dim: #558855;
+            --text-muted: #3a6a3a;
+            --font-mono: 'Share Tech Mono', 'Courier New', monospace;
+            --card-radius: 0.85rem;
+        }
+
+        .main { all: unset; display: block; }
+
+        /* 全局扫描线 */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 255, 65, 0.010) 2px,
+                    rgba(0, 255, 65, 0.010) 4px);
+            z-index: 9999;
+        }
+
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--green-primary), transparent);
+            opacity: 0.06;
+            z-index: 9998;
+            animation: scanMove 5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scanMove {
+            0% { top: -0.3125rem; opacity: 0; }
+            10% { opacity: 0.10; }
+            90% { opacity: 0.10; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* ----- ★ 主容器 ----- */
+        .scouter-container {
+            width: calc(100% - 16rem);
+            max-width: 1200px;
+            margin: 10rem auto;
+            padding: 1.5rem 2rem 1.25rem;
+            background: rgba(10, 14, 10, 0.92);
+            border: 0.0625rem solid var(--border-color);
+            border-radius: 1.25rem;
+            box-shadow: 0 0 5rem rgba(0, 255, 65, 0.03), inset 0 0 5rem rgba(0, 255, 65, 0.015);
+            backdrop-filter: blur(2px);
+            transition: border-color 0.4s;
+            position: relative;
+        }
+
+        .scouter-container:hover {
+            border-color: rgba(0, 255, 65, 0.15);
+        }
+
+        @media (max-width: 48rem) {
+            .scouter-container {
+                width: calc(100% - 4.5rem);
+                margin-left: 4.5rem;
+                margin-right: 0.5rem;
+                padding: 1rem 1rem 0.75rem;
+                border-radius: 1rem;
+            }
+        }
+
+        @media (max-width: 30rem) {
+            .scouter-container {
+                width: calc(100% - 3.5rem);
+                margin-left: 3.5rem;
+                margin-right: 0.25rem;
+                padding: 0.75rem 0.75rem 0.625rem;
+                border-radius: 0.75rem;
+            }
+        }
+
+        /* ----- 史考特头部 ----- */
+        .scouter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: 1rem;
+            border-bottom: 0.0625rem solid var(--border-color);
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .scouter-brand {
+            display: flex;
+            align-items: baseline;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .scouter-brand .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--green-primary);
+            text-shadow: 0 0 2rem var(--green-glow), 0 0 5rem rgba(0, 255, 65, 0.06);
+            letter-spacing: 0.25rem;
+        }
+
+        .scouter-brand .logo span {
+            color: var(--text-dim);
+            font-weight: 300;
+            font-size: 0.9375rem;
+            letter-spacing: 0.0625rem;
+        }
+
+        .scouter-brand .sub {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            letter-spacing: 0.125rem;
+            padding-left: 0.75rem;
+            border-left: 0.0625rem solid var(--border-color);
+        }
+
+        .scouter-status {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            flex-wrap: wrap;
+        }
+
+        .scouter-status .dot {
+            display: inline-block;
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background: var(--green-primary);
+            box-shadow: 0 0 0.875rem var(--green-primary);
+            animation: pulse-dot 1.8s ease-in-out infinite;
+            margin-right: 0.25rem;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.25; transform: scale(0.7); }
+        }
+
+        .scouter-status .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .scouter-status .stat-item .label { color: var(--text-dim); }
+        .scouter-status .stat-item .value { color: var(--green-primary); }
+
+        /* ----- 返回链接 ----- */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            font-family: var(--font-mono);
+            letter-spacing: 0.03125rem;
+            text-decoration: none;
+            transition: color 0.3s;
+            margin-bottom: 1.25rem;
+            cursor: pointer;
+        }
+
+        .back-link:hover {
+            color: var(--green-primary);
+        }
+
+        .back-link .arrow {
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .back-link:hover .arrow {
+            transform: translateX(-0.25rem);
+        }
+
+        /* ----- 角色详情主体 ----- */
+        .profile-main {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 48rem) {
+            .profile-main {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+        }
+
+        .profile-avatar {
+            width: 100%;
+            max-width: 200px;
+            aspect-ratio: 3 / 4;
+            border-radius: 0.6rem;
+            overflow: hidden;
+            border: 0.125rem solid rgba(0, 255, 65, 0.08);
+            box-shadow: 0 0 0 0.125rem rgba(0, 255, 65, 0.04), 0 0 2rem rgba(0, 255, 65, 0.04);
+            background: #1a1f1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .profile-avatar:hover {
+            box-shadow: 0 0 0 0.125rem rgba(0, 255, 65, 0.15), 0 0 3rem rgba(0, 255, 65, 0.06);
+            transform: scale(1.01);
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            image-rendering: pixelated;
+        }
+
+        .profile-avatar .ring {
+            position: absolute;
+            inset: -0.25rem;
+            border-radius: 0.6rem;
+            border: 0.0625rem solid rgba(0, 255, 65, 0.06);
+            animation: spin-ring 14s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes spin-ring {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .profile-info .info-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.0625rem;
+            line-height: 1.2;
+            margin-bottom: 0.2rem;
+        }
+
+        .profile-info .info-film {
+            font-size: 1rem;
+            color: var(--text-dim);
+            letter-spacing: 0.03125rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .profile-info .info-item {
+            display: grid;
+            grid-template-columns: 5.5rem 1fr;
+            gap: 0.5rem;
+            padding: 0.25rem 0;
+            border-bottom: 0.0625rem solid rgba(0, 255, 65, 0.025);
+            font-size: 0.85rem;
+            font-family: var(--font-mono);
+            letter-spacing: 0.01875rem;
+        }
+
+        .profile-info .info-item .label {
+            color: var(--text-dim);
+            flex-shrink: 0;
+        }
+
+        .profile-info .info-item .value {
+            color: var(--text-primary);
+            word-break: break-word;
+        }
+
+        .profile-bio {
+            margin-top: 1.5rem;
+            padding-top: 1.25rem;
+            border-top: 0.0625rem solid var(--border-color);
+        }
+
+        .profile-bio .bio-title {
+            font-size: 1rem;
+            color: var(--text-dim);
+            letter-spacing: 0.0625rem;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+        }
+
+        .profile-bio .bio-text {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            line-height: 1.7;
+            letter-spacing: 0.01875rem;
+        }
+
+        .not-found {
+            text-align: center;
+            padding: 4rem 1.5rem;
+            color: var(--text-dim);
+            font-size: 1rem;
+            letter-spacing: 0.0625rem;
+            border: 0.0625rem dashed var(--border-color);
+            border-radius: var(--card-radius);
+            background: rgba(0, 255, 65, 0.01);
+        }
+
+        .not-found .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            opacity: 0.25;
+        }
+
+        .not-found a {
+            color: var(--green-primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .not-found a:hover {
+            color: var(--green-dim);
+            text-decoration: underline;
+        }
+
+        .scouter-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 0.0625rem solid var(--border-color);
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .scouter-footer .right {
+            display: flex;
+            gap: 1.25rem;
+            align-items: center;
+        }
+
+        .scouter-footer .right .badge {
+            padding: 0.15rem 1rem;
+            border-radius: 0.8rem;
+            background: rgba(0, 255, 65, 0.05);
+            border: 0.0625rem solid rgba(0, 255, 65, 0.06);
+            color: var(--green-primary);
+            font-size: 0.65rem;
+            letter-spacing: 0.03125rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 48rem) {
+            .scouter-brand .logo { font-size: 1.6rem; }
+            .scouter-brand .sub { font-size: 0.75rem; padding-left: 0; border-left: none; }
+            .scouter-status { font-size: 0.7rem; gap: 0.75rem; }
+            .profile-main { grid-template-columns: 1fr; gap: 1rem; }
+            .profile-avatar { max-width: 150px; margin: 0 auto; }
+            .profile-info .info-name { font-size: 1.4rem; text-align: center; }
+            .profile-info .info-film { text-align: center; }
+            .profile-info .info-item { grid-template-columns: 4.5rem 1fr; font-size: 0.75rem; }
+            .profile-bio .bio-text { font-size: 0.8rem; }
+            .scouter-footer { flex-direction: row; justify-content: center; gap: 0.4rem; font-size: 0.65rem; }
+        }
+
+        @media (max-width: 30rem) {
+            .scouter-container { padding: 0.6rem 0.5rem 0.5rem; }
+            .scouter-brand .logo { font-size: 1.2rem; }
+            .profile-avatar { max-width: 120px; }
+            .profile-info .info-name { font-size: 1.2rem; }
+            .profile-info .info-item { grid-template-columns: 3.5rem 1fr; font-size: 0.65rem; gap: 0.3rem; }
+            .profile-bio .bio-text { font-size: 0.7rem; line-height: 1.5; }
+            .back-link { font-size: 0.7rem; }
+            .scouter-footer .right .badge { font-size: 0.55rem; padding: 0.1rem 0.7rem; }
+        }
+
+        ::-webkit-scrollbar { width: 0.3125rem; background: var(--bg-primary); }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 0.5rem; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
+    </style>
+</head>
+<body>
+
+    <!-- ===== 动态扫描线 ===== -->
+    <div class="scan-line"></div>
+
+    <!-- ============================================================
+         顶部导航
          ============================================================ -->
-		<header class="top">
-			<a href="index.html" id="logo"><img src="../imgs/dbflogo.png" alt="" /></a>
-			<div class="icons">
-				<a href="https://space.bilibili.com/193386165" id="td" title="点击跳转bilibili">
-					<span class="aura"><img src="../imgs/aura111.gif" alt="" /></span>
-					<span id="avator"><img src="../imgs/sprite tiandao.png" alt="" /></span>
-				</a>
-				<p>视频建议:2871070425@qq.com</p>
-				<a href="https://space.bilibili.com/439518462" id="rac" title="点击跳转bilibili">
-					<span class="aura"><img src="../imgs/aura111.gif" alt="" /></span>
-					<span id="avator"><img src="../imgs/sprite raccoon.png" alt="" /></span>
-				</a>
-				<p>网站建议:2733611989@qq.com</p>
-			</div>
-		</header>
+    <header class="top">
+        <a href="index.html" id="logo"><img src="../imgs/dbflogo.png" alt="" /></a>
+        <div class="icons">
+            <a href="https://space.bilibili.com/193386165" id="td" title="点击跳转bilibili">
+                <span class="aura"><img src="../imgs/aura111.gif" alt="" /></span>
+                <span id="avator"><img src="../imgs/sprite tiandao.png" alt="" /></span>
+            </a>
+            <p>视频建议:2871070425@qq.com</p>
+            <a href="https://space.bilibili.com/439518462" id="rac" title="点击跳转bilibili">
+                <span class="aura"><img src="../imgs/aura111.gif" alt="" /></span>
+                <span id="avator"><img src="../imgs/sprite raccoon.png" alt="" /></span>
+            </a>
+            <p>网站建议:2733611989@qq.com</p>
+        </div>
+    </header>
 
-		<!-- ===== 侧边栏（完全保留用户原有结构） ===== -->
-		<div class="left">
-			<ul>
-				<a href="../page/index.html">
-					<li>首页</li>
-				</a>
-				<a href="../page/timeline.html">
-					<li>时间线</li>
-				</a>
-				<a href="../page/introduce.html">
-					<li>人物档案</li>
-				</a>
-			</ul>
-		</div>
+    <!-- ===== 侧边栏 ===== -->
+    <div class="left">
+        <ul>
+            <a href="../page/index.html"><li>首页</li></a>
+            <a href="../page/timeline.html"><li>时间线</li></a>
+            <a href="../page/introduce.html"><li>人物档案</li></a>
+        </ul>
+    </div>
 
-		<!-- ============================================================
+    <!-- ============================================================
          史考特主容器（详情页）
          ============================================================ -->
-		<div class="scouter-container">
+    <div class="scouter-container">
 
-			<!-- 史考特头部 -->
-			<header class="scouter-header">
-				<div class="scouter-brand">
-					<div class="logo">
-						DragonBallFilm <span>▸ 详情</span>
-					</div>
-					<div class="sub">数据科技 · 角色档案</div>
-				</div>
-				<div class="scouter-status">
-					<span class="stat-item">
-						<span class="dot"></span>
-						<span class="label">系统</span>
-						<span class="value">在线</span>
-					</span>
-					<span class="stat-item">
-						<span class="label">目标</span>
-						<span class="value">地球</span>
-					</span>
-					<span class="stat-item">
-						<span class="label">扫描</span>
-						<span class="value">深度</span>
-					</span>
-					<span class="stat-item">
-						<span class="label">档案</span>
-						<span class="value" id="idDisplay">—</span>
-					</span>
-				</div>
-			</header>
+        <header class="scouter-header">
+            <div class="scouter-brand">
+                <div class="logo">DragonBallFilm <span>▸ 详情</span></div>
+                <div class="sub">数据科技 · 角色档案</div>
+            </div>
+            <div class="scouter-status">
+                <span class="stat-item"><span class="dot"></span><span class="label">系统</span><span class="value">在线</span></span>
+                <span class="stat-item"><span class="label">目标</span><span class="value">地球</span></span>
+                <span class="stat-item"><span class="label">扫描</span><span class="value">深度</span></span>
+                <span class="stat-item"><span class="label">档案</span><span class="value" id="idDisplay">—</span></span>
+            </div>
+        </header>
 
-			<!-- 返回链接 -->
-			<a href="introduce.html" class="back-link">
-				<span class="arrow">◀</span> 返回人物档案
-			</a>
+        <!-- ★ 返回链接：动态生成，携带页码和搜索参数 -->
+        <a id="backLink" href="introduce.html" class="back-link">
+            <span class="arrow">◀</span> 返回人物档案
+        </a>
 
-			<!-- 主内容（由 JavaScript 动态渲染） -->
-			<div id="profileContent"></div>
+        <!-- 主内容 -->
+        <div id="profileContent"></div>
 
-			<!-- 史考特底部 -->
-			<footer class="scouter-footer">
-				<div class="right">
-					<span class="badge">● 实时</span>
-					<span id="timeDisplay">--:--:--</span>
-				</div>
-			</footer>
+        <footer class="scouter-footer">
+            <div class="right">
+                <span class="badge">● 实时</span>
+                <span id="timeDisplay">--:--:--</span>
+            </div>
+        </footer>
 
-		</div>
+    </div>
 
-		<!-- ============================================================
+    <!-- ============================================================
          脚本区
          ============================================================ -->
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js">
-		</script>
-		<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js">
-		</script>
-		<script src="../js/common.js">
-		</script>
-		<script src="../js/chardata.js">
-		</script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/chardata.js"></script>
 
-		<script>
-			// ================================================================
-			//  史考特 · 角色详情引擎
-			// ================================================================
+    <script>
+        // ================================================================
+        //  史考特 v5.2 · 角色详情引擎 · 支持返回状态保持
+        // ================================================================
 
-			(function() {
-				'use strict';
+        (function() {
+            'use strict';
 
-				// ----- 1. 从 URL 获取 index 参数 -----
-				function getParam(name) {
-					const params = new URLSearchParams(window.location.search);
-					return params.get(name);
-				}
+            function getParam(name) {
+                const params = new URLSearchParams(window.location.search);
+                return params.get(name);
+            }
 
-				const indexParam = getParam('index');
+            const indexParam = getParam('index');
+            const pageParam = getParam('page');
+            const searchParam = getParam('search');
 
-				// ----- 2. 根据索引从 data 数组中取角色数据 -----
-				let character = null;
-				let validIndex = -1;
+            // ★ 构建带参数的返回链接
+            function buildBackUrl() {
+                let url = 'introduce.html';
+                const params = [];
+                if (pageParam !== null && pageParam !== '') {
+                    params.push('page=' + encodeURIComponent(pageParam));
+                }
+                if (searchParam !== null && searchParam !== '') {
+                    params.push('search=' + encodeURIComponent(searchParam));
+                }
+                if (params.length > 0) {
+                    url += '?' + params.join('&');
+                }
+                return url;
+            }
 
-				if (indexParam !== null) {
-					const idx = parseInt(indexParam, 10);
-					if (!isNaN(idx) && idx >= 0 && idx < data.length) {
-						character = data[idx];
-						validIndex = idx;
-					}
-				}
+            // 更新返回链接
+            const backLink = document.getElementById('backLink');
+            if (backLink) {
+                backLink.href = buildBackUrl();
+            }
 
-				// ----- 3. 渲染页面 -----
-				const $container = $('#profileContent');
-				const $idDisplay = $('#idDisplay');
+            // 获取角色数据
+            let character = null;
+            let validIndex = -1;
 
-				if (character === null) {
-					// ----- 未找到角色 -----
-					$container.html(`
-                        <div class="not-found">
-                            <div class="icon">🔍</div>
-                            <p>未找到该角色，请返回 <a href="introduce.html">人物档案</a> 重新选择。</p>
-                            <p style="font-size:0.85rem; color:var(--text-dim); margin-top:0.75rem; letter-spacing:0.03125rem;">
-                                索引参数无效或数据缺失
-                            </p>
+            if (indexParam !== null) {
+                const idx = parseInt(indexParam, 10);
+                if (!isNaN(idx) && idx >= 0 && idx < data.length) {
+                    character = data[idx];
+                    validIndex = idx;
+                }
+            }
+
+            const $container = $('#profileContent');
+            const $idDisplay = $('#idDisplay');
+
+            if (character === null) {
+                $container.html(`
+                    <div class="not-found">
+                        <div class="icon">🔍</div>
+                        <p>未找到该角色，请返回 <a href="${buildBackUrl()}">人物档案</a> 重新选择。</p>
+                        <p style="font-size:0.85rem; color:var(--text-dim); margin-top:0.75rem; letter-spacing:0.03125rem;">
+                            索引参数无效或数据缺失
+                        </p>
+                    </div>
+                `);
+                $idDisplay.text('—');
+                console.warn('[profiledetails] 未找到角色，index:', indexParam);
+            } else {
+                const avatarSrc = character.img || '';
+                const charName = character.charname || '未命名';
+                const film = character.film || '未知';
+                const saga = character.saga || '未知';
+                const situation = character.situation || '未知';
+                const feelings = character.feelings || '未知';
+                const appraise = character.appraise || '暂无评价';
+                const details = character.chardetails || '暂无简介';
+
+                const appraiseDisplay = appraise.length > 80 ? appraise.substring(0, 80) + '…' : appraise;
+
+                const html = `
+                    <div class="profile-main">
+                        <div class="profile-avatar">
+                            <img src="${avatarSrc}" alt="${charName}" 
+                                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22400%22%3E%3Crect width=%22300%22 height=%22400%22 fill=%22%231a1f1a%22/%3E%3Ctext x=%22150%22 y=%22220%22 text-anchor=%22middle%22 font-size=%2260%22 fill=%22%23558855%22%3E👤%3C/text%3E%3C/svg%3E'" />
+                            <div class="ring"></div>
                         </div>
-                    `);
-					$idDisplay.text('—');
-					console.warn('[profiledetails] 未找到角色，index:', indexParam);
-				} else {
-					// ----- 正常渲染 -----
-					const avatarSrc = character.img || '';
-					const charName = character.charname || '未命名';
-					const film = character.film || '未知';
-					const saga = character.saga || '未知';
-					const situation = character.situation || '未知';
-					const feelings = character.feelings || '未知';
-					const appraise = character.appraise || '暂无评价';
-					const details = character.chardetails || '暂无简介';
-
-					// 截断过长的评价
-					const appraiseDisplay = appraise.length > 80 ? appraise.substring(0, 80) + '…' : appraise;
-
-					const html = `
-                        <div class="profile-main">
-                            <!-- 左侧：全身像 -->
-                            <div class="profile-avatar">
-                                <img src="${avatarSrc}" alt="${charName}" 
-                                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22400%22%3E%3Crect width=%22300%22 height=%22400%22 fill=%22%231a1f1a%22/%3E%3Ctext x=%22150%22 y=%22220%22 text-anchor=%22middle%22 font-size=%2260%22 fill=%22%23558855%22%3E👤%3C/text%3E%3C/svg%3E'" />
-                                <div class="ring"></div>
-                            </div>
-
-                            <!-- 右侧：信息列表 -->
-                            <div class="profile-info">
-                                <div class="info-name">${charName}</div>
-                                <div class="info-film">${film}</div>
-
-                                <div class="info-item">
-                                    <span class="label">篇章</span>
-                                    <span class="value">${saga}</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="label">状况</span>
-                                    <span class="value">${situation}</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="label">感受</span>
-                                    <span class="value">${feelings}</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="label">评价</span>
-                                    <span class="value" title="${appraise}">${appraiseDisplay}</span>
-                                </div>
-                            </div>
+                        <div class="profile-info">
+                            <div class="info-name">${charName}</div>
+                            <div class="info-film">${film}</div>
+                            <div class="info-item"><span class="label">篇章</span><span class="value">${saga}</span></div>
+                            <div class="info-item"><span class="label">状况</span><span class="value">${situation}</span></div>
+                            <div class="info-item"><span class="label">感受</span><span class="value">${feelings}</span></div>
+                            <div class="info-item"><span class="label">评价</span><span class="value" title="${appraise}">${appraiseDisplay}</span></div>
                         </div>
+                    </div>
+                    <div class="profile-bio">
+                        <div class="bio-title">⟡ 人物简介</div>
+                        <div class="bio-text">${details}</div>
+                    </div>
+                `;
 
-                        <!-- 人物简介 -->
-                        <div class="profile-bio">
-                            <div class="bio-title">⟡ 人物简介</div>
-                            <div class="bio-text">${details}</div>
-                        </div>
-                    `;
+                $container.html(html);
+                $idDisplay.text('#' + String(validIndex + 1).padStart(3, '0'));
 
-					$container.html(html);
-					$idDisplay.text('#' + String(validIndex + 1).padStart(3, '0'));
+                console.log('[profiledetails] 已加载角色：', charName, '(索引', validIndex, ')');
+            }
 
-					console.log('[profiledetails] 已加载角色：', charName, '(索引', validIndex, ')');
-				}
+            // 时钟
+            function updateClock() {
+                const now = new Date();
+                const time = now.toTimeString().split(' ')[0];
+                $('#timeDisplay').text(time);
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
 
-				// ----- 4. 时钟 -----
-				function updateClock() {
-					const now = new Date();
-					const time = now.toTimeString().split(' ')[0];
-					$('#timeDisplay').text(time);
-				}
-				updateClock();
-				setInterval(updateClock, 1000);
+        })();
+    </script>
 
-			})();
-		</script>
-
-	</body>
+</body>
 </html>

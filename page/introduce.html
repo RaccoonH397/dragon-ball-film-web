@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>dragon ball film</title>
-    <!-- 保留原有外部样式（顶部导航&侧边栏） -->
+    <title>DragonBallFilm · 数据库</title>
     <link rel="stylesheet" href="../css/common.css" />
     <link rel="icon" href="../imgs/weblogo.png" type="image/png" />
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
 
     <style>
         /* ============================================================
-           史考特 v5.1 · 大尺寸版 · 占满画面80%+
+           史考特 v5.2 · 大尺寸版 · 支持状态保持
            ============================================================ */
 
         /* ----- 全局变量 ----- */
@@ -31,7 +30,7 @@
             --sidebar-width: 14rem;
         }
 
-        /* ----- 重置内容区域（覆盖原有 .search .main .pagination） ----- */
+        /* ----- 重置内容区域 ----- */
         .search,
         .main,
         .pagination {
@@ -70,23 +69,13 @@
         }
 
         @keyframes scanMove {
-            0% {
-                top: -0.3125rem;
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.10;
-            }
-            90% {
-                opacity: 0.10;
-            }
-            100% {
-                top: 100%;
-                opacity: 0;
-            }
+            0% { top: -0.3125rem; opacity: 0; }
+            10% { opacity: 0.10; }
+            90% { opacity: 0.10; }
+            100% { top: 100%; opacity: 0; }
         }
 
-        /* ----- ★ 主容器：从侧边栏右侧开始，占满剩余空间 ----- */
+        /* ----- ★ 主容器 ----- */
         .scouter-container {
             width: calc(100% - 16rem);
             max-width: 1600px;
@@ -108,7 +97,6 @@
             border-color: rgba(0, 255, 65, 0.15);
         }
 
-        /* 窄屏适配：侧边栏变窄时容器跟随 */
         @media (max-width: 48rem) {
             .scouter-container {
                 width: calc(100% - 4.5rem);
@@ -129,7 +117,7 @@
             }
         }
 
-        /* ----- 史考特头部（放大版） ----- */
+        /* ----- 史考特头部 ----- */
         .scouter-header {
             display: flex;
             justify-content: space-between;
@@ -192,16 +180,8 @@
         }
 
         @keyframes pulse-dot {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.25;
-                transform: scale(0.7);
-            }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.25; transform: scale(0.7); }
         }
 
         .scouter-status .stat-item {
@@ -210,15 +190,10 @@
             gap: 0.4rem;
         }
 
-        .scouter-status .stat-item .label {
-            color: var(--text-dim);
-        }
+        .scouter-status .stat-item .label { color: var(--text-dim); }
+        .scouter-status .stat-item .value { color: var(--green-primary); }
 
-        .scouter-status .stat-item .value {
-            color: var(--green-primary);
-        }
-
-        /* ----- 搜索栏（放大版） ----- */
+        /* ----- 搜索栏 ----- */
         .search {
             width: 100% !important;
             height: auto !important;
@@ -269,7 +244,7 @@
             border: 0.0625rem solid transparent;
         }
 
-        /* ----- ★ 卡片网格：一行5个，两行共10个（放大版） ----- */
+        /* ----- ★ 卡片网格：一行5个 ----- */
         .main {
             padding: 0 !important;
             display: grid !important;
@@ -279,41 +254,13 @@
             min-height: 20rem;
         }
 
-        /* 响应式：中屏3列，小屏2列，极小屏1列 */
-        @media (max-width: 75rem) {
-            .main {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
+        @media (max-width: 75rem) { .main { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 62rem) { .main { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 48rem) { .main { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; } }
+        @media (max-width: 30rem) { .main { grid-template-columns: 1fr 1fr; gap: 0.6rem; } }
+        @media (max-width: 420px) { .main { grid-template-columns: 1fr; gap: 0.8rem; } }
 
-        @media (max-width: 62rem) {
-            .main {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 48rem) {
-            .main {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.75rem;
-            }
-        }
-
-        @media (max-width: 30rem) {
-            .main {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.6rem;
-            }
-        }
-
-        @media (max-width: 420px) {
-            .main {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
-            }
-        }
-
-        /* ----- ★ 史考特卡片（放大版） ----- */
+        /* ----- ★ 史考特卡片 ----- */
         .charbox {
             background: var(--bg-card);
             border: 0.0625rem solid var(--border-color);
@@ -332,46 +279,20 @@
             min-height: 14rem;
         }
 
-        .charbox:nth-child(1) {
-            animation-delay: 0.02s;
-        }
-        .charbox:nth-child(2) {
-            animation-delay: 0.04s;
-        }
-        .charbox:nth-child(3) {
-            animation-delay: 0.06s;
-        }
-        .charbox:nth-child(4) {
-            animation-delay: 0.08s;
-        }
-        .charbox:nth-child(5) {
-            animation-delay: 0.10s;
-        }
-        .charbox:nth-child(6) {
-            animation-delay: 0.12s;
-        }
-        .charbox:nth-child(7) {
-            animation-delay: 0.14s;
-        }
-        .charbox:nth-child(8) {
-            animation-delay: 0.16s;
-        }
-        .charbox:nth-child(9) {
-            animation-delay: 0.18s;
-        }
-        .charbox:nth-child(10) {
-            animation-delay: 0.20s;
-        }
+        .charbox:nth-child(1) { animation-delay: 0.02s; }
+        .charbox:nth-child(2) { animation-delay: 0.04s; }
+        .charbox:nth-child(3) { animation-delay: 0.06s; }
+        .charbox:nth-child(4) { animation-delay: 0.08s; }
+        .charbox:nth-child(5) { animation-delay: 0.10s; }
+        .charbox:nth-child(6) { animation-delay: 0.12s; }
+        .charbox:nth-child(7) { animation-delay: 0.14s; }
+        .charbox:nth-child(8) { animation-delay: 0.16s; }
+        .charbox:nth-child(9) { animation-delay: 0.18s; }
+        .charbox:nth-child(10) { animation-delay: 0.20s; }
 
         @keyframes cardIn {
-            0% {
-                opacity: 0;
-                transform: translateY(0.75rem) scale(0.97);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            0% { opacity: 0; transform: translateY(0.75rem) scale(0.97); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .charbox::before {
@@ -392,16 +313,10 @@
             box-shadow: 0 0.8rem 3rem rgba(0, 0, 0, 0.6), 0 0 3rem rgba(0, 255, 65, 0.03);
         }
 
-        .charbox:hover::before {
-            opacity: 1;
-        }
+        .charbox:hover::before { opacity: 1; }
+        .charbox:active { transform: scale(0.97); filter: brightness(0.85); }
 
-        .charbox:active {
-            transform: scale(0.97);
-            filter: brightness(0.85);
-        }
-
-        /* ----- 卡片顶部：头像 + 名称（放大版） ----- */
+        /* 卡片顶部 */
         .charbox .card-top {
             display: flex;
             align-items: flex-start;
@@ -409,7 +324,6 @@
             margin-bottom: 0.5rem;
         }
 
-        /* ★ 全身像：3:4 比例，放大尺寸 */
         .charbox .charimg {
             width: 3.6rem;
             height: 4.8rem;
@@ -425,7 +339,7 @@
             align-items: center;
             justify-content: center;
             aspect-ratio: 3 / 4;
-			image-rendering: pixelated;
+            image-rendering: pixelated;
         }
 
         .charbox:hover .charimg {
@@ -450,15 +364,11 @@
         }
 
         @keyframes spin-ring {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* ----- 名称区域（放大版） ----- */
+        /* 名称区域 */
         .charbox .card-name-group {
             flex: 1;
             min-width: 0;
@@ -504,7 +414,7 @@
             text-overflow: ellipsis;
         }
 
-        /* ----- 详情：评价 | 状况，感受 | 篇章（两列）（放大版） ----- */
+        /* 详情 */
         .charbox .card-details {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -544,7 +454,7 @@
             font-size: 0.7rem;
         }
 
-        /* ----- 底部：扫描中 + 编号（放大版） ----- */
+        /* 底部 */
         .charbox .card-footer {
             margin-top: 0.5rem;
             padding-top: 0.5rem;
@@ -573,14 +483,8 @@
         }
 
         @keyframes blink {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         .charbox .card-footer .id-tag {
@@ -588,7 +492,7 @@
             font-size: 0.6rem;
         }
 
-        /* ----- 分页（放大版） ----- */
+        /* ----- 分页 ----- */
         .pagination {
             display: flex !important;
             justify-content: center;
@@ -621,10 +525,7 @@
             box-shadow: 0 0 1.25rem rgba(0, 255, 65, 0.04);
         }
 
-        .pagination button:disabled {
-            opacity: 0.25 !important;
-            cursor: not-allowed;
-        }
+        .pagination button:disabled { opacity: 0.25 !important; cursor: not-allowed; }
 
         .pagination button.active-page {
             background: rgba(0, 255, 65, 0.08) !important;
@@ -666,7 +567,7 @@
             opacity: 0.25;
         }
 
-        /* ----- 底部状态（放大版） ----- */
+        /* ----- 底部状态 ----- */
         .scouter-footer {
             display: flex;
             justify-content: flex-end;
@@ -696,183 +597,49 @@
             letter-spacing: 0.03125rem;
         }
 
-        /* ----- 响应式微调（大尺寸版适配） ----- */
+        /* 响应式 */
         @media (max-width: 48rem) {
-            .scouter-header {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0.5rem;
-            }
-
-            .scouter-brand .logo {
-                font-size: 1.6rem;
-            }
-
-            .scouter-brand .sub {
-                font-size: 0.75rem;
-                padding-left: 0;
-                border-left: none;
-            }
-
-            .scouter-status {
-                font-size: 0.7rem;
-                gap: 0.75rem;
-            }
-
-            .search {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .search #searchInput {
-                min-width: unset;
-                font-size: 0.9rem;
-                height: 2.5rem;
-                padding: 0.5rem 1.2rem;
-            }
-
-            .charbox {
-                min-height: 12rem;
-                padding: 0.6rem 0.7rem 0.5rem;
-            }
-
-            .charbox .charimg {
-                width: 2.8rem;
-                height: 3.7rem;
-            }
-
-            .charbox .card-name-group .name {
-                font-size: 0.95rem;
-            }
-
-            .charbox .card-details {
-                font-size: 0.65rem;
-                gap: 0.0625rem 0.4rem;
-            }
-
-            .charbox .card-details .detail-item .label {
-                font-size: 0.6rem;
-            }
-
-            .charbox .card-details .detail-item .value {
-                font-size: 0.6rem;
-            }
-
-            .pagination {
-                gap: 0.4rem;
-            }
-
-            .pagination button {
-                padding: 0.25rem 0.8rem !important;
-                font-size: 0.75rem !important;
-            }
-
-            .scouter-footer {
-                flex-direction: row;
-                justify-content: center;
-                gap: 0.4rem;
-                font-size: 0.7rem;
-            }
+            .scouter-header { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+            .scouter-brand .logo { font-size: 1.6rem; }
+            .scouter-brand .sub { font-size: 0.75rem; padding-left: 0; border-left: none; }
+            .scouter-status { font-size: 0.7rem; gap: 0.75rem; }
+            .search { flex-direction: column; align-items: stretch; }
+            .search #searchInput { min-width: unset; font-size: 0.9rem; height: 2.5rem; padding: 0.5rem 1.2rem; }
+            .charbox { min-height: 12rem; padding: 0.6rem 0.7rem 0.5rem; }
+            .charbox .charimg { width: 2.8rem; height: 3.7rem; }
+            .charbox .card-name-group .name { font-size: 0.95rem; }
+            .charbox .card-details { font-size: 0.65rem; gap: 0.0625rem 0.4rem; }
+            .charbox .card-details .detail-item .label { font-size: 0.6rem; }
+            .charbox .card-details .detail-item .value { font-size: 0.6rem; }
+            .pagination { gap: 0.4rem; }
+            .pagination button { padding: 0.25rem 0.8rem !important; font-size: 0.75rem !important; }
+            .scouter-footer { flex-direction: row; justify-content: center; gap: 0.4rem; font-size: 0.7rem; }
         }
 
         @media (max-width: 30rem) {
-            .scouter-container {
-                padding: 0.6rem 0.5rem 0.5rem;
-            }
-
-            .scouter-brand .logo {
-                font-size: 1.2rem;
-            }
-
-            .charbox {
-                padding: 0.4rem 0.4rem 0.35rem;
-                min-height: 10rem;
-            }
-
-            .charbox .card-top {
-                gap: 0.4rem;
-            }
-
-            .charbox .charimg {
-                width: 2.2rem;
-                height: 2.9rem;
-            }
-
-            .charbox .card-name-group .name {
-                font-size: 0.75rem;
-            }
-
-            .charbox .card-name-group .film-tag {
-                font-size: 0.55rem;
-            }
-
-            .charbox .card-name-group .saga-tag {
-                font-size: 0.5rem;
-                padding: 0.025rem 0.4rem;
-            }
-
-            .charbox .card-details {
-                font-size: 0.5rem;
-                gap: 0.0625rem 0.2rem;
-            }
-
-            .charbox .card-details .detail-item .label {
-                font-size: 0.45rem;
-            }
-
-            .charbox .card-details .detail-item .value {
-                font-size: 0.45rem;
-                max-width: 2.5rem;
-            }
-
-            .charbox .card-footer {
-                font-size: 0.4rem;
-                margin-top: 0.25rem;
-                padding-top: 0.25rem;
-            }
-
-            .charbox .card-footer .id-tag {
-                font-size: 0.4rem;
-            }
-
-            .search #searchInput {
-                font-size: 0.75rem;
-                height: 2.2rem;
-                padding: 0.4rem 0.8rem;
-            }
-
-            .search #searchResultCount {
-                font-size: 0.65rem;
-            }
-
-            .pagination button {
-                font-size: 0.65rem !important;
-                padding: 0.2rem 0.6rem !important;
-            }
-
-            .pagination .page-info {
-                font-size: 0.65rem !important;
-            }
+            .scouter-container { padding: 0.6rem 0.5rem 0.5rem; }
+            .scouter-brand .logo { font-size: 1.2rem; }
+            .charbox { padding: 0.4rem 0.4rem 0.35rem; min-height: 10rem; }
+            .charbox .card-top { gap: 0.4rem; }
+            .charbox .charimg { width: 2.2rem; height: 2.9rem; }
+            .charbox .card-name-group .name { font-size: 0.75rem; }
+            .charbox .card-name-group .film-tag { font-size: 0.55rem; }
+            .charbox .card-name-group .saga-tag { font-size: 0.5rem; padding: 0.025rem 0.4rem; }
+            .charbox .card-details { font-size: 0.5rem; gap: 0.0625rem 0.2rem; }
+            .charbox .card-details .detail-item .label { font-size: 0.45rem; }
+            .charbox .card-details .detail-item .value { font-size: 0.45rem; max-width: 2.5rem; }
+            .charbox .card-footer { font-size: 0.4rem; margin-top: 0.25rem; padding-top: 0.25rem; }
+            .charbox .card-footer .id-tag { font-size: 0.4rem; }
+            .search #searchInput { font-size: 0.75rem; height: 2.2rem; padding: 0.4rem 0.8rem; }
+            .search #searchResultCount { font-size: 0.65rem; }
+            .pagination button { font-size: 0.65rem !important; padding: 0.2rem 0.6rem !important; }
+            .pagination .page-info { font-size: 0.65rem !important; }
         }
 
-        /* 滚动条 */
-        ::-webkit-scrollbar {
-            width: 0.3125rem;
-            background: var(--bg-primary);
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 0.5rem;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--green-dim);
-        }
+        ::-webkit-scrollbar { width: 0.3125rem; background: var(--bg-primary); }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 0.5rem; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
 
         /* 隐藏原有 .main 的默认 p 标签占位 */
         .main p {
@@ -910,49 +677,27 @@
     <!-- ===== 侧边栏（完全保留用户原有结构） ===== -->
     <div class="left">
         <ul>
-            <a href="../page/index.html">
-                <li>首页</li>
-            </a>
-            <a href="../page/timeline.html">
-                <li>时间线</li>
-            </a>
-            <a href="../page/introduce.html">
-                <li>人物档案</li>
-            </a>
+            <a href="../page/index.html"><li>首页</li></a>
+            <a href="../page/timeline.html"><li>时间线</li></a>
+            <a href="../page/introduce.html"><li>人物档案</li></a>
         </ul>
     </div>
 
     <!-- ============================================================
-         史考特主容器（大尺寸版）
+         史考特主容器
          ============================================================ -->
     <div class="scouter-container">
 
-        <!-- 史考特头部 -->
         <header class="scouter-header">
             <div class="scouter-brand">
-                <div class="logo">
-                    DragonBallFilm <span>▸ 数据库</span>
-                </div>
+                <div class="logo">DragonBallFilm <span>▸ 数据库</span></div>
                 <div class="sub">人物档案</div>
             </div>
             <div class="scouter-status">
-                <span class="stat-item">
-                    <span class="dot"></span>
-                    <span class="label">系统</span>
-                    <span class="value">在线</span>
-                </span>
-                <span class="stat-item">
-                    <span class="label">目标</span>
-                    <span class="value">地球</span>
-                </span>
-                <span class="stat-item">
-                    <span class="label">扫描</span>
-                    <span class="value">活跃</span>
-                </span>
-                <span class="stat-item">
-                    <span class="label">档案</span>
-                    <span class="value" id="totalCount">0</span>
-                </span>
+                <span class="stat-item"><span class="dot"></span><span class="label">系统</span><span class="value">在线</span></span>
+                <span class="stat-item"><span class="label">目标</span><span class="value">地球</span></span>
+                <span class="stat-item"><span class="label">扫描</span><span class="value">活跃</span></span>
+                <span class="stat-item"><span class="label">档案</span><span class="value" id="totalCount">0</span></span>
             </div>
         </header>
 
@@ -968,7 +713,6 @@
         <!-- 分页控件 -->
         <div class="pagination" id="paginationControls"></div>
 
-        <!-- 史考特底部 -->
         <footer class="scouter-footer">
             <div class="right">
                 <span class="badge">● 实时</span>
@@ -981,40 +725,34 @@
     <!-- ============================================================
          脚本区
          ============================================================ -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js">
-    </script>
-    <!-- 用户数据（chardata.js） -->
-    <script src="../js/chardata.js">
-    </script>
-	<script src="../js/common.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="../js/chardata.js"></script>
+    <script src="../js/common.js"></script>
 
     <script>
         // ================================================================
-        //  史考特 v5.1 · 大尺寸版 · 每行5个 · 每页10个
+        //  史考特 v5.2 · 支持返回时保留页码和搜索状态
         // ================================================================
 
         (function() {
             'use strict';
 
-            // ----- 配置 -----
-            const PAGE_SIZE = 10; // 一行5个，两行共10个
+            const PAGE_SIZE = 10;
             let currentPage = 1;
             let filteredData = [];
 
-            // ============================================================
-            //  辅助函数
-            // ============================================================
+            function getParam(name) {
+                const params = new URLSearchParams(window.location.search);
+                return params.get(name);
+            }
 
-            // 截断文本
             function truncate(text, maxLen) {
                 if (!text) return '—';
                 if (text.length <= maxLen) return text;
                 return text.substring(0, maxLen) + '…';
             }
 
-            // 获取头像颜色（用于边框装饰，保留）
             function getColorForName(name) {
                 const colors = [
                     '#F97316', '#1E3A5F', '#7C3AED', '#22C55E', '#D946EF',
@@ -1027,10 +765,6 @@
                 }
                 return colors[Math.abs(hash) % colors.length];
             }
-
-            // ============================================================
-            //  渲染引擎
-            // ============================================================
 
             function renderCards() {
                 const totalItems = filteredData.length;
@@ -1048,25 +782,24 @@
 
                 if (pageData.length === 0) {
                     $container.html(`
-                            <div class="empty-state">
-                                <div class="icon">⟡</div>
-                                <div>未匹配到任何角色</div>
-                                <div style="font-size:0.85rem;margin-top:0.4rem;color:var(--text-dim);">尝试调整搜索关键词</div>
-                            </div>
-                        `);
+                        <div class="empty-state">
+                            <div class="icon">⟡</div>
+                            <div>未匹配到任何角色</div>
+                            <div style="font-size:0.85rem;margin-top:0.4rem;color:var(--text-dim);">尝试调整搜索关键词</div>
+                        </div>
+                    `);
                     updateCounts(totalItems);
                     renderPagination(totalPages);
                     return;
                 }
 
                 const fragment = document.createDocumentFragment();
+                const searchTerm = $('#searchInput').val().trim();
 
                 for (let i = 0; i < pageData.length; i++) {
                     const item = pageData[i];
                     const originalIndex = data.indexOf(item);
-                    const color = getColorForName(item.charname);
 
-                    // 截断长度适配5列大尺寸布局
                     const briefAppraise = truncate(item.appraise || '—', 32);
                     const briefSituation = truncate(item.situation || '—', 18);
                     const briefFeelings = truncate(item.feelings || '—', 18);
@@ -1078,51 +811,38 @@
                     card.style.animationDelay = (i * 0.02) + 's';
 
                     card.innerHTML = `
-                            <div class="card-top">
-                                <div class="charimg">
-                                    <img src="${item.img}" alt="${item.charname}" onerror="this.src='../imgs/unknown.png'" />
-                                    <div class="ring"></div>
-                                </div>
-                                <div class="card-name-group">
-                                    <div class="name" title="${item.charname}">${item.charname}</div>
-                                    <div class="film-tag" title="${item.film || '—'}">${item.film || '—'}</div>
-                                    <span class="saga-tag" title="${item.saga || '—'}">${briefSaga}</span>
-                                </div>
+                        <div class="card-top">
+                            <div class="charimg">
+                                <img src="${item.img}" alt="${item.charname}" onerror="this.src='../imgs/unknown.png'" />
+                                <div class="ring"></div>
                             </div>
-
-                            <div class="card-details">
-                                <div class="detail-item">
-                                    <span class="label">评价</span>
-                                    <span class="value" title="${item.appraise || '—'}">${briefAppraise}</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="label">状况</span>
-                                    <span class="value" title="${item.situation || '—'}">${briefSituation}</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="label">感受</span>
-                                    <span class="value" title="${item.feelings || '—'}">${briefFeelings}</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="label">篇章</span>
-                                    <span class="value" title="${item.saga || '—'}">${briefSaga}</span>
-                                </div>
+                            <div class="card-name-group">
+                                <div class="name" title="${item.charname}">${item.charname}</div>
+                                <div class="film-tag" title="${item.film || '—'}">${item.film || '—'}</div>
+                                <span class="saga-tag" title="${item.saga || '—'}">${briefSaga}</span>
                             </div>
+                        </div>
+                        <div class="card-details">
+                            <div class="detail-item"><span class="label">评价</span><span class="value" title="${item.appraise || '—'}">${briefAppraise}</span></div>
+                            <div class="detail-item"><span class="label">状况</span><span class="value" title="${item.situation || '—'}">${briefSituation}</span></div>
+                            <div class="detail-item"><span class="label">感受</span><span class="value" title="${item.feelings || '—'}">${briefFeelings}</span></div>
+                            <div class="detail-item"><span class="label">篇章</span><span class="value" title="${item.saga || '—'}">${briefSaga}</span></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="scan-tag"><span class="blink"></span>扫描中</div>
+                            <span class="id-tag">#${String(originalIndex + 1).padStart(3, '0')}</span>
+                        </div>
+                    `;
 
-                            <div class="card-footer">
-                                <div class="scan-tag">
-                                    <span class="blink"></span>
-                                    扫描中
-                                </div>
-                                <span class="id-tag">#${String(originalIndex + 1).padStart(3, '0')}</span>
-                            </div>
-                        `;
-
-                    // 点击跳转
+                    // ★ 点击跳转：携带当前页码和搜索关键词
                     card.addEventListener('click', function() {
                         const idx = parseInt(this.dataset.index);
                         if (!isNaN(idx) && idx >= 0 && idx < data.length) {
-                            window.location.href = `profiledetails.html?index=${idx}`;
+                            let url = `profiledetails.html?index=${idx}&page=${currentPage}`;
+                            if (searchTerm) {
+                                url += `&search=${encodeURIComponent(searchTerm)}`;
+                            }
+                            window.location.href = url;
                         }
                     });
 
@@ -1130,18 +850,15 @@
                 }
 
                 $container.append(fragment);
-
                 updateCounts(totalItems);
                 renderPagination(totalPages);
             }
 
-            // ----- 更新计数 -----
             function updateCounts(totalItems) {
                 $('#searchResultCount').text(`共 ${totalItems} 个角色（总计 ${data.length} 个）`);
                 $('#totalCount').text(data.length);
             }
 
-            // ----- 渲染分页 -----
             function renderPagination(totalPages) {
                 const $pagination = $('#paginationControls');
                 $pagination.empty();
@@ -1188,27 +905,17 @@
                 $pagination.append(info);
 
                 $pagination.find('.page-prev').on('click', function() {
-                    if (currentPage > 1) {
-                        currentPage--;
-                        renderCards();
-                    }
+                    if (currentPage > 1) { currentPage--; renderCards(); }
                 });
                 $pagination.find('.page-next').on('click', function() {
-                    if (currentPage < totalPages) {
-                        currentPage++;
-                        renderCards();
-                    }
+                    if (currentPage < totalPages) { currentPage++; renderCards(); }
                 });
                 $pagination.find('.page-num').on('click', function() {
                     const page = parseInt($(this).data('page'), 10);
-                    if (page !== currentPage) {
-                        currentPage = page;
-                        renderCards();
-                    }
+                    if (page !== currentPage) { currentPage = page; renderCards(); }
                 });
             }
 
-            // ----- 搜索过滤 -----
             function filterCards(keyword) {
                 const trimmed = keyword.trim().toLowerCase();
                 if (trimmed === '') {
@@ -1231,21 +938,44 @@
                 renderCards();
             }
 
-            // ----- 时钟 -----
             function updateClock() {
                 const now = new Date();
                 const time = now.toTimeString().split(' ')[0];
                 $('#timeDisplay').text(time);
             }
 
-            // ============================================================
-            //  初始化
-            // ============================================================
+            // ★ 初始化 —— 从 URL 恢复状态
+            function initFromUrl() {
+                const pageParam = getParam('page');
+                const searchParam = getParam('search');
 
+                if (searchParam !== null) {
+                    const decoded = decodeURIComponent(searchParam);
+                    $('#searchInput').val(decoded);
+                    filterCards(decoded);
+                } else {
+                    filteredData = data.slice();
+                }
+
+                if (pageParam !== null) {
+                    const page = parseInt(pageParam, 10);
+                    if (!isNaN(page) && page > 0) {
+                        currentPage = page;
+                    }
+                }
+
+                renderCards();
+
+                // 清除 URL 参数，避免刷新时重复应用
+                if (window.history && window.history.replaceState) {
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+            }
+
+            // ----- 启动 -----
             if (typeof data !== 'undefined' && Array.isArray(data) && data.length > 0) {
                 filteredData = data.slice();
-                updateCounts(data.length);
-                renderCards();
+                initFromUrl();
                 updateClock();
                 setInterval(updateClock, 1000);
 
@@ -1253,19 +983,18 @@
                     filterCards(this.value);
                 });
 
-                console.log('⟡ SCOUTER v5.1 · 大尺寸版 · 每行5个 ⟡');
+                console.log('⟡ SCOUTER v5.2 · 支持状态保持 ⟡');
                 console.log('👾 已加载角色:', data.length, '位');
                 console.log('📄 每页显示:', PAGE_SIZE, '个角色 (5×2)');
-                console.log('🔍 支持搜索: 角色名 / 影片 / 篇章 / 评价 / 状况 / 感受');
             } else {
                 console.error('❌ 数据加载失败，请确保 chardata.js 已正确引用');
                 $('#cardContainer').html(`
-                        <div class="empty-state">
-                            <div class="icon">⚠</div>
-                            <div>数据加载失败</div>
-                            <div style="font-size:0.85rem;margin-top:0.4rem;color:var(--text-dim);">请检查 chardata.js 是否存在</div>
-                        </div>
-                    `);
+                    <div class="empty-state">
+                        <div class="icon">⚠</div>
+                        <div>数据加载失败</div>
+                        <div style="font-size:0.85rem;margin-top:0.4rem;color:var(--text-dim);">请检查 chardata.js 是否存在</div>
+                    </div>
+                `);
             }
 
         })();
