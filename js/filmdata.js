@@ -40,6 +40,12 @@ const filmdata = [{
 		url: 'https://www.bilibili.com/video/BV1HejB6HEx6/?spm_id_from=333.1387.collection.video_card.click',
 		yt: 'https://www.youtube.com/watch?v=H7r9YBx2L-0&list=PLmXJJ8Www-ait9QIEA4JiKMmrioP-IVn-&index=1&pp=iAQB'
 	},
+	{
+		filmname: '影片07',
+		cover: '../imgs/cover/07.png',
+		url: 'https://www.bilibili.com/video/BV1xTaf6sEG9/',
+		yt: 'https://www.youtube.com/watch?v=IKN_dEvxYcs&t=350s&pp=0gcJCToMAYcqIYzv'
+	}
 ]
 const extradata = [{
 		filmname: '番外01',
