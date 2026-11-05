@@ -70,5 +70,17 @@ const extradata = [{
 		cover: '../imgs/cover/extra04.png',
 		url: 'https://www.bilibili.com/video/BV1s2Ts6YEee/?spm_id_from=333.1387.collection.video_card.click',
 		yt: 'https://www.youtube.com/watch?v=JHywkDyDPoU&list=PLmXJJ8Www-ajXcF38YnKtV-fzlzRhVLhK&index=1&pp=iAQB'
+	},
+	{
+		filmname: '番外05',
+		cover: '../imgs/cover/extra05.png',
+		url: 'https://www.bilibili.com/video/BV1udn66SEhB/?spm_id_from=333.1387.homepage.video_card.click',
+		yt: 'https://www.youtube.com/watch?v=Za_EgLbtNuo'
+	},
+	{
+		filmname: '番外06',
+		cover: '../imgs/cover/extra06.png',
+		url: 'https://www.bilibili.com/video/BV12WxX6oE2C',
+		yt: 'https://www.youtube.com/watch?v=Y_7FL31Q33k'
 	}
 ]

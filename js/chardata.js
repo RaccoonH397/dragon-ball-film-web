@@ -387,5 +387,95 @@ const data = [{
 		appraise: 'unknown.',
 		situation: 'unknown.',
 		feelings: 'unknown.'
+	},
+	{
+		img: '../imgs/chars/extra03/raditz-extra03/raditz-extra03.png',
+		film: '番外05',
+		charname: '拉蒂兹',
+		chardetails: '在地球与其他三人训练的这一年里，拉蒂兹得到了巨大的提升，但他心中仍有一种不祥的预感......',
+		saga: '龙珠Z-赛亚人来袭篇。',
+		appraise: '怎么有种不祥预感？',
+		situation: '准备前往那美克星。',
+		feelings: '不安。'
+	},
+	{
+		img: '../imgs/chars/extra03/turles-extra03/turles-extra03.png',
+		film: '番外05',
+		charname: '达列斯',
+		chardetails: '在遇到自己的同族后，达列斯的提升倍率是最为巨大的，可他对他们口中的未知敌人“弗利萨”仍感到没有信心......',
+		saga: '龙珠Z-赛亚人来袭篇。',
+		appraise: '这么快就要打弗利萨了？。',
+		situation: '准备前往那美克星。',
+		feelings: '担忧。'
+	},
+	{
+		img: '../imgs/chars/extra03/vegeta-extra03/vegeta-extra03.png',
+		film: '番外05',
+		charname: '贝吉塔',
+		chardetails: '在地球训练的这一年里，贝吉塔的天赋得到了充分的发挥，并且也指导了众人让其有更大的提升。看到众人有所提升，他的心中也有一丝得意......',
+		saga: '龙珠Z-赛亚人来袭篇。',
+		appraise: '邱夷那家伙没事吧？',
+		situation: '准备前往那美克星。',
+		feelings: '略微不安。'
+	},
+	{
+		img: '../imgs/chars/extra03/nappa-extra03/nappa-extra03.png',
+		film: '番外05',
+		charname: '那巴',
+		chardetails: '在地球的一年里，那巴认识了非常感兴趣的拉蒂兹弟弟达列斯，并指导他变得更强。此外，虽然拉蒂兹的战力已经在向他靠近，但他是由衷地感到开心。',
+		saga: '龙珠Z-赛亚人来袭篇。',
+		appraise: '弗利萨那杂种我们来了！',
+		situation: '准备前往那美克星。',
+		feelings: '兴奋。'
+	},
+	{
+		img: '../imgs/chars/extra06/raditz-extra06.png',
+		film: '番外06',
+		charname: '拉蒂兹',
+		chardetails: '心有不祥预感，未曾想弗利萨手下有交换身体这种招式......',
+		saga: '龙珠Z-那美克星篇。',
+		appraise: '还好贝吉塔王子换回来了...',
+		situation: '准备迎战弗利萨军。',
+		feelings: '不祥预感。'
+	},
+	{
+		img: '../imgs/chars/extra06/turles-extra06.png',
+		film: '番外06',
+		charname: '达列斯',
+		chardetails: '实力大增，有点小瞧弗利萨手下了。',
+		saga: '龙珠Z-那美克星篇。',
+		appraise: '我都以一敌五了，没想到给我耍阴招！',
+		situation: '准备迎战弗利萨军。',
+		feelings: '兴奋与不安交织在一起。'
+	},
+	{
+		img: '../imgs/chars/extra06/vegeta-extra06.png',
+		film: '番外06',
+		charname: '贝吉塔',
+		chardetails: '因邱夷被杀，愤怒的贝吉塔打算粉碎基纽的希望，却没想到居然被换身体？！',
+		saga: '龙珠Z-赛亚人来袭篇。',
+		appraise: '嘁，这肮脏的身体，我绝对要换回去！',
+		situation: '准备迎战弗利萨军。',
+		feelings: '愤怒，不甘。'
+	},
+	{
+		img: '../imgs/chars/extra06/nappa-extra06.png',
+		film: '番外06',
+		charname: '那巴',
+		chardetails: '实力大增，决定让弗利萨等人好好吃吃苦头，说不定达列斯就是受到那巴的影响了。',
+		saga: '龙珠Z-那美克星篇。',
+		appraise: '吓哭了，差点以为王子回不来了...。',
+		situation: '准备迎战弗利萨军。',
+		feelings: '兴奋且不安。'
+	},
+	{
+		img: '../imgs/chars/extra06/freeza-extra06.png',
+		film: '番外06',
+		charname: '弗利萨',
+		chardetails: '手下被杀，龙珠被毁，心愿破碎。愤怒的大王准备让这些猴子们知道什么才是真正的地狱！',
+		saga: '龙珠Z-那美克星篇。',
+		appraise: '这就让这群猴子死无葬身之地！',
+		situation: '准备屠杀幸存者小队。',
+		feelings: '恼怒。'
 	}
 ];
