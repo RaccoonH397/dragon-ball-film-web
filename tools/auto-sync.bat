@@ -1,27 +1,47 @@
 @echo off
 chcp 65001 >nul
 cd /d "%~dp0.."
-set LOG=tools\sync.log
-echo. >> "%LOG%"
-echo [%date% %time%] ===== 开始同步 ===== >> "%LOG%"
+set "LOG=tools\sync.log"
+set "GIT_TERMINAL_PROMPT=0"
 
-node tools\sync-filmdata.mjs >> "%LOG%" 2>&1
-if errorlevel 1 (
-    echo [%date% %time%] 同步失败，本次不做提交 >> "%LOG%"
-    exit /b 1
+rem ---- locate git: PATH -> WorkBuddy portable git -> Program Files ----
+set "GIT="
+for %%G in (git.exe) do if not defined GIT if not "%%~$PATH:G"=="" set "GIT=%%~$PATH:G"
+if not defined GIT for /d %%D in ("%USERPROFILE%\.workbuddy\binaries\PortableGit\versions\*") do if exist "%%D\mingw64\bin\git.exe" set "GIT=%%D\mingw64\bin\git.exe"
+if not defined GIT if exist "C:\Program Files\Git\cmd\git.exe" set "GIT=C:\Program Files\Git\cmd\git.exe"
+if not defined GIT if exist "C:\Program Files (x86)\Git\cmd\git.exe" set "GIT=C:\Program Files (x86)\Git\cmd\git.exe"
+
+echo.>> "%LOG%"
+echo [%date% %time%] === start ===>> "%LOG%"
+
+node tools\sync-filmdata.mjs>> "%LOG%" 2>&1
+if errorlevel 1 goto fail
+
+if not defined GIT (
+  echo [%date% %time%] git not found, sync only>> "%LOG%"
+  exit /b 0
 )
 
-git diff --quiet -- js\filmdata.js
-if errorlevel 1 (
-    git add js/filmdata.js imgs/cover
-    git commit -m "chore: auto sync film data" >> "%LOG%" 2>&1
-    git push >> "%LOG%" 2>&1
-    if errorlevel 1 (
-        echo [%date% %time%] 推送失败（检查 GitHub 凭据） >> "%LOG%"
-        exit /b 1
-    )
-    echo [%date% %time%] 已提交并推送 >> "%LOG%"
-) else (
-    echo [%date% %time%] 无变化，跳过提交 >> "%LOG%"
-)
+"%GIT%" diff --quiet -- js/filmdata.js
+set "RC=%errorlevel%"
+if "%RC%"=="0" goto nochanges
+if not "%RC%"=="1" goto fail
+
+"%GIT%" add js/filmdata.js imgs/cover>> "%LOG%" 2>&1
+"%GIT%" commit -m "chore: auto sync film data">> "%LOG%" 2>&1
+"%GIT%" push>> "%LOG%" 2>&1
+if errorlevel 1 goto pushfail
+echo [%date% %time%] committed and pushed>> "%LOG%"
 exit /b 0
+
+:nochanges
+echo [%date% %time%] no changes>> "%LOG%"
+exit /b 0
+
+:fail
+echo [%date% %time%] failed>> "%LOG%"
+exit /b 1
+
+:pushfail
+echo [%date% %time%] push failed (check git credentials)>> "%LOG%"
+exit /b 1
