@@ -1,0 +1,15 @@
+# 依赖
+node_modules/
+
+# 同步脚本产生的备份与日志
+js/filmdata.js.bak
+tools/sync.log
+
+# 本地密钥/凭证（绝不要提交，也不要放进部署目录）
+.env
+.cookie
+tools/.cookie
+
+# 系统垃圾
+.DS_Store
+Thumbs.db

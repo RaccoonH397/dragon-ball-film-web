@@ -453,7 +453,7 @@ const data = [{
 		film: '番外06',
 		charname: '贝吉塔',
 		chardetails: '因邱夷被杀，愤怒的贝吉塔打算粉碎基纽的希望，却没想到居然被换身体？！',
-		saga: '龙珠Z-赛亚人来袭篇。',
+		saga: '龙珠Z-那美克星篇。',
 		appraise: '嘁，这肮脏的身体，我绝对要换回去！',
 		situation: '准备迎战弗利萨军。',
 		feelings: '愤怒，不甘。'

@@ -1,1 +1,6 @@
-{}
+{
+  "scripts": {
+    "sync": "node tools/sync-filmdata.mjs",
+    "sync:dry": "node tools/sync-filmdata.mjs --dry"
+  }
+}
