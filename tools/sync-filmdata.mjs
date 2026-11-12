@@ -27,6 +27,15 @@ const CONFIG = {
   YT_CHANNEL_ID: 'UC0fCELZu7tKCOX0h-QgHtqA',
   // 本地代理地址（访问 YouTube 用，Clash 默认 7890）。为空则尝试直连
   YT_PROXY: 'http://127.0.0.1:7890',
+  // 代理软件端口变了也不用改上面那行：会依次尝试这些常见端口
+  YT_PROXY_CANDIDATES: [
+    'http://127.0.0.1:7890',  // Clash / Clash Verge
+    'http://127.0.0.1:7897',  // Clash Verge 默认混合端口
+    'http://127.0.0.1:10808', // v2rayN
+    'http://127.0.0.1:10809', // v2rayN (http)
+    'http://127.0.0.1:1080',  // 通用 socks/http
+    'http://127.0.0.1:2080',  // Sing-box
+  ],
   // 标题里带这些词的视频不算正片（预告 PV 等），匹配时跳过
   SKIP_KEYWORDS: ['预告', 'PV', 'Teaser', 'Trailer', '宣传', '专题', 'Dedicated', '花絮', '制作过程', '幕后'],
   // 【可选】B 站 Cookie。填入后风控概率大幅降低。
@@ -58,12 +67,41 @@ function signQuery(params, key) {
 }
 
 // ---------- 通用工具 ----------
-function curlFetch(url, { proxy = '', headers = {} } = {}) {
-  const args = ['-s', '--max-time', '20', '-A', UA];
+function curlFetch(url, { proxy = '', headers = {}, retry = 0 } = {}) {
+  const args = ['-s', '--max-time', '30', '-A', UA];
+  if (retry) args.push('--retry', String(retry), '--retry-delay', '2');
   if (proxy) args.push('--proxy', proxy);
   for (const [k, v] of Object.entries(headers)) args.push('-H', `${k}: ${v}`);
   args.push(url);
-  return execFileSync('curl', args, { encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 });
+  return execFileSync('curl', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+}
+
+/** 快速探测某个代理端口是否可用（3 秒超时） */
+function probeProxy(proxy) {
+  const NUL = process.platform === 'win32' ? 'NUL' : '/dev/null';
+  try {
+    const code = execFileSync('curl', [
+      '-s', '-o', NUL, '-w', '%{http_code}', '--max-time', '6',
+      '--proxy', proxy, 'https://www.youtube.com/generate_204',
+    ], { encoding: 'utf8' }).trim();
+    return code === '204';
+  } catch { return false; }
+}
+
+let _proxyCache = null;
+/** 依次尝试配置的代理端口（先用探测筛掉没开的），最后尝试直连 */
+function proxyList() {
+  if (_proxyCache) return _proxyCache;
+  const candidates = [...new Set([CONFIG.YT_PROXY, ...(CONFIG.YT_PROXY_CANDIDATES || [])].filter(Boolean))];
+  const alive = candidates.filter(p => probeProxy(p));
+  if (alive.length) {
+    console.log(`可用代理：${alive.join(', ')}`);
+    _proxyCache = alive;
+  } else {
+    console.log('未探测到可用代理，尝试直连 YouTube');
+    _proxyCache = [''];
+  }
+  return _proxyCache;
 }
 
 /** fetch JSON（B 站 API 专用，遇风控自动重试） */
@@ -207,7 +245,7 @@ function resolveChannelId() {
   if (!sample) return '';
   const vid = sample.yt.match(/[?&]v=([\w-]{11})/)?.[1];
   if (!vid) return '';
-  for (const proxy of [CONFIG.YT_PROXY, '']) {
+  for (const proxy of proxyList()) {
     try {
       console.log(`正在探测 YouTube 频道 ID${proxy ? '（经代理 ' + proxy + '）' : '（直连）'}...`);
       const body = curlFetch(
@@ -254,7 +292,7 @@ const ytMap = new Map(); // filmname -> videoId
 let ytOk = false;
 const channelId = resolveChannelId();
 if (channelId) {
-  for (const proxy of [CONFIG.YT_PROXY, '']) {
+  for (const proxy of proxyList()) {
     try {
       console.log(`正在抓取 YouTube 频道视频${proxy ? '（经代理 ' + proxy + '）' : '（直连）'}...`);
       const list = scrapeChannelVideos(channelId, proxy);
