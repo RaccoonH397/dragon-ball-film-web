@@ -24,18 +24,30 @@ if not defined GIT (
 
 "%GIT%" diff --quiet -- js/filmdata.js
 set "RC=%errorlevel%"
-if "%RC%"=="0" goto nochanges
-if not "%RC%"=="1" goto fail
+if "%RC%"=="1" goto haschanges
+if not "%RC%"=="0" goto fail
+echo [%date% %time%] no data changes>> "%LOG%"
+goto maybepush
 
+:haschanges
 "%GIT%" add js/filmdata.js imgs/cover>> "%LOG%" 2>&1
 "%GIT%" commit -m "chore: auto sync film data">> "%LOG%" 2>&1
+if errorlevel 1 goto fail
+echo [%date% %time%] committed>> "%LOG%"
+
+:maybepush
+rem 只要有未推送的提交就补推（上次推送失败时，第二天也能自动补上）
+"%GIT%" rev-list --count HEAD --not --remotes > "%TEMP%\dbf_ahead.txt" 2>> "%LOG%"
+set "AHEAD="
+set /p AHEAD=<"%TEMP%\dbf_ahead.txt"
+if not defined AHEAD goto pushfail
+if "%AHEAD%"=="0" (
+  echo [%date% %time%] nothing to push>> "%LOG%"
+  exit /b 0
+)
 "%GIT%" push>> "%LOG%" 2>&1
 if errorlevel 1 goto pushfail
-echo [%date% %time%] committed and pushed>> "%LOG%"
-exit /b 0
-
-:nochanges
-echo [%date% %time%] no changes>> "%LOG%"
+echo [%date% %time%] pushed %AHEAD% commit(s)>> "%LOG%"
 exit /b 0
 
 :fail
@@ -43,5 +55,5 @@ echo [%date% %time%] failed>> "%LOG%"
 exit /b 1
 
 :pushfail
-echo [%date% %time%] push failed (check git credentials)>> "%LOG%"
+echo [%date% %time%] push failed - will retry next run>> "%LOG%"
 exit /b 1
