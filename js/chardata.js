@@ -389,7 +389,7 @@ const data = [{
 		feelings: 'unknown.'
 	},
 	{
-		img: '../imgs/chars/extra03/raditz-extra03/raditz-extra03.png',
+		img: '../imgs/chars/extra05/raditz-extra05.png',
 		film: '番外05',
 		charname: '拉蒂兹',
 		chardetails: '在地球与其他三人训练的这一年里，拉蒂兹得到了巨大的提升，但他心中仍有一种不祥的预感......',
@@ -409,7 +409,7 @@ const data = [{
 		feelings: '担忧。'
 	},
 	{
-		img: '../imgs/chars/extra03/vegeta-extra03/vegeta-extra03.png',
+		img: '../imgs/chars/extra05/vegeta-extra05.png',
 		film: '番外05',
 		charname: '贝吉塔',
 		chardetails: '在地球训练的这一年里，贝吉塔的天赋得到了充分的发挥，并且也指导了众人让其有更大的提升。看到众人有所提升，他的心中也有一丝得意......',
@@ -419,7 +419,7 @@ const data = [{
 		feelings: '略微不安。'
 	},
 	{
-		img: '../imgs/chars/extra03/nappa-extra03/nappa-extra03.png',
+		img: '../imgs/chars/extra05/nappa-extra05.png',
 		film: '番外05',
 		charname: '那巴',
 		chardetails: '在地球的一年里，那巴认识了非常感兴趣的拉蒂兹弟弟达列斯，并指导他变得更强。此外，虽然拉蒂兹的战力已经在向他靠近，但他是由衷地感到开心。',
